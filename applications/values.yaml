@@ -12,7 +12,7 @@ server: https://kubernetes.default.svc
 
 applicationVersions:
   frontend: &frontendVersion latest
-  backend: &backendVersion latest
+  backend: &backendVersion f33770e5ffe6a06d85b6c63202a30720565328e6
   git-api: &gitApiVersion latest
   launcher: &launcherVersion latest
 
