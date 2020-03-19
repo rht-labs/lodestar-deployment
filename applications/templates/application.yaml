@@ -1,0 +1,27 @@
+{{- range .Values.applications }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ .name }}
+spec:
+  destination:
+    namespace: {{ $.Values.deploymentNamespace }}
+    server: {{ $.Values.server }}
+  project: default
+  source:
+    path: {{ .path | default "." | quote }}
+    repoURL: {{ .url | quote }}
+    targetRevision: {{ .ref | quote }}
+    {{- if (.helmValues) }}
+    helm:
+      values: |-
+        {{- range $key, $value := .helmValues }}
+        {{ $key }}: {{ $value }}
+        {{- end }}
+    {{- end }}
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+{{- end }}

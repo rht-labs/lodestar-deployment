@@ -1,0 +1,48 @@
+##################
+# Common Variables
+##################
+
+deploymentNamespace: argo-cd
+server: https://kubernetes.default.svc
+
+
+##################
+# Version Manifest
+##################
+
+applicationVersions:
+  frontend: &frontendVersion latest
+  backend: &backendVersion latest
+  git-api: &gitApiVersion latest
+  launcher: &launcherVersion latest
+
+
+##################################
+# Application Template Definitions
+##################################
+
+applications:
+- name: omp-frontend
+  url: https://github.com/rht-labs/open-management-portal-frontend.git
+  ref: *frontendVersion
+  helmValues:
+    imageTag: *frontendVersion
+
+- name: omp-backend
+  url: https://github.com/rht-labs/open-management-portal-backend.git
+  ref: *backendVersion
+  helmValues:
+    imageTag: *backendVersion
+
+- name: git-api
+  url: https://github.com/rht-labs/open-management-portal-git-api.git
+  ref: *gitApiVersion
+  helmValues:
+    imageTag: *gitApiVersion
+
+- name: omp-launcher
+  url: https://github.com/redhat-cop/tool-integrations.git
+  path: "argo-cd-bridges/gitlab/helm"
+  ref: *launcherVersion
+  helmValues:
+    imageTag: *launcherVersion
