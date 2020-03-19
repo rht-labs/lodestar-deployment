@@ -30,6 +30,7 @@ applications:
 
 - name: omp-backend
   url: https://github.com/rht-labs/open-management-portal-backend.git
+  path: deployment
   ref: *backendVersion
   helmValues:
     imageTag: *backendVersion
