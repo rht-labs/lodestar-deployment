@@ -15,7 +15,7 @@ applicationVersions:
   backend: &backendVersion f33770e5ffe6a06d85b6c63202a30720565328e6
   infinispan: &infinispanVersion 1.1.1.Final
   git-api: &gitApiVersion f532467407ff9a340eecb17d10ab8cde010f811f
-  launcher: &launcherVersion latest
+  launcher: &launcherVersion c6013239a30ffe73ac38e7348a84df644117ea51
 
 
 ##################################
@@ -51,6 +51,6 @@ applications:
 
 - name: omp-launcher
   url: https://github.com/redhat-cop/tool-integrations.git
-  path: "argo-cd-bridges/gitlab/helm"
+  path: "argo-cd-bridges/gitlab/deploy"
   ref: *launcherVersion
 
