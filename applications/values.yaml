@@ -15,6 +15,9 @@ applicationVersions:
   backend: &backendVersion f33770e5ffe6a06d85b6c63202a30720565328e6
   git-api: &gitApiVersion latest
   launcher: &launcherVersion latest
+  agnosticv: &agnosticvVersion v0.0.28
+  anarchy: &anarchyVersion v0.4.3
+  poolboy: &poolboyVersion v0.2.14
 
 
 ##################################
@@ -45,3 +48,18 @@ applications:
   url: https://github.com/redhat-cop/tool-integrations.git
   path: "argo-cd-bridges/gitlab/helm"
   ref: *launcherVersion
+
+- name: babylon-agnosticv-operator
+  url: https://github.com/redhat-gpte-devopsautomation/agnosticv-operator.git
+  path: deploy
+  ref: *agnosticvVersion
+
+- name: babylon-anarchy-operator
+  url: https://github.com/redhat-cop/anarchy.git
+  path: deploy
+  ref: *anarchyVersion
+
+- name: babylon-poolboy-operator
+  url: https://github.com/redhat-cop/poolboy.git
+  path: deploy
+  ref: *poolboyVersion
