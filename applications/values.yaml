@@ -13,6 +13,7 @@ server: https://kubernetes.default.svc
 applicationVersions:
   frontend: &frontendVersion latest
   backend: &backendVersion f33770e5ffe6a06d85b6c63202a30720565328e6
+  infinispan: &infinispanVersion 1.1.1.Final
   git-api: &gitApiVersion latest
   launcher: &launcherVersion latest
 
@@ -35,6 +36,11 @@ applications:
   helmValues:
     imageTag: *backendVersion
 
+- name: infinispan-operator
+  url: https://github.com/infinispan/infinispan-operator.git
+  path: deploy
+  ref: *infinispanVersion
+
 - name: git-api
   url: https://github.com/rht-labs/open-management-portal-git-api.git
   ref: *gitApiVersion
@@ -45,3 +51,4 @@ applications:
   url: https://github.com/redhat-cop/tool-integrations.git
   path: "argo-cd-bridges/gitlab/helm"
   ref: *launcherVersion
+
