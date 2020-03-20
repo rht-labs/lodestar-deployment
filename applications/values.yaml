@@ -25,6 +25,7 @@ applicationVersions:
 applications:
 - name: omp-frontend
   url: https://github.com/rht-labs/open-management-portal-frontend.git
+  path: deployment
   ref: *frontendVersion
   helmValues:
     imageTag: *frontendVersion
@@ -43,6 +44,7 @@ applications:
 
 - name: git-api
   url: https://github.com/rht-labs/open-management-portal-git-api.git
+  path: deployment
   ref: *gitApiVersion
   helmValues:
     imageTag: *gitApiVersion
