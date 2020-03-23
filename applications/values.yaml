@@ -37,7 +37,7 @@ applications:
   ref: *backendVersion
   helmValues:
     imageTag: *backendVersion
-    hostname: omp-backend-omp.apps.omp.test.rht-labs.com
+    hostname: omp-backend-omp.apps.test.omp.rht-labs.com
 
 - name: infinispan-operator
   url: https://github.com/infinispan/infinispan-operator.git
