@@ -29,7 +29,7 @@ applications:
   ref: *frontendVersion
   helmValues:
     imageTag: *frontendVersion
-    hostname: https://omp-frontend-omp.apps.test.omp.rht-labs.com
+    hostname: omp-frontend-omp.apps.test.omp.rht-labs.com
 
 - name: omp-backend
   url: https://github.com/rht-labs/open-management-portal-backend.git
@@ -37,7 +37,7 @@ applications:
   ref: *backendVersion
   helmValues:
     imageTag: *backendVersion
-    hostname: https://omp-backend-omp.apps.omp.test.rht-labs.com
+    hostname: omp-backend-omp.apps.omp.test.rht-labs.com
 
 - name: infinispan-operator
   url: https://github.com/infinispan/infinispan-operator.git
