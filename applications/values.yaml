@@ -11,10 +11,10 @@ server: https://kubernetes.default.svc
 ##################
 
 applicationVersions:
-  frontend: &frontendVersion 88e6ecb3ce9dc4a4b31d7a39e14500bcf03660e8
-  backend: &backendVersion 792324caa4555169a66c81d2f539d9f6790f3cad
+  frontend: &frontendVersion 6ea42592793143d8cc8690c44f074cdc274087d0
+  backend: &backendVersion 374f04aabd9a06a6eb44cecbdba8f40b1f3318c6
   infinispan: &infinispanVersion 1.1.1.Final
-  git-api: &gitApiVersion 4519904bedd27e55a11901e80f63dc45c156ab49
+  git-api: &gitApiVersion 34f7566fc7330636206911f04e9dcd4f1408de9a
   launcher: &launcherVersion c6013239a30ffe73ac38e7348a84df644117ea51
 
 
@@ -29,6 +29,7 @@ applications:
   ref: *frontendVersion
   helmValues:
     imageTag: *frontendVersion
+    hostname: https://omp-frontend-omp.apps.test.omp.rht-labs.com
 
 - name: omp-backend
   url: https://github.com/rht-labs/open-management-portal-backend.git
@@ -36,6 +37,7 @@ applications:
   ref: *backendVersion
   helmValues:
     imageTag: *backendVersion
+    hostname: https://omp-backend-omp.apps.omp.test.rht-labs.com
 
 - name: infinispan-operator
   url: https://github.com/infinispan/infinispan-operator.git
