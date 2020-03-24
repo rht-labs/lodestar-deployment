@@ -20,6 +20,17 @@ spec:
         {{ $key }}: {{ $value }}
         {{- end }}
     {{- end }}
+  {{- if (.diffIgnore )}}
+  ignoreDifferences:
+  {{- range .diffIgnore }}
+  - group: {{ .group }}
+    kind: {{ .kind }}
+    jsonPointers:
+      {{- range .jsonPointers }}
+      - {{ . }}
+      {{- end }}
+    {{- end }}
+  {{- end }} 
   syncPolicy:
     automated:
       prune: true

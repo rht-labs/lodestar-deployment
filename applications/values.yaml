@@ -30,6 +30,11 @@ applications:
   helmValues:
     imageTag: *frontendVersion
     hostname: omp-frontend-omp.apps.test.omp.rht-labs.com
+  diffIgnore:
+  - group: route.openshift.io
+    kind: Route
+    jsonPointers:
+    - /status
 
 - name: omp-backend
   url: https://github.com/rht-labs/open-management-portal-backend.git
@@ -38,6 +43,11 @@ applications:
   helmValues:
     imageTag: *backendVersion
     hostname: omp-backend-omp.apps.test.omp.rht-labs.com
+  diffIgnore:
+  - group: route.openshift.io
+    kind: Route
+    jsonPointers:
+    - /status
 
 - name: infinispan-operator
   url: https://github.com/infinispan/infinispan-operator.git
@@ -55,4 +65,9 @@ applications:
   url: https://github.com/redhat-cop/tool-integrations.git
   path: "argo-cd-bridges/gitlab/deploy"
   ref: *launcherVersion
+  diffIgnore:
+  - group: build.openshift.io
+    kind: BuildConfig
+    jsonPointers:
+    - /status
 
