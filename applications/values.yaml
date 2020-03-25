@@ -14,7 +14,7 @@ applicationVersions:
   frontend: &frontendVersion 3643430b60f434b606e41540679406a0cc785727
   backend: &backendVersion 374f04aabd9a06a6eb44cecbdba8f40b1f3318c6
   infinispan: &infinispanVersion 1.1.1.Final
-  git-api: &gitApiVersion 7723088262401b37ba170259ff79e81d74ecc26f
+  git-api: &gitApiVersion 8ab90497b209f1292d244289942fea1fa5dbbc5e
   launcher: &launcherVersion 3478f8caecf4198b73bdd3beb0efec42f322761a
 
 
