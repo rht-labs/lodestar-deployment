@@ -29,12 +29,6 @@ applications:
   ref: *frontendVersion
   helmValues:
     imageTag: *frontendVersion
-    hostname: omp-frontend-omp.apps.test.omp.rht-labs.com
-  diffIgnore:
-  - group: route.openshift.io
-    kind: Route
-    jsonPointers:
-    - /status
 
 - name: omp-backend
   url: https://github.com/rht-labs/open-management-portal-backend.git
@@ -42,12 +36,6 @@ applications:
   ref: *backendVersion
   helmValues:
     imageTag: *backendVersion
-    hostname: omp-backend-omp.apps.test.omp.rht-labs.com
-  diffIgnore:
-  - group: route.openshift.io
-    kind: Route
-    jsonPointers:
-    - /status
 
 - name: infinispan-operator
   url: https://github.com/infinispan/infinispan-operator.git
