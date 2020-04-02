@@ -11,7 +11,7 @@ server: https://kubernetes.default.svc
 ##################
 
 applicationVersions:
-  frontend: &frontendVersion f78f43044127252635872244af44cacab4275a2f
+  frontend: &frontendVersion 308347520a1bc91ca2d4cdad668a6035e99d2a07
   backend: &backendVersion d028b31ccfba0f7ee909b92020dfb59650e29e6d 
   infinispan: &infinispanVersion 1.1.1.Final
   git-api: &gitApiVersion ef3fa1e1fe9dbb6091a0561c776c896b57ba0de1
