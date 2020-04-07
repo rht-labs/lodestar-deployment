@@ -6,3 +6,28 @@ application:
   url: https://github.com/rht-labs/open-management-portal-deployment.git
   path: applications/
   ref: master
+
+argo-cd:
+  enabled: false
+  installCRDs: false 
+
+  global:
+# Do we want this?
+    clusterAdminAccess:
+      enabled: true 
+
+  dex:
+    image:
+      tag: v2.22.0
+
+  server:
+    extraArgs:
+    - --insecure
+
+    route:
+      enabled: true
+      termination_type: edge
+      termination_policy: Redirect
+
+  openshift:
+    enabled: true

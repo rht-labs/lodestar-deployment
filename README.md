@@ -7,8 +7,20 @@ This repository both bootstraps and manages the deployment lifecycle of the Open
 To create an instance of the Open Management Portal in a cluster, apply the `bootstrap` Helm chart using the following command:
 
 ```sh
+helm dep up bootstrap
 helm install open-management-portal bootstrap/ --set application.ref=<desired git ref>
 ```
+
+If you would also like to deploy ArgoCD as part of your bootstrapping, apply the `bootstrap` Helm chart using the following command:
+
+```sh
+helm dep up bootstrap
+helm install open-management-portal bootstrap/ -f <values-file-containing-secrets-data> --set application.ref=<desired git ref>
+```
+
+**Note:** For obvious reasons, you likely want to store your values file containing your secrets in a seperate, secure repository.
+
+An example of a values file that contains the appropriate ArgoCD secrets data can be found [here](bootstrap/values-secrets-example.yaml). 
 
 Make sure to replace `<desired-git-ref>` with the tag that you want to deploy to this cluster. If this is a staging cluster, you might have a Git tag such as `deploy-staging`; and if this is a production cluster, maybe `deploy-production`.
 

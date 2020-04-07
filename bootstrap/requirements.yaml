@@ -1,0 +1,5 @@
+dependencies:
+- name: argo-cd
+  version: "2.0.3"
+  repository: "https://tylerauerbeck.github.io/argo-helm"
+  condition: argo-cd.enabled
