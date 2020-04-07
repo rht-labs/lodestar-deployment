@@ -15,7 +15,7 @@ If you would also like to deploy ArgoCD as part of your bootstrapping, apply the
 
 ```sh
 helm dep up bootstrap
-helm install open-management-portal bootstrap/ -f <values-file-containing-secrets-data> --set application.ref=<desired git ref>
+helm install open-management-portal bootstrap/ -f <values-file-containing-secrets-data> --set application.ref=<desired git ref> --set argo-cd.enabled=true
 ```
 
 **Note:** For obvious reasons, you likely want to store your values file containing your secrets in a seperate, secure repository.
