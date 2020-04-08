@@ -11,17 +11,8 @@ server: https://kubernetes.default.svc
 ##################
 
 applicationVersions:
-  frontend: &frontendVersion 308347520a1bc91ca2d4cdad668a6035e99d2a07
-  backend: &backendVersion master
   infinispan: &infinispanVersion 1.1.1.Final
-  git-api: &gitApiVersion ef3fa1e1fe9dbb6091a0561c776c896b57ba0de1
   launcher: &launcherVersion 3478f8caecf4198b73bdd3beb0efec42f322761a
-
-###########
-# Image tag
-###########
-imageTags:
-  backend: &backendImageTag latest
 
 ##################################
 # Application Template Definitions
@@ -31,16 +22,15 @@ applications:
 - name: omp-frontend
   url: https://github.com/rht-labs/open-management-portal-frontend.git
   path: deployment
-  ref: *frontendVersion
-  helmValues:
-    imageTag: *frontendVersion
 
 - name: omp-backend
   url: https://github.com/rht-labs/open-management-portal-backend.git
   path: deployment
-  ref: *backendVersion
-  helmValues:
-    imageTag: *backendImageTag
+  diffIgnore:
+  - group: apps.openshift.io
+    kind: DeploymentConfig
+    jsonPointers:
+    - /spec/template/spec/containers/0/image
 
 - name: infinispan-operator
   url: https://github.com/infinispan/infinispan-operator.git
@@ -50,9 +40,6 @@ applications:
 - name: git-api
   url: https://github.com/rht-labs/open-management-portal-git-api.git
   path: deployment
-  ref: *gitApiVersion
-  helmValues:
-    imageTag: *gitApiVersion
 
 - name: omp-launcher
   url: https://github.com/redhat-cop/tool-integrations.git
