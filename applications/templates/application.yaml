@@ -12,15 +12,15 @@ spec:
   source:
     path: {{ .path | default "." | quote }}
     repoURL: {{ .url | quote }}
-    targetRevision: {{ .ref | quote }}
-    {{- if (.helmValues) }}
+    targetRevision: {{ .ref | default "master" | quote }}
+    {{- if .helmValues }}
     helm:
       values: |-
         {{- range $key, $value := .helmValues }}
         {{ $key }}: {{ $value }}
         {{- end }}
     {{- end }}
-  {{- if (.diffIgnore )}}
+  {{- if .diffIgnore }}
   ignoreDifferences:
   {{- range .diffIgnore }}
   - group: {{ .group }}
@@ -30,7 +30,7 @@ spec:
       - {{ . }}
       {{- end }}
     {{- end }}
-  {{- end }} 
+  {{- end }}
   syncPolicy:
     automated:
       prune: true
