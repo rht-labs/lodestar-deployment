@@ -11,7 +11,10 @@ server: https://kubernetes.default.svc
 ##################
 
 applicationVersions:
+  frontend: &frontendVersion naster
+  backend: &backendVersion master
   infinispan: &infinispanVersion 1.1.1.Final
+  git-api: &gitApiVersion master
   launcher: &launcherVersion 3478f8caecf4198b73bdd3beb0efec42f322761a
 
 ##################################
@@ -22,6 +25,9 @@ applications:
 - name: omp-frontend
   url: https://github.com/rht-labs/open-management-portal-frontend.git
   path: deployment
+  ref: *frontendVersion
+  helmValues:
+    imageTag: *frontendVersion
   diffIgnore:
   - group: apps.openshift.io
     kind: DeploymentConfig
@@ -31,6 +37,9 @@ applications:
 - name: omp-backend
   url: https://github.com/rht-labs/open-management-portal-backend.git
   path: deployment
+  ref: *backendVersion
+  helmValues:
+    imageTag: *backendImageTag
   diffIgnore:
   - group: apps.openshift.io
     kind: DeploymentConfig
@@ -45,6 +54,9 @@ applications:
 - name: git-api
   url: https://github.com/rht-labs/open-management-portal-git-api.git
   path: deployment
+  ref: *gitApiVersion
+  helmValues:
+    imageTag: *gitApiVersion
   diffIgnore:
   - group: apps.openshift.io
     kind: DeploymentConfig
