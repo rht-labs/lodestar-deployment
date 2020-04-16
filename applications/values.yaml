@@ -11,7 +11,7 @@ server: https://kubernetes.default.svc
 ##################
 
 applicationVersions:
-  frontend: &frontendVersion naster
+  frontend: &frontendVersion master
   backend: &backendVersion master
   infinispan: &infinispanVersion 1.1.1.Final
   git-api: &gitApiVersion master
