@@ -39,7 +39,7 @@ applications:
   path: deployment
   ref: *backendVersion
   helmValues:
-    imageTag: *backendImageTag
+    imageTag: *backendVersion
   diffIgnore:
   - group: apps.openshift.io
     kind: DeploymentConfig
@@ -72,4 +72,3 @@ applications:
     kind: BuildConfig
     jsonPointers:
     - /status
-
