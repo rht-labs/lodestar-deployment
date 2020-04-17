@@ -31,6 +31,9 @@ applications:
 - name: omp-backend
   url: https://github.com/rht-labs/open-management-portal-backend.git
   path: deployment
+  helmValues:
+    infinispanVersion: &infinispanVersion
+    launcherVersion: &launcherVersion
   diffIgnore:
   - group: apps.openshift.io
     kind: DeploymentConfig
