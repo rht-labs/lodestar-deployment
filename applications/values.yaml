@@ -32,8 +32,9 @@ applications:
   url: https://github.com/rht-labs/open-management-portal-backend.git
   path: deployment
   helmValues:
-    infinispanVersion: &infinispanVersion
-    launcherVersion: &launcherVersion
+    versions:
+      infinispan: &infinispanVersion
+      launcher: &launcherVersion
   diffIgnore:
   - group: apps.openshift.io
     kind: DeploymentConfig
