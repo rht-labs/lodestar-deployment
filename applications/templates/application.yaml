@@ -15,9 +15,13 @@ spec:
     targetRevision: {{ .ref | default "master" | quote }}
     {{- if .helmValues }}
     helm:
-      values: |-
+      values:
         {{- range $key, $value := .helmValues }}
+        {{- if or (eq "map[string]interface {}" (printf "%T" $value)) (eq "[]interface {}" (printf "%T" $value))}}
+        {{ $key }}: {{ $value | toJson }}
+        {{- else }}
         {{ $key }}: {{ $value }}
+        {{- end }}
         {{- end }}
     {{- end }}
   {{- if .diffIgnore }}
