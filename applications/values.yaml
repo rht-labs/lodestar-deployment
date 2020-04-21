@@ -3,8 +3,6 @@
 ##################
 
 deploymentNamespace: argo-cd
-server: https://kubernetes.default.svc
-
 
 ##################
 # Version Manifest
@@ -22,7 +20,7 @@ applications:
 - name: omp-frontend
   url: https://github.com/rht-labs/open-management-portal-frontend.git
   path: deployment
-  diffIgnore:
+  ignoreDifferences:
   - group: apps.openshift.io
     kind: DeploymentConfig
     jsonPointers:
@@ -35,7 +33,7 @@ applications:
     versions:
       infinispan: *infinispanVersion
       launcher: *launcherVersion
-  diffIgnore:
+  ignoreDifferences:
   - group: apps.openshift.io
     kind: DeploymentConfig
     jsonPointers:
@@ -49,7 +47,7 @@ applications:
 - name: git-api
   url: https://github.com/rht-labs/open-management-portal-git-api.git
   path: deployment
-  diffIgnore:
+  ignoreDifferences:
   - group: apps.openshift.io
     kind: DeploymentConfig
     jsonPointers:
@@ -59,7 +57,7 @@ applications:
   url: https://github.com/redhat-cop/tool-integrations.git
   path: "argo-cd-bridges/gitlab/deploy"
   ref: *launcherVersion
-  diffIgnore:
+  ignoreDifferences:
   - group: build.openshift.io
     kind: BuildConfig
     jsonPointers:
