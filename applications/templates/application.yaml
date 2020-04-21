@@ -16,13 +16,7 @@ spec:
     {{- if .helmValues }}
     helm:
       values: |-
-        {{- range $key, $value := .helmValues }}
-        {{- if or (eq "map[string]interface {}" (printf "%T" $value)) (eq "[]interface {}" (printf "%T" $value))}}
-        {{ $key }}: {{ $value | toJson }}
-        {{- else }}
-        {{ $key }}: {{ $value }}
-        {{- end }}
-        {{- end }}
+        {{- toYaml .helmValues | nindent 8 }}
     {{- end }}
   {{- if .diffIgnore }}
   ignoreDifferences:
