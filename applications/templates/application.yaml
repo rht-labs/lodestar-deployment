@@ -7,7 +7,7 @@ metadata:
 spec:
   destination:
     namespace: {{ $.Values.deploymentNamespace }}
-    server: {{ $.Values.server }}
+    server: {{ $.Values.server | default "https://kubernetes.default.svc" }}
   project: default
   source:
     path: {{ .path | default "." | quote }}
@@ -18,16 +18,9 @@ spec:
       values: |-
         {{- toYaml .helmValues | nindent 8 }}
     {{- end }}
-  {{- if .diffIgnore }}
+  {{- if .ignoreDifferences }}
   ignoreDifferences:
-  {{- range .diffIgnore }}
-  - group: {{ .group }}
-    kind: {{ .kind }}
-    jsonPointers:
-      {{- range .jsonPointers }}
-      - {{ . }}
-      {{- end }}
-    {{- end }}
+    {{- toYaml .ignoreDifferences | nindent 2}}
   {{- end }}
   syncPolicy:
     automated:
