@@ -10,7 +10,7 @@ deploymentNamespace: argo-cd
 
 applicationVersions:
   infinispan: &infinispanVersion 1.1.1.Final
-  launcher: &launcherVersion 3478f8caecf4198b73bdd3beb0efec42f322761a
+  launcher: &launcherVersion v1.0.0
 
 ##################################
 # Application Template Definitions
