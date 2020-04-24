@@ -1,0 +1,15 @@
+---
+vars:
+  - name: ARGOCD_ROUTE
+    objref:
+      kind: Route
+      name: argocd
+      apiVersion: route.openshift.io/v1
+    fieldref:
+      fieldpath: spec.host
+  - name: ARGOCD_DEX_TOKEN
+    objref:
+      kind: Secret
+      name: 
+      apiVersion:
+

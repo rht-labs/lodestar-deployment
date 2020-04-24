@@ -1,0 +1,9 @@
+---
+bases:
+- github.com/argoproj/argo-cd//manifests/cluster-install?ref=v1.5.2
+resources:
+- ./resources/argo-cd-config.yaml
+- ./resources/omp-apps.yaml
+- ./resources/argocd-dex-token.yaml
+patchesStrategicMerge:
+- dex-sa-patch.yaml 

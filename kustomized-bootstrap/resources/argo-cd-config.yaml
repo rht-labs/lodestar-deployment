@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argo-cd-config 
+spec:
+  destination:
+    namespace: argo-cd
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: "overlays/argo-cd-config/"
+    repoURL: "https://github.com/tylerauerbeck/open-management-portal-deployment.git"
+    targetRevision: "argo-kustomize"
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+
