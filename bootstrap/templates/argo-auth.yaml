@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+  labels:
+    app.kubernetes.io/name: argocd-cm
+    app.kubernetes.io/part-of: argocd
+data:
+  dex.config: |
+    connectors:
+      - type: openshift
+        id: openshift
+        name: OpenShift
+        config:
+          issuer: https://kubernetes.default.svc:443
+          clientID: system:serviceaccount:{{ .Release.Namespace }}.argocd-dex-server
+          clientSecret: {{ (lookup "v1" "Secret" .Release.Namespace "dex-auth-secret").data.token }}
+          redirectURI: https://{{ (lookup "route.openshift.io/v1" "Route" .Release.Namespace "argocd").spec.host }}/api/dex/callback
+          insecureCA: true
+  url: https://{{ (lookup "route.openshift.io/v1" "Route" .Release.Namespace "argocd").spec.host }}
+
