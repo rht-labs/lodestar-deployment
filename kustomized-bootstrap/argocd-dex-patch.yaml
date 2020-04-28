@@ -6,5 +6,6 @@ metadata:
 spec:
   template:
     spec:
-      - name: dex
-        image: quay.io/redhat-cop/v2.22.0-openshift
+      containers:
+        - name: dex
+          image: quay.io/redhat-cop/v2.22.0-openshift
