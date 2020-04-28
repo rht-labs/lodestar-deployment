@@ -8,4 +8,4 @@ spec:
     spec:
       containers:
         - name: dex
-          image: quay.io/redhat-cop/v2.22.0-openshift
+          image: quay.io/redhat-cop/dex:v2.22.0-openshift
