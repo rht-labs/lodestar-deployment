@@ -1,5 +1,5 @@
 ---
-namespace: argocd 
+namespace: argo-cd 
 
 bases:
 - github.com/argoproj/argo-cd//manifests/cluster-install?ref=v1.5.2
@@ -7,5 +7,8 @@ resources:
 - ./resources/route.yaml
 - ./resources/argocd-dex-token.yaml
 patchesStrategicMerge:
-- dex-sa-patch.yaml 
-#- argocd-server-patch.yaml
+- dex-sa-patch.yaml
+- crb-patch.yaml
+- argocd-server-patch.yaml
+- argocd-cm-patch.yaml
+- argocd-dex-patch.yaml

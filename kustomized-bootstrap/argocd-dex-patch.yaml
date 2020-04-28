@@ -1,0 +1,10 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argocd-dex-server
+spec:
+  template:
+    spec:
+      - name: dex
+        image: quay.io/redhat-cop/v2.22.0-openshift

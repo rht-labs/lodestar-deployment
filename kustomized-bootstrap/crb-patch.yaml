@@ -1,0 +1,19 @@
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: argocd-application-controller
+subjects:
+- kind: ServiceAccount
+  name: argocd-application-controller
+  namespace: argo-cd
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata: 
+  name: argocd-server
+subjects:
+- kind: ServiceAccount
+  name: argocd-server
+  namespace: argo-cd
+

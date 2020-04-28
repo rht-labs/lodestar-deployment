@@ -11,4 +11,7 @@ spec:
     path: "applications/"
     repoURL: "https://github.com/rht-labs/open-management-portal-deployment.git"
     targetRevision: "master"
-
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
