@@ -28,5 +28,5 @@ spec:
               API=https://kubernetes.default.svc:443;
               oc annotate sa argocd-dex-server serviceaccounts.openshift.io/oauth-redirecturi.{{ .Release.Namespace }}=https://$HOSTNAME/api/dex/callback;
               oc patch cm argocd-cm -p "{\"data\":{\"url\": \"https://$HOSTNAME\"}}";
-              oc patch cm argocd-cm -p "{\"data\":{\"dex.config\": \"connectors:\n  - type: openshift\n    id: openshift\n    name: OpenShift\n    config:\n      issuer: $API\n      clientID: system:serviceaccount:{{ .Release.Namespace }}.argocd-dex-server\n      clientSecret: $TOKEN\n      redirectURI: https://$HOSTNAME/api/dex/callback\n      insecureCA: true\"}}";
+              oc patch cm argocd-cm -p "{\"data\":{\"dex.config\": \"connectors:\n  - type: openshift\n    id: openshift\n    name: OpenShift\n    config:\n      issuer: $API\n      clientID: system:serviceaccount:{{ .Release.Namespace }}:argocd-dex-server\n      clientSecret: $TOKEN\n      redirectURI: https://$HOSTNAME/api/dex/callback\n      insecureCA: true\"}}";
       restartPolicy: OnFailure
