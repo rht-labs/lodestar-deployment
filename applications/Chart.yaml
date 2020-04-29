@@ -1,4 +1,4 @@
-apiVersion: v1
+apiVersion: v2
 name: omp-deployment
 description: A chart using the ArgoCD "App of Apps" pattern to deploy all components of the Open Management Portal
 
