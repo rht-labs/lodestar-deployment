@@ -11,6 +11,9 @@ deploymentNamespace: omp-argo-cd
 applicationVersions:
   infinispan: &infinispanVersion 1.1.1.Final
   launcher: &launcherVersion v1.0.0
+  agnosticv-operator: &agnosticvVersion helm_chart
+  anarchy-operator: &anarchyVersion helm_chart
+  poolboy: &poolboyVersion helm_chart
 
 ##################################
 # Application Template Definitions
@@ -65,4 +68,22 @@ applications:
     kind: BuildConfig
     jsonPointers:
     - /status
+
+- name: agnosticv-operator
+  url: https://github.com/pabrahamsson/agnosticv-operator.git
+  path: helm
+  ref: *agnosticvVersion
+  deploymentNamespace: omp-babylon-operators
+
+- name: anarchy-operator
+  url: https://github.com/pabrahamsson/anarchy.git
+  path: helm
+  ref: *anarchyVersion
+  deploymentNamespace: omp-babylon-operators
+
+- name: poolboy
+  url: https://github.com/pabrahamsson/poolboy.git
+  path: helm
+  ref: *poolboyVersion
+  deploymentNamespace: omp-babylon-operators
 
