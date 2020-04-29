@@ -1,21 +1,32 @@
-apiVersion: v1
-kind: ConfigMap
+apiVersion: batch/v1
+kind: Job
 metadata:
-  name: argocd-cm
+  name: argocd-config
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "3"
   labels:
-    app.kubernetes.io/name: argocd-cm
-    app.kubernetes.io/part-of: argocd
-data:
-  dex.config: |
-    connectors:
-      - type: openshift
-        id: openshift
-        name: OpenShift
-        config:
-          issuer: https://kubernetes.default.svc:443
-          clientID: system:serviceaccount:{{ .Release.Namespace }}.argocd-dex-server
-          clientSecret: {{ (lookup "v1" "Secret" .Release.Namespace "dex-auth-secret").data.token }}
-          redirectURI: https://{{ (lookup "route.openshift.io/v1" "Route" .Release.Namespace "argocd").spec.host }}/api/dex/callback
-          insecureCA: true
-  url: https://{{ (lookup "route.openshift.io/v1" "Route" .Release.Namespace "argocd").spec.host }}
-
+    app: argocd-config
+spec:
+  template:
+    metadata:
+      name: argocd-config
+      labels:
+        app: argocd-config
+    spec:
+      serviceAccountName: argocd-server
+      containers:
+        - name: oc
+          image: "quay.io/openshift/origin-cli:latest"
+          imagePullPolicy: "IfNotPresent"
+          command:
+          - /bin/sh
+          - -c
+          - >
+              HOSTNAME={{ (lookup "route.openshift.io/v1" "Route" .Release.Namespace "argocd").spec.host }}
+              TOKEN={{ (lookup "v1" "Secret" .Release.Namespace "dex-auth-secret").data.token }}
+              API=https://kubernetes.default.svc:443;
+              oc annotate sa argocd-dex-server serviceaccounts.openshift.io/oauth-redirecturi.{{ .Release.Namespace }}=https://$HOSTNAME/api/dex/callback;
+              oc patch cm argocd-cm -p "{\"data\":{\"url\": \"https://$HOSTNAME\"}}";
+              oc patch cm argocd-cm -p "{\"data\":{\"dex.config\": \"connectors:\n  - type: openshift\n    id: openshift\n    name: OpenShift\n    config:\n      issuer: $API\n      clientID: system:serviceaccount:{{ .Release.Namespace }}.argocd-dex-server\n      clientSecret: $TOKEN\n      redirectURI: https://$HOSTNAME/api/dex/callback\n      insecureCA: true\"}}";
+      restartPolicy: OnFailure
