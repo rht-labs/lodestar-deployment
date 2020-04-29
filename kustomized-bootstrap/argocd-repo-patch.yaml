@@ -1,6 +1,6 @@
 ---
 kind: Deployment
-apiVersion: v1
+apiVersion: apps/v1
 metadata:
   name: argocd-repo-server
 spec:
