@@ -38,6 +38,9 @@ applications:
   helmValues:
     imageTag: *backendVersion
     versions:
+      frontend: *frontendVersion
+      backend: *backendVersion
+      git-api: *gitApiVersion
       launcher: *launcherVersion
   ignoreDifferences:
   - group: apps.openshift.io
