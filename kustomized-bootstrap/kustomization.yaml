@@ -5,10 +5,10 @@ bases:
 - github.com/argoproj/argo-cd//manifests/cluster-install?ref=v1.5.2
 resources:
 - ./resources/route.yaml
-#- ./resources/argocd-dex-token.yaml
+- ./resources/argocd-dex-token.yaml
 - ./resources/omp-apps.yaml
 patchesStrategicMerge:
-#- dex-sa-patch.yaml
+- dex-sa-patch.yaml
 - crb-patch.yaml
 - argocd-server-patch.yaml
 - argocd-cm-patch.yaml
