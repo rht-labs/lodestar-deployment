@@ -6,7 +6,7 @@ metadata:
   name: {{ .name }}
 spec:
   destination:
-    namespace: {{ $.Values.deploymentNamespace }}
+    namespace: {{ default $.Values.deploymentNamespace .deploymentNamespace }}
     server: {{ $.Values.server | default "https://kubernetes.default.svc" }}
   project: default
   source:

@@ -2,7 +2,7 @@
 # Common Variables
 ##################
 
-deploymentNamespace: argo-cd
+deploymentNamespace: omp-argo-cd
 
 ##################
 # Version Manifest
@@ -20,6 +20,7 @@ applications:
 - name: omp-frontend
   url: https://github.com/rht-labs/open-management-portal-frontend.git
   path: deployment
+  deploymentNamespace: omp-frontend
   ignoreDifferences:
   - group: apps.openshift.io
     kind: DeploymentConfig
@@ -29,6 +30,7 @@ applications:
 - name: omp-backend
   url: https://github.com/rht-labs/open-management-portal-backend.git
   path: deployment
+  deploymentNamespace: omp-frontend
   helmValues:
     versions:
       infinispan: *infinispanVersion
@@ -47,6 +49,7 @@ applications:
 - name: git-api
   url: https://github.com/rht-labs/open-management-portal-git-api.git
   path: deployment
+  deploymentNamespace: omp-frontend
   ignoreDifferences:
   - group: apps.openshift.io
     kind: DeploymentConfig
