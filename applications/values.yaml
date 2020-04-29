@@ -9,7 +9,10 @@ deploymentNamespace: argo-cd
 ##################
 
 applicationVersions:
+  frontend: &frontendVersion master
+  backend: &backendVersion master
   infinispan: &infinispanVersion 1.1.1.Final
+  git-api: &gitApiVersion master
   launcher: &launcherVersion v1.0.0
 
 ##################################
@@ -20,6 +23,9 @@ applications:
 - name: omp-frontend
   url: https://github.com/rht-labs/open-management-portal-frontend.git
   path: deployment
+  ref: *frontendVersion
+  helmValues:
+    imageTag: *frontendVersion
   ignoreDifferences:
   - group: apps.openshift.io
     kind: DeploymentConfig
@@ -29,7 +35,9 @@ applications:
 - name: omp-backend
   url: https://github.com/rht-labs/open-management-portal-backend.git
   path: deployment
+  ref: *backendVersion
   helmValues:
+    imageTag: *backendVersion
     versions:
       infinispan: *infinispanVersion
       launcher: *launcherVersion
@@ -47,6 +55,9 @@ applications:
 - name: git-api
   url: https://github.com/rht-labs/open-management-portal-git-api.git
   path: deployment
+  ref: *gitApiVersion
+  helmValues:
+    imageTag: *gitApiVersion
   ignoreDifferences:
   - group: apps.openshift.io
     kind: DeploymentConfig
@@ -62,4 +73,3 @@ applications:
     kind: BuildConfig
     jsonPointers:
     - /status
-
