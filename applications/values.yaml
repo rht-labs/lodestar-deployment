@@ -11,7 +11,6 @@ deploymentNamespace: argo-cd
 applicationVersions:
   frontend: &frontendVersion master
   backend: &backendVersion master
-  infinispan: &infinispanVersion 1.1.1.Final
   git-api: &gitApiVersion master
   launcher: &launcherVersion v1.0.0
 
@@ -39,18 +38,15 @@ applications:
   helmValues:
     imageTag: *backendVersion
     versions:
-      infinispan: *infinispanVersion
+      frontend: *frontendVersion
+      backend: *backendVersion
+      git-api: *gitApiVersion
       launcher: *launcherVersion
   ignoreDifferences:
   - group: apps.openshift.io
     kind: DeploymentConfig
     jsonPointers:
     - /spec/template/spec/containers/0/image
-
-- name: infinispan-operator
-  url: https://github.com/infinispan/infinispan-operator.git
-  path: deploy
-  ref: *infinispanVersion
 
 - name: git-api
   url: https://github.com/rht-labs/open-management-portal-git-api.git
