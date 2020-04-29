@@ -3,8 +3,6 @@
 ##################
 
 deploymentNamespace: argo-cd
-server: https://kubernetes.default.svc
-
 
 ##################
 # Version Manifest
@@ -15,7 +13,7 @@ applicationVersions:
   backend: &backendVersion master
   infinispan: &infinispanVersion 1.1.1.Final
   git-api: &gitApiVersion master
-  launcher: &launcherVersion 3478f8caecf4198b73bdd3beb0efec42f322761a
+  launcher: &launcherVersion v1.0.0
 
 ##################################
 # Application Template Definitions
@@ -28,7 +26,7 @@ applications:
   ref: *frontendVersion
   helmValues:
     imageTag: *frontendVersion
-  diffIgnore:
+  ignoreDifferences:
   - group: apps.openshift.io
     kind: DeploymentConfig
     jsonPointers:
@@ -40,7 +38,10 @@ applications:
   ref: *backendVersion
   helmValues:
     imageTag: *backendVersion
-  diffIgnore:
+    versions:
+      infinispan: *infinispanVersion
+      launcher: *launcherVersion
+  ignoreDifferences:
   - group: apps.openshift.io
     kind: DeploymentConfig
     jsonPointers:
@@ -57,7 +58,7 @@ applications:
   ref: *gitApiVersion
   helmValues:
     imageTag: *gitApiVersion
-  diffIgnore:
+  ignoreDifferences:
   - group: apps.openshift.io
     kind: DeploymentConfig
     jsonPointers:
@@ -67,7 +68,7 @@ applications:
   url: https://github.com/redhat-cop/tool-integrations.git
   path: "argo-cd-bridges/gitlab/deploy"
   ref: *launcherVersion
-  diffIgnore:
+  ignoreDifferences:
   - group: build.openshift.io
     kind: BuildConfig
     jsonPointers:
