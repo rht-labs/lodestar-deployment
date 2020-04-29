@@ -1,8 +1,0 @@
-deploymentNamespace: argo-cd
-server: https://kubernetes.default.svc
-
-application:
-  name: open-management-portal
-  url: https://github.com/rht-labs/open-management-portal-deployment.git
-  path: applications/
-  ref: master
