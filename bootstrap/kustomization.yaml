@@ -9,7 +9,6 @@ resources:
 - ./resources/omp-apps.yaml
 patchesStrategicMerge:
 - dex-sa-patch.yaml
-- crb-patch.yaml
 - argocd-server-patch.yaml
 - argocd-cm-patch.yaml
 - argocd-dex-patch.yaml
