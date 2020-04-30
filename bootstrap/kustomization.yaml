@@ -1,6 +1,4 @@
 ---
-namespace: argo-cd 
-
 bases:
 - github.com/argoproj/argo-cd//manifests/cluster-install?ref=v1.5.2
 resources:
