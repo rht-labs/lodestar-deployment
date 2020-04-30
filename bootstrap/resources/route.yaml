@@ -3,6 +3,7 @@ kind: Route
 metadata:
   name: argocd
 spec:
+  host: ""
   port:
     targetPort: https
   tls:
@@ -13,3 +14,5 @@ spec:
     name: argocd-server
     weight: 100
   wildcardPolicy: None
+status:
+  ingress: []
