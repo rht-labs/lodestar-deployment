@@ -74,16 +74,32 @@ applications:
   path: helm
   ref: *agnosticvVersion
   deploymentNamespace: omp-babylon-operators
+  helmValues:
+    namespace:
+      create: false
+      name: omp-babylon-operators
 
 - name: anarchy-operator
-  url: https://github.com/pabrahamsson/anarchy.git
+  url: https://github.com/pabrahamsson/anarchy-operator.git
   path: helm
   ref: *anarchyVersion
   deploymentNamespace: omp-babylon-operators
+  helmValues:
+    anarchy:
+      namespace: omp-babylon-operators
+    namespace:
+      create: false
+      name: omp-babylon-operators
 
 - name: poolboy
   url: https://github.com/pabrahamsson/poolboy.git
   path: helm
   ref: *poolboyVersion
   deploymentNamespace: omp-babylon-operators
+  helmValues:
+    anarchy:
+      namespace: omp-babylon-operators
+    namespace:
+      create: false
+      name: omp-babylon-operators
 
