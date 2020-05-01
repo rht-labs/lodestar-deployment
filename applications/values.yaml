@@ -47,6 +47,9 @@ applications:
       backend: *backendVersion
       git-api: *gitApiVersion
       launcher: *launcherVersion
+      agnosticv: *agnosticvVersion
+      anarchy: *anarchyVersion
+      poolboy: *poolboyVersion
   ignoreDifferences:
   - group: apps.openshift.io
     kind: DeploymentConfig
