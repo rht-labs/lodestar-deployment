@@ -75,6 +75,8 @@ applications:
   ref: *agnosticvVersion
   deploymentNamespace: omp-babylon-operators
   helmValues:
+    anarchy:
+      namespace: omp-babylon-operators
     image:
       tagOverride: v0.1.0-ocp3
     namespace:
