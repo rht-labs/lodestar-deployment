@@ -104,6 +104,11 @@ applications:
     namespace:
       create: false
       name: omp-babylon-operators
+  ignoreDifferences:
+  - group: apiextensions.k8s.io
+    kind: CustomResourceDefinition
+    jsonPointers:
+    - /spec/names/shortNames
 
 - name: poolboy
   url: https://github.com/pabrahamsson/poolboy.git
@@ -116,3 +121,8 @@ applications:
     namespace:
       create: false
       name: omp-babylon-operators
+  ignoreDifferences:
+  - group: apiextensions.k8s.io
+    kind: CustomResourceDefinition
+    jsonPointers:
+    - /spec/names/shortNames
