@@ -5,6 +5,7 @@ resources:
 - ./resources/route.yaml
 - ./resources/argocd-dex-token.yaml
 - ./resources/omp-apps.yaml
+- ./resources/omp-cluster-reader.yaml
 patchesStrategicMerge:
 - dex-sa-patch.yaml
 - argocd-server-patch.yaml
