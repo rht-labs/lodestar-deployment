@@ -2,7 +2,7 @@
 # Common Variables
 ##################
 
-deploymentNamespace: argo-cd
+deploymentNamespace: omp-argo-cd
 
 ##################
 # Version Manifest
@@ -13,6 +13,9 @@ applicationVersions:
   backend: &backendVersion v0.4.1-rc1
   git-api: &gitApiVersion v0.4.1-rc1
   launcher: &launcherVersion v1.0.0
+  agnosticv-operator: &agnosticvVersion helm_chart
+  anarchy-operator: &anarchyVersion helm_chart
+  poolboy: &poolboyVersion helm_chart
 
 ##################################
 # Application Template Definitions
@@ -22,6 +25,7 @@ applications:
 - name: omp-frontend
   url: https://github.com/rht-labs/open-management-portal-frontend.git
   path: deployment
+  deploymentNamespace: omp-frontend
   ref: *frontendVersion
   helmValues:
     imageTag: *frontendVersion
@@ -34,6 +38,7 @@ applications:
 - name: omp-backend
   url: https://github.com/rht-labs/open-management-portal-backend.git
   path: deployment
+  deploymentNamespace: omp-frontend
   ref: *backendVersion
   helmValues:
     imageTag: *backendVersion
@@ -42,6 +47,9 @@ applications:
       backend: *backendVersion
       git-api: *gitApiVersion
       launcher: *launcherVersion
+      agnosticv: *agnosticvVersion
+      anarchy: *anarchyVersion
+      poolboy: *poolboyVersion
   ignoreDifferences:
   - group: apps.openshift.io
     kind: DeploymentConfig
@@ -51,6 +59,7 @@ applications:
 - name: git-api
   url: https://github.com/rht-labs/open-management-portal-git-api.git
   path: deployment
+  deploymentNamespace: omp-frontend
   ref: *gitApiVersion
   helmValues:
     imageTag: *gitApiVersion
@@ -69,3 +78,53 @@ applications:
     kind: BuildConfig
     jsonPointers:
     - /status
+
+- name: agnosticv-operator
+  url: https://github.com/pabrahamsson/agnosticv-operator.git
+  path: helm
+  ref: *agnosticvVersion
+  deploymentNamespace: omp-babylon-operators
+  helmValues:
+    anarchy:
+      namespace: omp-babylon-operators
+    image:
+      tagOverride: v0.1.0-ocp3
+    namespace:
+      create: false
+      name: omp-babylon-operators
+
+- name: anarchy-operator
+  url: https://github.com/pabrahamsson/anarchy-operator.git
+  path: helm
+  ref: *anarchyVersion
+  deploymentNamespace: omp-babylon-operators
+  helmValues:
+    anarchy:
+      namespace: omp-babylon-operators
+    namespace:
+      create: false
+      name: omp-babylon-operators
+    openshift:
+      enabled: true
+  ignoreDifferences:
+  - group: apiextensions.k8s.io
+    kind: CustomResourceDefinition
+    jsonPointers:
+    - /spec/names/shortNames
+
+- name: poolboy
+  url: https://github.com/pabrahamsson/poolboy.git
+  path: helm
+  ref: *poolboyVersion
+  deploymentNamespace: omp-babylon-operators
+  helmValues:
+    anarchy:
+      namespace: omp-babylon-operators
+    namespace:
+      create: false
+      name: omp-babylon-operators
+  ignoreDifferences:
+  - group: apiextensions.k8s.io
+    kind: CustomResourceDefinition
+    jsonPointers:
+    - /spec/names/shortNames
