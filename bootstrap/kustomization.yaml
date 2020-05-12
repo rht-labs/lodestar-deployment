@@ -6,6 +6,7 @@ resources:
 - ./resources/argocd-dex-token.yaml
 - ./resources/omp-apps.yaml
 - ./resources/omp-cluster-reader.yaml
+- ./resources/omp-cluster-reader-binding.yaml
 patchesStrategicMerge:
 - dex-sa-patch.yaml
 - argocd-server-patch.yaml
