@@ -8,3 +8,6 @@ rules:
 - apiGroups: ["argoproj.io","anarchy.gpte.redhat.com","gpte.redhat.com","poolboy.gpte.redhat.com"]
   resources: ["*"]
   verbs: ["get", "list", "watch"]
+- apiGroups: ["*"]
+  resources: ["secrets"]
+  verbs: ["get", "list", "watch"]
