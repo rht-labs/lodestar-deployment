@@ -9,9 +9,9 @@ deploymentNamespace: omp-argo-cd
 ##################
 
 applicationVersions:
-  frontend: &frontendVersion v0.5.0-rc2
-  backend: &backendVersion v0.5.0-rc2
-  git-api: &gitApiVersion v0.5.0-rc3
+  frontend: &frontendVersion v0.5.0
+  backend: &backendVersion v0.5.0
+  git-api: &gitApiVersion v0.5.0
   launcher: &launcherVersion v1.0.0
   agnosticv-operator: &agnosticvVersion helm_chart
   anarchy-operator: &anarchyVersion helm_chart
