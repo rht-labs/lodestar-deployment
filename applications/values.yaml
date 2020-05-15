@@ -16,6 +16,7 @@ applicationVersions:
   agnosticv-operator: &agnosticvVersion helm_chart
   anarchy-operator: &anarchyVersion helm_chart
   poolboy: &poolboyVersion helm_chart
+  openshift-acme: &openshiftAcmeVersion 63cf912f507dd7cd060c86e592bd675e8e87374c
 
 ##################################
 # Application Template Definitions
@@ -128,3 +129,9 @@ applications:
     kind: CustomResourceDefinition
     jsonPointers:
     - /spec/names/shortNames
+
+- name: openhift-acme
+  url: https://github.com/tnozicka/openshift-acme
+  path: deploy/cluster-wide
+  ref: *openshiftAcmeVersion
+  deploymentNamespace: omp-openshift-acme
