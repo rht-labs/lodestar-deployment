@@ -130,7 +130,7 @@ applications:
     jsonPointers:
     - /spec/names/shortNames
 
-- name: openhift-acme
+- name: openshift-acme
   url: https://github.com/tnozicka/openshift-acme
   path: deploy/cluster-wide
   ref: *openshiftAcmeVersion
