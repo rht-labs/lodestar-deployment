@@ -13,6 +13,7 @@ spec:
     scopes: '[groups]'
   server:
     route: true
+    insecure: true
   resourceCustomizations: |
     route.openshift.io/Route:
       ignoreDifferences: |
