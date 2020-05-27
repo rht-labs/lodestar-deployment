@@ -5,3 +5,6 @@ resources:
 - ./resources/argo.yaml
 - ./resources/omp-apps.yaml
 - ./resources/omp-cluster-reader.yaml
+
+commonLabels:
+  operator: argocd
