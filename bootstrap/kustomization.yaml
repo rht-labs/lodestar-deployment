@@ -1,6 +1,6 @@
 ---
 bases:
-- github.com/argoproj-labs/argocd-operator//deploy?ref=master
+- github.com/argoproj-labs/argocd-operator//deploy?ref=v0.0.9
 resources:
 - ./resources/argo.yaml
 - ./resources/omp-apps.yaml
