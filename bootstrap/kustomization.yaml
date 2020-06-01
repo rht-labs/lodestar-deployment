@@ -1,14 +1,10 @@
 ---
 bases:
-- github.com/argoproj/argo-cd//manifests/cluster-install?ref=v1.5.2
+- github.com/argoproj-labs/argocd-operator//deploy?ref=v0.0.9
 resources:
-- ./resources/route.yaml
-- ./resources/argocd-dex-token.yaml
+- ./resources/argo.yaml
 - ./resources/omp-apps.yaml
 - ./resources/omp-cluster-reader.yaml
-patchesStrategicMerge:
-- dex-sa-patch.yaml
-- argocd-server-patch.yaml
-- argocd-cm-patch.yaml
-- argocd-dex-patch.yaml
-- argocd-repo-patch.yaml
+
+commonLabels:
+  operator: argocd
