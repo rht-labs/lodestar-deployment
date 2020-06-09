@@ -12,7 +12,7 @@ applicationVersions:
   frontend: &frontendVersion master
   backend: &backendVersion master
   git-api: &gitApiVersion master
-  launcher: &launcherVersion v1.0.0
+  resource-dispatcher: &resourceDispatcherVersion master
   agnosticv-operator: &agnosticvVersion helm_chart
   anarchy-operator: &anarchyVersion helm_chart
   poolboy: &poolboyVersion helm_chart
@@ -47,7 +47,7 @@ applications:
       frontend: *frontendVersion
       backend: *backendVersion
       git-api: *gitApiVersion
-      launcher: *launcherVersion
+      resource-dispatcher: *resourceDispatcherVersion
       agnosticv: *agnosticvVersion
       anarchy: *anarchyVersion
       poolboy: *poolboyVersion
@@ -70,10 +70,15 @@ applications:
     jsonPointers:
     - /spec/template/spec/containers/0/image
 
-- name: omp-launcher
+- name: resource-dispatcher
   url: https://github.com/redhat-cop/tool-integrations.git
-  path: "argo-cd-bridges/gitlab/deploy"
-  ref: *launcherVersion
+  path: "resource-dispatcher/helm"
+  ref: *resourceDispatcherVersion
+  helmValues:
+    configMapName: resource-dispatcher-config
+    giveClusterAdmin: true
+    sshSecretConfigMap: resource-dispatcher-key
+    exposeRoute: true
   ignoreDifferences:
   - group: build.openshift.io
     kind: BuildConfig
