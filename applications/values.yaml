@@ -81,6 +81,10 @@ applications:
     sshSecretConfigMap: resource-dispatcher-key
     exposeRoute: true
   ignoreDifferences:
+  - group: apps.openshift.io
+    kind: DeploymentConfig
+    jsonPointers:
+    - /spec/template/spec/containers/0/image
   - group: build.openshift.io
     kind: BuildConfig
     jsonPointers:
