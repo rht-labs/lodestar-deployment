@@ -76,7 +76,8 @@ applications:
   ref: *resourceDispatcherVersion
   helmValues:
     configMapName: resource-dispatcher-config
-    giveClusterAdmin: true
+    setupClusterRoleBinding: true
+    clusterRole: argocd-application-controller
     sshSecretConfigMap: resource-dispatcher-key
     exposeRoute: true
   ignoreDifferences:
