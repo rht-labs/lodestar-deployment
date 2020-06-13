@@ -89,6 +89,10 @@ applications:
     kind: BuildConfig
     jsonPointers:
     - /status
+  - group: image.openshift.io
+    kind: ImageStream
+    jsonPointers:
+    - /status
 
 - name: agnosticv-operator
   url: https://github.com/pabrahamsson/agnosticv-operator.git
