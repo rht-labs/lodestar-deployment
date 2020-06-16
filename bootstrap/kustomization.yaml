@@ -1,6 +1,6 @@
 ---
 bases:
-- github.com/argoproj-labs/argocd-operator//deploy?ref=v0.0.9
+- github.com/jacobsee/argocd-operator//deploy?ref=deploy-using-jacobs-fork
 resources:
 - ./resources/argo.yaml
 - ./resources/omp-apps.yaml
