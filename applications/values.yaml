@@ -9,10 +9,10 @@ deploymentNamespace: omp-argo-cd
 ##################
 
 applicationVersions:
-  frontend: &frontendVersion master
-  backend: &backendVersion master
-  git-api: &gitApiVersion master
-  resource-dispatcher: &resourceDispatcherVersion master
+  frontend: &frontendVersion v0.5.0
+  backend: &backendVersion v0.5.0
+  git-api: &gitApiVersion v0.5.0
+  resource-dispatcher: &resourceDispatcherVersion v1.0.1
   agnosticv-operator: &agnosticvVersion helm_chart
   anarchy-operator: &anarchyVersion helm_chart
   poolboy: &poolboyVersion helm_chart
@@ -67,7 +67,6 @@ applications:
     config:
       hookFile:
         path: /schema
-
   ignoreDifferences:
   - group: apps.openshift.io
     kind: DeploymentConfig
