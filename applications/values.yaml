@@ -147,6 +147,56 @@ applications:
     jsonPointers:
     - /spec/names/shortNames
 
+- name: agnosticv-operator
+  url: https://github.com/pabrahamsson/agnosticv-operator.git
+  path: helm
+  ref: *agnosticvVersion
+  deploymentNamespace: omp-babylon-operators
+  helmValues:
+    anarchy:
+      namespace: omp-babylon-operators
+    image:
+      tagOverride: v0.1.0-ocp3
+    namespace:
+      create: false
+      name: omp-babylon-operators
+
+- name: anarchy-operator
+  url: https://github.com/pabrahamsson/anarchy-operator.git
+  path: helm
+  ref: *anarchyVersion
+  deploymentNamespace: omp-babylon-operators
+  helmValues:
+    anarchy:
+      namespace: omp-babylon-operators
+    namespace:
+      create: false
+      name: omp-babylon-operators
+    openshift:
+      enabled: true
+  ignoreDifferences:
+  - group: apiextensions.k8s.io
+    kind: CustomResourceDefinition
+    jsonPointers:
+    - /spec/names/shortNames
+
+- name: poolboy
+  url: https://github.com/pabrahamsson/poolboy.git
+  path: helm
+  ref: *poolboyVersion
+  deploymentNamespace: omp-babylon-operators
+  helmValues:
+    anarchy:
+      namespace: omp-babylon-operators
+    namespace:
+      create: false
+      name: omp-babylon-operators
+  ignoreDifferences:
+  - group: apiextensions.k8s.io
+    kind: CustomResourceDefinition
+    jsonPointers:
+    - /spec/names/shortNames
+
 - name: openshift-acme
   url: https://github.com/tnozicka/openshift-acme
   path: deploy/cluster-wide
