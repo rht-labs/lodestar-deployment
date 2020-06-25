@@ -1,0 +1,54 @@
+name: Promote Dispatch
+
+on:
+  repository_dispatch:
+    types: [promote-command]
+jobs:
+  promote-release:
+    if: ${{ github.event.client_payload.slash_command.env }} && ${{ github.event.client_payload.slash_command.name }}
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set Env Variables
+      id: env_info
+      run: |
+        echo ::set-output name=requestor::$(jq .client_payload.github.actor $GITHUB_EVENT_PATH)
+    - uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.client_payload.slash_command.name }}
+    - name: GitHub Pull Request Action
+      id: create_pr
+      uses: repo-sync/pull-request@v2.2
+      with:
+        source_branch: ${{ github.event.client_payload.slash_command.name }}
+        destination_branch: ${{ github.event.client_payload.slash_command.env }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        pr_title: "Promoting ${{ github.event.client_payload.slash_command.name }} to ${{ github.event.client_payload.slash_command.env }}"
+        pr_body: "Promoting release ${{ github.event.client_payload.slash_command.name }} to the ${{ github.event.client_payload.slash_command.env }} environment as requested by @${{ steps.env_info.outputs.requestor }}."
+    - name: Get PR number
+      id: pr_num
+      run: |
+        echo ::set-output name=prnm::$( echo ${{ steps.create_pr.outputs.pr_url }} | awk -F'/' '{print $NF}')
+    - name: Apply label to issue
+      uses: actions/github-script@v2
+      if: ${{ steps.create_pr.outcome == 'success' }}
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+          github.issues.addLabels({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: ${{steps.pr_num.outputs.prnm}},
+            labels: ["${{github.event.client_payload.slash_command.name }}"]
+          })
+    - name: Auto-merge
+      uses: actions/github-script@v2
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          github.pulls.merge({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            pull_number: ${{ steps.pr_num.outputs.prnm}},
+            merge_method: "squash"
+          })
+
