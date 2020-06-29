@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ArgoCD
+metadata:
+  name: open-management-portal-argocd
+spec:
+  applicationInstanceLabelKey: rht-labs.com/omp
+  dex:
+    image: quay.io/redhat-cop/dex 
+    version: v2.22.0-openshift
+    openShiftOAuth: true
+  rbac:
+    defaultPolicy: 'role:readonly'
+    scopes: '[groups]'
+  server:
+    route: true
+    insecure: true
+  resourceCustomizations: |
+    route.openshift.io/Route:
+      ignoreDifferences: |
+        jsonPointers:
+          - /status
+          - /status/ingress
+
