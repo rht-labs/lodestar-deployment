@@ -106,8 +106,6 @@ applications:
   helmValues:
     anarchy:
       namespace: omp-babylon-operators
-    image:
-      tagOverride: v0.1.0-ocp3
     namespace:
       create: false
       name: omp-babylon-operators
