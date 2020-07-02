@@ -64,7 +64,7 @@ applications:
   ref: *gitApiVersion
   helmValues:
     imageTag: *gitApiVersion
-    gitlabRef: integration
+    gitlabRef: production 
     config:
       hookFile:
         path: /schema
