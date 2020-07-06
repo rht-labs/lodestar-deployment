@@ -151,6 +151,9 @@ applications:
 
 - name: cert-manager
   url: https://github.com/jetstack/cert-manager.git
-  path: deploy
+  path: deploy/charts
   ref: *certManagerVersion
-  deploymentNamespace: cluster-ops 
+  deploymentNamespace: cluster-ops
+  helmValues:
+    extraArgs:
+      - --dns01-recursive-nameservers=8.8.8.8:53\,1.1.1.1:53
