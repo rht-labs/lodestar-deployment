@@ -17,7 +17,7 @@ applicationVersions:
   anarchy-operator: &anarchyVersion helm_chart
   poolboy: &poolboyVersion helm_chart
   cert-manager: &certManagerVersion v0.15.0
-
+  cert-utils-operator: &certUtilsVersion v0.1.1
 
 ##################################
 # Application Template Definitions
@@ -157,3 +157,9 @@ applications:
   helmValues:
     extraArgs:
       - --dns01-recursive-nameservers=8.8.8.8:53\,1.1.1.1:53
+
+- name: cert-utils-operator
+  url: https://redhat-cop.github.io/cert-utils-operator
+  chartPath:
+  ref: *certUtilsVersion
+  deploymentNamespace: cluster-ops
