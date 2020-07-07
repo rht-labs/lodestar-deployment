@@ -160,6 +160,6 @@ applications:
 
 - name: cert-utils-operator
   url: https://redhat-cop.github.io/cert-utils-operator
-  chartPath:
+  chartPath: cert-utils-operator
   ref: *certUtilsVersion
   deploymentNamespace: cluster-ops
