@@ -150,8 +150,8 @@ applications:
     - /spec/names/shortNames
 
 - name: cert-manager
-  url: https://github.com/jetstack/cert-manager.git
-  path: deploy/charts/cert-manager
+  url: https://charts.jetstack.io 
+  chartPath: cert-manager
   ref: *certManagerVersion
   deploymentNamespace: cluster-ops
   helmValues:

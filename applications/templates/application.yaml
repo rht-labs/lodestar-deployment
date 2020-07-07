@@ -10,13 +10,20 @@ spec:
     server: {{ $.Values.server | default "https://kubernetes.default.svc" }}
   project: default
   source:
+    {{- if .chartPath }}
+    chart: {{ .chartPath }}
+    {{- else }}
     path: {{ .path | default "." | quote }}
+    {{- end }}
     repoURL: {{ .url | quote }}
     targetRevision: {{ .ref | default "master" | quote }}
     {{- if .helmValues }}
     helm:
       values: |-
         {{- toYaml .helmValues | nindent 8 }}
+    {{- end }}
+    {{- if .chartPath }}
+    chart: {{ .chartPath }}
     {{- end }}
   {{- if .ignoreDifferences }}
   ignoreDifferences:
