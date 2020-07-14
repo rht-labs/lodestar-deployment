@@ -20,7 +20,12 @@ spec:
     {{- if .helmValues }}
     helm:
       values: |-
+        {{- if .helmValues.versions }}
+        {{- $appVersion := dict "versions" (dict "lodestar" $.Chart.AppVersion) }}
+        {{- toYaml (merge .helmValues $appVersion) | nindent 8 }}
+        {{- else }}
         {{- toYaml .helmValues | nindent 8 }}
+        {{- end }}
     {{- end }}
     {{- if .chartPath }}
     chart: {{ .chartPath }}
