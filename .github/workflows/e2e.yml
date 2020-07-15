@@ -9,7 +9,12 @@ jobs:
   e2e:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout this
+        uses: actions/checkout@v2
+        with:
+          path: lodestar-deployment
+    
+      - name: Checkout e2e 
         uses: actions/checkout@v1
         with:
           repository: rht-labs/lodestar-frontend
