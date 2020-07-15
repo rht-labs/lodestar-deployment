@@ -12,7 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
         with:
-          name: rht-labs/lodestar-frontend
+          repository: rht-labs/lodestar-frontend
       - name: e2e run
         uses: cypress-io/github-action@v2
         with:
