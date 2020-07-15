@@ -13,6 +13,7 @@ jobs:
         uses: actions/checkout@v1
         with:
           repository: rht-labs/lodestar-frontend
+          path: lodestar-frontend
       - name: e2e run
         uses: cypress-io/github-action@v2
         with:
