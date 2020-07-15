@@ -109,7 +109,7 @@ jobs:
       with:
         cmd: "yq w -i --anchorName poolboyVersion $GITHUB_WORKSPACE/applications/values.yaml applicationVersions.poolboy ${{ github.event.client_payload.slash_command.poolboy }}"
     - name: Update Chart & App Versions
-      uses: jacobsee/github-actions/set-helm-version@master
+      uses: jacobsee/github-actions/set-helm-version@increment-helm-version
       with:
         path: applications
         chart_version: ${{ github.event.client_payload.slash_command.name }}
