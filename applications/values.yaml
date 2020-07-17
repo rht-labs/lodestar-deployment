@@ -71,7 +71,7 @@ applications:
         name: webhooks.yaml
       configFile:
         path: /schema
-        name: config.yml
+        name: config.yaml
 
   ignoreDifferences:
   - group: apps.openshift.io
