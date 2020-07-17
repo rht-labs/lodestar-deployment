@@ -16,6 +16,8 @@ applicationVersions:
   agnosticv-operator: &agnosticvVersion helm_chart
   anarchy-operator: &anarchyVersion helm_chart
   poolboy: &poolboyVersion helm_chart
+  cert-manager: &certManagerVersion v0.15.0
+  cert-utils-operator: &certUtilsVersion v0.1.1
 
 ##################################
 # Application Template Definitions
