@@ -67,11 +67,11 @@ applications:
     imageTag: *gitApiVersion
     config:
       hookFile:
-        path: /schema
+        path: /runtime
         name: webhooks.yaml
       configFile:
-        path: /schema
-        name: config.yml
+        path: /runtime
+        name: lodestar-runtime-config.yaml
 
   ignoreDifferences:
   - group: apps.openshift.io
