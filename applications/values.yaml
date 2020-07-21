@@ -65,10 +65,6 @@ applications:
   ref: *gitApiVersion
   helmValues:
     imageTag: *gitApiVersion
-    config:
-      hookFile:
-        path: /schema
-
   ignoreDifferences:
   - group: apps.openshift.io
     kind: DeploymentConfig
