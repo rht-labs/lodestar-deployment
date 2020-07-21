@@ -5,7 +5,7 @@ metadata:
   labels:
     rbac.authorization.k8s.io/aggregate-to-cluster-reader: "true"
 rules:
-- apiGroups: ["argoproj.io","anarchy.gpte.redhat.com","gpte.redhat.com","poolboy.gpte.redhat.com"]
+- apiGroups: ["argoproj.io","anarchy.gpte.redhat.com","gpte.redhat.com","poolboy.gpte.redhat.com","acme.cert-manager.io","cert-manager.io"]
   resources: ["*"]
   verbs: ["get", "list", "watch"]
 - apiGroups: ["*"]
