@@ -12,6 +12,7 @@ applicationVersions:
   frontend: &frontendVersion master
   backend: &backendVersion master
   git-api: &gitApiVersion master
+  status: &statusVersion master
   resource-dispatcher: &resourceDispatcherVersion master
   agnosticv-operator: &agnosticvVersion helm_chart
   anarchy-operator: &anarchyVersion helm_chart
@@ -44,14 +45,6 @@ applications:
   ref: *backendVersion
   helmValues:
     imageTag: *backendVersion
-    versions:
-      frontend: *frontendVersion
-      backend: *backendVersion
-      git-api: *gitApiVersion
-      resource-dispatcher: *resourceDispatcherVersion
-      agnosticv: *agnosticvVersion
-      anarchy: *anarchyVersion
-      poolboy: *poolboyVersion
   ignoreDifferences:
   - group: apps.openshift.io
     kind: DeploymentConfig
@@ -65,6 +58,28 @@ applications:
   ref: *gitApiVersion
   helmValues:
     imageTag: *gitApiVersion
+  ignoreDifferences:
+  - group: apps.openshift.io
+    kind: DeploymentConfig
+    jsonPointers:
+    - /spec/template/spec/containers/0/image
+
+- name: status
+  url: https://github.com/rht-labs/lodestar-status.git
+  path: deployment
+  deploymentNamespace: omp-frontend
+  ref: *statusVersion
+  helmValues:
+    imageTag: *statusVersion
+    versions:
+      frontend: *frontendVersion
+      backend: *backendVersion
+      git-api: *gitApiVersion
+      status: *statusVersion
+      resource-dispatcher: *resourceDispatcherVersion
+      agnosticv: *agnosticvVersion
+      anarchy: *anarchyVersion
+      poolboy: *poolboyVersion
   ignoreDifferences:
   - group: apps.openshift.io
     kind: DeploymentConfig
