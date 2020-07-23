@@ -34,13 +34,12 @@ Automatic syncing, pruning, and self healing is enabled for this project - so co
 
 ## Releases
 
-Creating releases is automated through the use of GitHub Actions Workflows. To create a release, you can just create an issue in this repository and use the below triggers in an issue comment to begin:
+Creating releases is automated through the use of GitHub Actions Workflows. To create a release, you can just create an issue in this repository named as the release you'd like to create  using the "Creating a release" template, and use the below triggers in an issue comment to begin:
 
-`/release` - This trigger along with the appropriate parameters can be used to create a release branch that will then be used to promote the appropriate changes into a new environment branch. This can be run multiple times while adjusting various version that you will be using with a release.The following parameters can be passed to it:
+`/release` - This trigger along with the appropriate parameters can be used to create a release branch that will then be used to promote the appropriate changes into a new environment branch. The following parameters can be passed to it:
 
 | Variable | Description | Required |
 |:---------|:------------|:---------|
-|name|Name of the release. This will be used for naming the release branch and label for a release.|yes|
 |frontend|The version to use for the frontend application|no|
 |backend|The version to use for the backend application|no|
 |gitapi|The version to use for the Git API|no|
@@ -49,10 +48,6 @@ Creating releases is automated through the use of GitHub Actions Workflows. To c
 |anarchy|The version to use for Anarchy|no|
 |poolboy|The version to use for Poolboy|no|
 
-`/promote` - This trigger along with the appropriate parameters can be used to promote the changes contained in a release branch into a specified environment branch that ArgoCD is watching. These promotions are auto-merged, so you should be sure that you are ready for a promotion when you run this command. It accepts that following parameters:
+`/promote` - This trigger along with the appropriate parameters can be used to promote the changes contained in a release branch into a specified environment branch that ArgoCD is watching. These promotions are auto-merged, so you should be sure that you are ready for a promotion when you run this command. It does not accept any parameters.
 
-| Variable | Description | Required | 
-|:---------|:------------|:---------|
-|name|Name of the release.|yes|
-|env|The name of the environment branch that you wish to merge your changes into|yes|
-
+`/cancel` - This trigger cancels the rollout/closes the release issue and signals that a new issue should be created if a release is still desired.
