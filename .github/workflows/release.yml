@@ -108,6 +108,12 @@ jobs:
       uses: mikefarah/yq@3.3.2
       with:
         cmd: "yq w -i --anchorName poolboyVersion $GITHUB_WORKSPACE/applications/values.yaml applicationVersions.poolboy ${{ github.event.client_payload.slash_command.poolboy }}"
+    - name: Update Chart & App Versions
+      uses: redhat-cop/github-actions/set-helm-version@master
+      with:
+        path: applications
+        chart_version: ${{ github.event.client_payload.slash_command.name }}
+        app_version: ${{ github.event.client_payload.slash_command.name }}
     - name: Commit changes
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
