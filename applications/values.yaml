@@ -16,7 +16,8 @@ applicationVersions:
   agnosticv-operator: &agnosticvVersion helm_chart
   anarchy-operator: &anarchyVersion helm_chart
   poolboy: &poolboyVersion helm_chart
-  openshift-acme: &openshiftAcmeVersion 63cf912f507dd7cd060c86e592bd675e8e87374c
+  cert-manager: &certManagerVersion v0.15.0
+  cert-utils-operator: &certUtilsVersion v0.1.1
 
 ##################################
 # Application Template Definitions
@@ -146,8 +147,18 @@ applications:
     jsonPointers:
     - /spec/names/shortNames
 
-- name: openshift-acme
-  url: https://github.com/tnozicka/openshift-acme
-  path: deploy/cluster-wide
-  ref: *openshiftAcmeVersion
-  deploymentNamespace: omp-openshift-acme
+- name: cert-manager
+  url: https://charts.jetstack.io 
+  chartPath: cert-manager
+  ref: *certManagerVersion
+  deploymentNamespace: cluster-ops
+  helmValues:
+    installCRDs: true
+    extraArgs:
+      - --dns01-recursive-nameservers=8.8.8.8:53\,1.1.1.1:53
+
+- name: cert-utils-operator
+  url: https://redhat-cop.github.io/cert-utils-operator
+  chartPath: cert-utils-operator
+  ref: *certUtilsVersion
+  deploymentNamespace: cluster-ops
