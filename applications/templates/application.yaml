@@ -10,13 +10,25 @@ spec:
     server: {{ $.Values.server | default "https://kubernetes.default.svc" }}
   project: default
   source:
+    {{- if .chartPath }}
+    chart: {{ .chartPath }}
+    {{- else }}
     path: {{ .path | default "." | quote }}
+    {{- end }}
     repoURL: {{ .url | quote }}
     targetRevision: {{ .ref | default "master" | quote }}
     {{- if .helmValues }}
     helm:
       values: |-
+        {{- if .helmValues.versions }}
+        {{- $appVersion := dict "versions" (dict "lodestar" $.Chart.AppVersion) }}
+        {{- toYaml (merge .helmValues $appVersion) | nindent 8 }}
+        {{- else }}
         {{- toYaml .helmValues | nindent 8 }}
+        {{- end }}
+    {{- end }}
+    {{- if .chartPath }}
+    chart: {{ .chartPath }}
     {{- end }}
   {{- if .ignoreDifferences }}
   ignoreDifferences:
