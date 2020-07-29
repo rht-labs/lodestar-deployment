@@ -1,25 +1,26 @@
 name: e2e testing
 
-on:
-  push:
-    branches:
-      - e2e
+on: 
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: "End-to-End Test Run"
 
 jobs:
-  e2e:
+  end-to-end:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout this
-        uses: actions/checkout@v2
-        with:
-          path: lodestar-deployment
-    
-      - name: Checkout e2e 
-        uses: actions/checkout@v1
+      - uses: actions/checkout@v2
         with:
           repository: rht-labs/lodestar-frontend
-          path: lodestar-frontend
-      - name: e2e run
+      - name: end-to-end test
         uses: cypress-io/github-action@v2
         with:
+          record: true
           browser: chrome
+          headless: true
+          config: baseUrl=${{ secrets.CYPRESS_BASE_URL }}
+          env: SSO_URL=${{ secrets.CYPRESS_SSO_URL }},SSO_USER=${{ secrets.CYPRESS_SSO_USER }},SSO_PASSWORD=${{ secrets.CYPRESS_SSO_PASSWORD}}
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
