@@ -76,6 +76,7 @@ applications:
   path: "resource-dispatcher/helm"
   ref: *resourceDispatcherVersion
   helmValues:
+    imageTag: *resourceDispatcherVersion
     configMapName: resource-dispatcher-config
     setupClusterRoleBinding: true
     clusterRole: argocd-application-controller
@@ -86,10 +87,6 @@ applications:
     kind: DeploymentConfig
     jsonPointers:
     - /spec/template/spec/containers/0/image
-  - group: build.openshift.io
-    kind: BuildConfig
-    jsonPointers:
-    - /status
   - group: image.openshift.io
     kind: ImageStream
     jsonPointers:
