@@ -5,24 +5,25 @@ on:
     types: [release-command]
 jobs:
   create-release-branch:
-    if: ${{ github.event.client_payload.slash_command.name }}
     runs-on: ubuntu-latest
     steps:
     - name: Get Environment Info
       id: env_info
       run: |
-        echo ::set-output name=release::$(git ls-remote --heads https://github.com/$GITHUB_REPOSITORY ${{ github.event.client_payload.slash_command.name }})
+        ISSUE_TITLE=$(jq -r .client_payload.github.payload.issue.title $GITHUB_EVENT_PATH)
+        echo ::set-output name=release::$(git ls-remote --heads https://github.com/$GITHUB_REPOSITORY $ISSUE_TITLE)
         echo ::set-output name=issuenm::$(jq .client_payload.github.payload.issue.number $GITHUB_EVENT_PATH)
+        echo ::set-output name=issuetitle::$ISSUE_TITLE
     - name: Create release branch
       uses: peterjgrainger/action-create-branch@v1.0.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        branch: ${{ github.event.client_payload.slash_command.name }}
+        branch: "${{ steps.env_info.outputs.issuetitle }}"
       if: ${{ steps.env_info.outputs.release == null }}
     - name: Alert that release already exists
       run: |
-        echo "Release branch ${{ github.event.client_payload.slash_command.name }} already exists. Skipping..."
+        echo "Release branch ${{ steps.env_info.outputs.issuetitle }} already exists. Skipping..."
       if: ${{ steps.env_info.outputs.release != null }}
     - name: Check if label exists
       uses: actions/github-script@v1
@@ -34,7 +35,7 @@ jobs:
           github.issues.getLabel({
             owner: context.repo.owner,
             repo: context.repo.repo,
-            name: "${{ github.event.client_payload.slash_command.name }}"
+            name: "${{ steps.env_info.outputs.issuetitle }}"
           })
     - name: Create label to be used for release
       uses: actions/github-script@v1
@@ -45,7 +46,7 @@ jobs:
           github.issues.createLabel({
             owner: context.repo.owner,
             repo: context.repo.repo,
-            name: "${{ github.event.client_payload.slash_command.name }}",
+            name: "${{ steps.env_info.outputs.issuetitle }}",
             color: "2d5893"
           })
       if: ${{ steps.label_check.outcome == 'failure' }}
@@ -59,7 +60,7 @@ jobs:
             owner: context.repo.owner,
             repo: context.repo.repo,
             issue_number: ${{steps.env_info.outputs.issuenm}},
-            labels: ["${{github.event.client_payload.slash_command.name }}"]
+            labels: ["${{ steps.env_info.outputs.issuetitle }}"]
           })
 
   update-release-pointers:
@@ -69,10 +70,12 @@ jobs:
     - name: Get Environment Info
       id: env_info
       run: |
+        echo ::set-output name=issuetitle::$(jq -r .client_payload.github.payload.issue.title $GITHUB_EVENT_PATH)
+        echo ::set-output name=issuenm::$(jq .client_payload.github.payload.issue.number $GITHUB_EVENT_PATH)
         echo ::set-output name=comment_url::$(jq .client_payload.github.payload.comment.html_url $GITHUB_EVENT_PATH)
     - uses: actions/checkout@v2
       with:
-        ref: ${{ github.event.client_payload.slash_command.name }}
+        ref: ${{ steps.env_info.outputs.issuetitle }}
     - name: Update Frontend Release
       if: ${{ github.event.client_payload.slash_command.frontend != null }}
       uses: mikefarah/yq@3.3.2
@@ -112,11 +115,35 @@ jobs:
       uses: redhat-cop/github-actions/set-helm-version@master
       with:
         path: applications
-        chart_version: ${{ github.event.client_payload.slash_command.name }}
-        app_version: ${{ github.event.client_payload.slash_command.name }}
+        chart_version: "${{ steps.env_info.outputs.issuetitle }}"
+        app_version: "${{ steps.env_info.outputs.issuetitle }}"
     - name: Commit changes
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
-        branch: ${{ github.event.client_payload.slash_command.name }}
+        branch: "${{ steps.env_info.outputs.issuetitle }}"
         commit_message: "Merging changes requested from ${{ steps.env_info.outputs.comment_url }}"
-
+    - name: 'Get Previous tag'
+      id: previoustag
+      uses: actions-ecosystem/action-get-latest-tag@v1
+    - name: Generate Release Body
+      id: release_body
+      run: |
+        echo ::set-output name=text::$(git log ${{ steps.previoustag.outputs.tag }}..HEAD --pretty=format:"- %h %s by %an" --no-merges)
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+      with:
+        tag_name: ${{ steps.env_info.outputs.issuetitle }}
+        release_name: ${{ steps.env_info.outputs.issuetitle }}
+        body: ${{ steps.release_body.outputs.text }}
+        draft: false
+        prerelease: false
+    - name: Create comment
+      uses: peter-evans/create-or-update-comment@v1
+      with:
+        repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
+        issue-number: "${{ steps.env_info.outputs.issuenm }}"
+        body: |
+          Created release ${{ steps.env_info.outputs.issuetitle }}!
