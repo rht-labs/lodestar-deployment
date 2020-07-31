@@ -11,7 +11,7 @@ applicationVersions:
   frontend: &frontendVersion v1.0.1-rc1
   backend: &backendVersion v1.0.1-rc1
   git-api: &gitApiVersion v1.0.1-rc1
-  resource-dispatcher: &resourceDispatcherVersion v1.0.4
+  resource-dispatcher: &resourceDispatcherVersion v1.0.5
   agnosticv-operator: &agnosticvVersion helm_chart
   anarchy-operator: &anarchyVersion helm_chart
   poolboy: &poolboyVersion helm_chart
