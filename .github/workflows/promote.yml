@@ -1,0 +1,82 @@
+name: Promote Dispatch
+
+on:
+  repository_dispatch:
+    types: [promote-command]
+jobs:
+  promote-release:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set Env Variables
+      id: env_info
+      run: |
+        echo ::set-output name=issuetitle::$(jq -r .client_payload.github.payload.issue.title $GITHUB_EVENT_PATH)
+        echo ::set-output name=issuenm::$(jq .client_payload.github.payload.issue.number $GITHUB_EVENT_PATH)
+        echo ::set-output name=labels::$(jq .client_payload.github.payload.issue.labels $GITHUB_EVENT_PATH)
+        echo ::set-output name=requestor::$(jq .client_payload.github.actor $GITHUB_EVENT_PATH)
+    - name: Set New Env (Integration)
+      if: ${{ !contains(steps.env_info.outputs.labels, 'promoted to integration') }}
+      run: |
+        echo ::set-env name=NEW_ENV::integration
+    - name: Set New Env (Production)
+      if: ${{ contains(steps.env_info.outputs.labels, 'promoted to integration') }}
+      run: |
+        echo ::set-env name=NEW_ENV::production
+    - uses: actions/checkout@v2
+      with:
+        ref: ${{ steps.env_info.outputs.issuetitle }}
+    - name: GitHub Pull Request Action
+      id: create_pr
+      uses: repo-sync/pull-request@v2.2
+      with:
+        source_branch: ${{ steps.env_info.outputs.issuetitle }}
+        destination_branch: ${{ env.NEW_ENV }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        pr_title: "Promoting ${{ steps.env_info.outputs.issuetitle }} to ${{ env.NEW_ENV }}"
+        pr_body: "Promoting release ${{ steps.env_info.outputs.issuetitle }} to the $NEW_ENV environment as requested by @${{ steps.env_info.outputs.requestor }}."
+    - name: Get PR number
+      id: pr_num
+      run: |
+        echo ::set-output name=prnm::$( echo ${{ steps.create_pr.outputs.pr_url }} | awk -F'/' '{print $NF}')
+    - name: Apply label to issue
+      uses: actions/github-script@v2
+      if: ${{ steps.create_pr.outcome == 'success' }}
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+          github.issues.addLabels({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: ${{steps.pr_num.outputs.prnm}},
+            labels: ["${{ steps.env_info.outputs.issuetitle }}"]
+          })
+    - name: Auto-merge
+      uses: actions/github-script@v2
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          github.pulls.merge({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            pull_number: ${{ steps.pr_num.outputs.prnm}},
+            merge_method: "squash"
+          })
+    - name: Apply label to issue
+      uses: actions/github-script@v1
+      if: ${{ steps.create_label.outcome == 'success' }}
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+          github.issues.addLabels({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: ${{steps.env_info.outputs.issuenm}},
+            labels: ["promoted to ${{ env.NEW_ENV }}"]
+          })
+    - name: Create comment
+      uses: peter-evans/create-or-update-comment@v1
+      with:
+        repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
+        issue-number: "${{ steps.env_info.outputs.issuenm }}"
+        body: |
+          Promoted release ${{ steps.env_info.outputs.issuetitle }} to ${{ env.NEW_ENV }}!

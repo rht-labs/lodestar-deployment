@@ -1,0 +1,153 @@
+name: Release Dispatch
+
+on:
+  repository_dispatch:
+    types: [release-command]
+jobs:
+  create-release-branch:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Get Environment Info
+      id: env_info
+      run: |
+        ISSUE_TITLE=$(jq -r .client_payload.github.payload.issue.title $GITHUB_EVENT_PATH)
+        echo ::set-output name=release::$(git ls-remote --heads https://github.com/$GITHUB_REPOSITORY $ISSUE_TITLE)
+        echo ::set-output name=issuenm::$(jq .client_payload.github.payload.issue.number $GITHUB_EVENT_PATH)
+        echo ::set-output name=issuetitle::$ISSUE_TITLE
+    - name: Create release branch
+      uses: peterjgrainger/action-create-branch@v1.0.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        branch: "${{ steps.env_info.outputs.issuetitle }}"
+      if: ${{ steps.env_info.outputs.release == null }}
+    - name: Alert that release already exists
+      run: |
+        echo "Release branch ${{ steps.env_info.outputs.issuetitle }} already exists. Skipping..."
+      if: ${{ steps.env_info.outputs.release != null }}
+    - name: Check if label exists
+      uses: actions/github-script@v1
+      id: label_check
+      continue-on-error: true
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          github.issues.getLabel({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            name: "${{ steps.env_info.outputs.issuetitle }}"
+          })
+    - name: Create label to be used for release
+      uses: actions/github-script@v1
+      id: create_label
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+          github.issues.createLabel({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            name: "${{ steps.env_info.outputs.issuetitle }}",
+            color: "2d5893"
+          })
+      if: ${{ steps.label_check.outcome == 'failure' }}
+    - name: Apply label to issue
+      uses: actions/github-script@v1
+      if: ${{ steps.create_label.outcome == 'success' }}
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+          github.issues.addLabels({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: ${{steps.env_info.outputs.issuenm}},
+            labels: ["${{ steps.env_info.outputs.issuetitle }}"]
+          })
+
+  update-release-pointers:
+    runs-on: ubuntu-latest
+    needs: create-release-branch
+    steps:
+    - name: Get Environment Info
+      id: env_info
+      run: |
+        echo ::set-output name=issuetitle::$(jq -r .client_payload.github.payload.issue.title $GITHUB_EVENT_PATH)
+        echo ::set-output name=issuenm::$(jq .client_payload.github.payload.issue.number $GITHUB_EVENT_PATH)
+        echo ::set-output name=comment_url::$(jq .client_payload.github.payload.comment.html_url $GITHUB_EVENT_PATH)
+    - uses: actions/checkout@v2
+      with:
+        ref: ${{ steps.env_info.outputs.issuetitle }}
+    - name: Update Frontend Release
+      if: ${{ github.event.client_payload.slash_command.frontend != null }}
+      uses: mikefarah/yq@3.3.2
+      with:
+        cmd: "yq w -i --anchorName frontendVersion $GITHUB_WORKSPACE/applications/values.yaml applicationVersions.frontend ${{ github.event.client_payload.slash_command.frontend }}"
+    - name: Update Backend Release
+      if: ${{ github.event.client_payload.slash_command.backend != null }}
+      uses: mikefarah/yq@3.3.2
+      with:
+        cmd: "yq w -i --anchorName backendVersion $GITHUB_WORKSPACE/applications/values.yaml applicationVersions.backend ${{ github.event.client_payload.slash_command.backend }}"
+    - name: Update Git API Release
+      if: ${{ github.event.client_payload.slash_command.gitapi != null }}
+      uses: mikefarah/yq@3.3.2
+      with:
+        cmd: "yq w -i --anchorName gitApiVersion $GITHUB_WORKSPACE/applications/values.yaml applicationVersions.git-api ${{ github.event.client_payload.slash_command.gitapi }}"
+    - name: Update Resource Dispatcher Release
+      if: ${{ github.event.client_payload.slash_command.dispatcher != null }}
+      uses: mikefarah/yq@3.3.2
+      with:
+        cmd: "yq w -i --anchorName resourceDispatcherVersion $GITHUB_WORKSPACE/applications/values.yaml applicationVersions.resource-dispatcher ${{ github.event.client_payload.slash_command.dispatcher }}"
+    - name: Update AgnosticV Operator Release
+      if: ${{ github.event.client_payload.slash_command.agnosticv != null }}
+      uses: mikefarah/yq@3.3.2
+      with:
+        cmd: "yq w -i --anchorName agnosticvVersion $GITHUB_WORKSPACE/applications/values.yaml applicationVersions.agnosticv-operator ${{ github.event.client_payload.slash_command.agnosticv }}"
+    - name: Update Anarchy Operator Release
+      if: ${{ github.event.client_payload.slash_command.anarchy != null }}
+      uses: mikefarah/yq@3.3.2
+      with:
+        cmd: "yq w -i --anchorName anarchyVersion $GITHUB_WORKSPACE/applications/values.yaml applicationVersions.anarchy-operator ${{ github.event.client_payload.slash_command.anarchy }}"
+    - name: Update Poolboy Release
+      if: ${{ github.event.client_payload.slash_command.poolboy != null }}
+      uses: mikefarah/yq@3.3.2
+      with:
+        cmd: "yq w -i --anchorName poolboyVersion $GITHUB_WORKSPACE/applications/values.yaml applicationVersions.poolboy ${{ github.event.client_payload.slash_command.poolboy }}"
+    - name: Update Chart & App Versions
+      uses: redhat-cop/github-actions/set-helm-version@master
+      with:
+        path: applications
+        chart_version: "${{ steps.env_info.outputs.issuetitle }}"
+        app_version: "${{ steps.env_info.outputs.issuetitle }}"
+    - name: Commit changes
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        branch: "${{ steps.env_info.outputs.issuetitle }}"
+        commit_message: "Merging changes requested from ${{ steps.env_info.outputs.comment_url }}"
+    # - name: 'Get Previous tag'
+    #   id: previoustag
+    #   uses: actions-ecosystem/action-get-latest-tag@v1
+    - id: previous_release
+      uses: pozetroninc/github-action-get-latest-release@master
+      with:
+        repository: rht-labs/lodestar-deployment
+    - name: Generate Release Body
+      id: release_body
+      run: |
+        echo ::set-output name=text::$(git log ${{ steps.previous_release.outputs.release }}..HEAD --pretty=format:"- %h %s by %an" --no-merges)
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+      with:
+        tag_name: ${{ steps.env_info.outputs.issuetitle }}
+        release_name: ${{ steps.env_info.outputs.issuetitle }}
+        body: ${{ steps.release_body.outputs.text }}
+        draft: false
+        prerelease: false
+    - name: Create comment
+      uses: peter-evans/create-or-update-comment@v1
+      with:
+        repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
+        issue-number: "${{ steps.env_info.outputs.issuenm }}"
+        body: |
+          Created release ${{ steps.env_info.outputs.issuetitle }}!
