@@ -3,6 +3,7 @@
 ##################
 
 deploymentNamespace: omp-argo-cd
+
 ##################
 # Version Manifest
 ##################
@@ -16,6 +17,7 @@ applicationVersions:
   poolboy: &poolboyVersion helm_chart
   cert-manager: &certManagerVersion v0.15.0
   cert-utils-operator: &certUtilsVersion v0.1.1
+
 ##################################
 # Application Template Definitions
 ##################################
