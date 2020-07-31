@@ -122,13 +122,17 @@ jobs:
       with:
         branch: "${{ steps.env_info.outputs.issuetitle }}"
         commit_message: "Merging changes requested from ${{ steps.env_info.outputs.comment_url }}"
-    - name: 'Get Previous tag'
-      id: previoustag
-      uses: actions-ecosystem/action-get-latest-tag@v1
+    # - name: 'Get Previous tag'
+    #   id: previoustag
+    #   uses: actions-ecosystem/action-get-latest-tag@v1
+    - id: previous_release
+      uses: pozetroninc/github-action-get-latest-release@master
+      with:
+        repository: rht-labs/lodestar-deployment
     - name: Generate Release Body
       id: release_body
       run: |
-        echo ::set-output name=text::$(git log ${{ steps.previoustag.outputs.tag }}..HEAD --pretty=format:"- %h %s by %an" --no-merges)
+        echo ::set-output name=text::$(git log ${{ steps.previous_release.outputs.release }}..HEAD --pretty=format:"- %h %s by %an" --no-merges)
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
