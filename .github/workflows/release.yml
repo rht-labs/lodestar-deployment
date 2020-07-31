@@ -137,7 +137,7 @@ jobs:
       with:
         tag_name: ${{ steps.env_info.outputs.issuetitle }}
         release_name: ${{ steps.env_info.outputs.issuetitle }}
-        body: ${{ steps.releasebody.outputs.text }}
+        body: ${{ steps.release_body.outputs.text }}
         draft: false
         prerelease: false
     - name: Create comment
