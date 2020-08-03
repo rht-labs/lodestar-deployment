@@ -111,7 +111,7 @@ applications:
       openshift:
         enabled: true
         route:
-          host: anarchy.apps.test.lodestar.rht-labs.com
+          host: anarchy.apps.integration.lodestar.rht-labs.com
     ignoreDifferences:
       - group: apiextensions.k8s.io
         kind: CustomResourceDefinition
