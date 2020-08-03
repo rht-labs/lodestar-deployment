@@ -45,15 +45,6 @@ applications:
   ref: *backendVersion
   helmValues:
     imageTag: *backendVersion
-    versions:
-      frontend: *frontendVersion
-      backend: *backendVersion
-      git-api: *gitApiVersion
-      status: *statusVersion
-      resource-dispatcher: *resourceDispatcherVersion
-      agnosticv: *agnosticvVersion
-      anarchy: *anarchyVersion
-      poolboy: *poolboyVersion
   ignoreDifferences:
   - group: apps.openshift.io
     kind: DeploymentConfig
@@ -67,6 +58,15 @@ applications:
   ref: *gitApiVersion
   helmValues:
     imageTag: *gitApiVersion
+    versions:
+      frontend: *frontendVersion
+      backend: *backendVersion
+      git-api: *gitApiVersion
+      status: *statusVersion
+      resource-dispatcher: *resourceDispatcherVersion
+      agnosticv: *agnosticvVersion
+      anarchy: *anarchyVersion
+      poolboy: *poolboyVersion
   ignoreDifferences:
   - group: apps.openshift.io
     kind: DeploymentConfig
