@@ -3,6 +3,7 @@
 ##################
 
 deploymentNamespace: omp-argo-cd
+
 ##################
 # Version Manifest
 ##################
