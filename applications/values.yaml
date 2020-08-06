@@ -8,7 +8,7 @@ deploymentNamespace: omp-argo-cd
 # Version Manifest
 ##################
 applicationVersions:
-  frontend: &frontendVersion v1.0.2
+  frontend: &frontendVersion 1.0.3
   backend: &backendVersion v1.0.4
   git-api: &gitApiVersion v1.0.1
   resource-dispatcher: &resourceDispatcherVersion v1.0.8
