@@ -3,172 +3,159 @@
 ##################
 
 deploymentNamespace: omp-argo-cd
-
 ##################
 # Version Manifest
 ##################
-
 applicationVersions:
-  frontend: &frontendVersion master
-  backend: &backendVersion master
-  git-api: &gitApiVersion master
+  frontend: &frontendVersion v1.0.2
+  backend: &backendVersion v1.0.4
+  git-api: &gitApiVersion v1.0.1
   status: &statusVersion master
-  resource-dispatcher: &resourceDispatcherVersion master
+  resource-dispatcher: &resourceDispatcherVersion v1.0.8
   agnosticv-operator: &agnosticvVersion helm_chart
   anarchy-operator: &anarchyVersion helm_chart
   poolboy: &poolboyVersion helm_chart
   cert-manager: &certManagerVersion v0.15.0
   cert-utils-operator: &certUtilsVersion v0.1.1
-
 ##################################
 # Application Template Definitions
 ##################################
-
 applications:
-- name: omp-frontend
-  url: https://github.com/rht-labs/open-management-portal-frontend.git
-  path: deployment
-  deploymentNamespace: omp-frontend
-  ref: *frontendVersion
-  helmValues:
-    imageTag: *frontendVersion
-  ignoreDifferences:
-  - group: apps.openshift.io
-    kind: DeploymentConfig
-    jsonPointers:
-    - /spec/template/spec/containers/0/image
-
-- name: omp-backend
-  url: https://github.com/rht-labs/open-management-portal-backend.git
-  path: deployment
-  deploymentNamespace: omp-frontend
-  ref: *backendVersion
-  helmValues:
-    imageTag: *backendVersion
-  ignoreDifferences:
-  - group: apps.openshift.io
-    kind: DeploymentConfig
-    jsonPointers:
-    - /spec/template/spec/containers/0/image
-
-- name: git-api
-  url: https://github.com/rht-labs/open-management-portal-git-api.git
-  path: deployment
-  deploymentNamespace: omp-frontend
-  ref: *gitApiVersion
-  helmValues:
-    imageTag: *gitApiVersion
-  ignoreDifferences:
-  - group: apps.openshift.io
-    kind: DeploymentConfig
-    jsonPointers:
-    - /spec/template/spec/containers/0/image
-
-- name: status
-  url: https://github.com/rht-labs/lodestar-status.git
-  path: deployment
-  deploymentNamespace: omp-frontend
-  ref: *statusVersion
-  helmValues:
-    imageTag: *statusVersion
-    versions:
-      frontend: *frontendVersion
-      backend: *backendVersion
-      git-api: *gitApiVersion
-      status: *statusVersion
-      resource-dispatcher: *resourceDispatcherVersion
-      agnosticv: *agnosticvVersion
-      anarchy: *anarchyVersion
-      poolboy: *poolboyVersion
-  ignoreDifferences:
-  - group: apps.openshift.io
-    kind: DeploymentConfig
-    jsonPointers:
-    - /spec/template/spec/containers/0/image
-
-- name: resource-dispatcher
-  url: https://github.com/redhat-cop/tool-integrations.git
-  path: "resource-dispatcher/helm"
-  ref: *resourceDispatcherVersion
-  helmValues:
-    imageTag: *resourceDispatcherVersion
-    configMapName: resource-dispatcher-config
-    setupClusterRoleBinding: true
-    clusterRole: argocd-application-controller
-    sshSecretConfigMap: resource-dispatcher-key
-    exposeRoute: true
-  ignoreDifferences:
-  - group: apps.openshift.io
-    kind: DeploymentConfig
-    jsonPointers:
-    - /spec/template/spec/containers/0/image
-  - group: image.openshift.io
-    kind: ImageStream
-    jsonPointers:
-    - /status
-
-- name: agnosticv-operator
-  url: https://github.com/pabrahamsson/agnosticv-operator.git
-  path: helm
-  ref: *agnosticvVersion
-  deploymentNamespace: omp-babylon-operators
-  helmValues:
-    anarchy:
-      namespace: omp-babylon-operators
-    namespace:
-      create: false
-      name: omp-babylon-operators
-
-- name: anarchy-operator
-  url: https://github.com/pabrahamsson/anarchy-operator.git
-  path: helm
-  ref: *anarchyVersion
-  deploymentNamespace: omp-babylon-operators
-  helmValues:
-    anarchy:
-      namespace: omp-babylon-operators
-    namespace:
-      create: false
-      name: omp-babylon-operators
-    openshift:
-      enabled: true
-      route:
-        host: anarchy.apps.test.lodestar.rht-labs.com
-  ignoreDifferences:
-  - group: apiextensions.k8s.io
-    kind: CustomResourceDefinition
-    jsonPointers:
-    - /spec/names/shortNames
-
-- name: poolboy
-  url: https://github.com/pabrahamsson/poolboy.git
-  path: helm
-  ref: *poolboyVersion
-  deploymentNamespace: omp-babylon-operators
-  helmValues:
-    anarchy:
-      namespace: omp-babylon-operators
-    namespace:
-      create: false
-      name: omp-babylon-operators
-  ignoreDifferences:
-  - group: apiextensions.k8s.io
-    kind: CustomResourceDefinition
-    jsonPointers:
-    - /spec/names/shortNames
-
-- name: cert-manager
-  url: https://charts.jetstack.io 
-  chartPath: cert-manager
-  ref: *certManagerVersion
-  deploymentNamespace: cluster-ops
-  helmValues:
-    installCRDs: true
-    extraArgs:
-      - --dns01-recursive-nameservers=8.8.8.8:53\,1.1.1.1:53
-
-- name: cert-utils-operator
-  url: https://redhat-cop.github.io/cert-utils-operator
-  chartPath: cert-utils-operator
-  ref: *certUtilsVersion
-  deploymentNamespace: cluster-ops
+  - name: omp-frontend
+    url: https://github.com/rht-labs/open-management-portal-frontend.git
+    path: deployment
+    deploymentNamespace: omp-frontend
+    ref: *frontendVersion
+    helmValues:
+      imageTag: *frontendVersion
+    ignoreDifferences:
+      - group: apps.openshift.io
+        kind: DeploymentConfig
+        jsonPointers:
+          - /spec/template/spec/containers/0/image
+  - name: omp-backend
+    url: https://github.com/rht-labs/open-management-portal-backend.git
+    path: deployment
+    deploymentNamespace: omp-frontend
+    ref: *backendVersion
+    helmValues:
+      imageTag: *backendVersion
+    ignoreDifferences:
+      - group: apps.openshift.io
+        kind: DeploymentConfig
+        jsonPointers:
+          - /spec/template/spec/containers/0/image
+  - name: git-api
+    url: https://github.com/rht-labs/open-management-portal-git-api.git
+    path: deployment
+    deploymentNamespace: omp-frontend
+    ref: *gitApiVersion
+    helmValues:
+      imageTag: *gitApiVersion
+    ignoreDifferences:
+      - group: apps.openshift.io
+        kind: DeploymentConfig
+        jsonPointers:
+          - /spec/template/spec/containers/0/image
+  - name: status
+    url: https://github.com/rht-labs/lodestar-status.git
+    path: deployment
+    deploymentNamespace: omp-frontend
+    ref: *statusVersion
+    helmValues:
+      imageTag: *statusVersion
+      versions:
+        frontend: *frontendVersion
+        backend: *backendVersion
+        git-api: *gitApiVersion
+        status: *statusVersion
+        resource-dispatcher: *resourceDispatcherVersion
+        agnosticv: *agnosticvVersion
+        anarchy: *anarchyVersion
+        poolboy: *poolboyVersion
+    ignoreDifferences:
+      - group: apps.openshift.io
+        kind: DeploymentConfig
+        jsonPointers:
+          - /spec/template/spec/containers/0/image
+  - name: resource-dispatcher
+    url: https://github.com/redhat-cop/tool-integrations.git
+    path: "resource-dispatcher/helm"
+    ref: *resourceDispatcherVersion
+    helmValues:
+      imageTag: *resourceDispatcherVersion
+      configMapName: resource-dispatcher-config
+      setupClusterRoleBinding: true
+      clusterRole: argocd-application-controller
+      sshSecretConfigMap: resource-dispatcher-key
+      exposeRoute: true
+    ignoreDifferences:
+      - group: apps.openshift.io
+        kind: DeploymentConfig
+        jsonPointers:
+          - /spec/template/spec/containers/0/image
+      - group: image.openshift.io
+        kind: ImageStream
+        jsonPointers:
+          - /status
+  - name: agnosticv-operator
+    url: https://github.com/pabrahamsson/agnosticv-operator.git
+    path: helm
+    ref: *agnosticvVersion
+    deploymentNamespace: omp-babylon-operators
+    helmValues:
+      anarchy:
+        namespace: omp-babylon-operators
+      namespace:
+        create: false
+        name: omp-babylon-operators
+  - name: anarchy-operator
+    url: https://github.com/pabrahamsson/anarchy-operator.git
+    path: helm
+    ref: *anarchyVersion
+    deploymentNamespace: omp-babylon-operators
+    helmValues:
+      anarchy:
+        namespace: omp-babylon-operators
+      namespace:
+        create: false
+        name: omp-babylon-operators
+      openshift:
+        enabled: true
+        route:
+          host: anarchy.apps.test.lodestar.rht-labs.com
+    ignoreDifferences:
+      - group: apiextensions.k8s.io
+        kind: CustomResourceDefinition
+        jsonPointers:
+          - /spec/names/shortNames
+  - name: poolboy
+    url: https://github.com/pabrahamsson/poolboy.git
+    path: helm
+    ref: *poolboyVersion
+    deploymentNamespace: omp-babylon-operators
+    helmValues:
+      anarchy:
+        namespace: omp-babylon-operators
+      namespace:
+        create: false
+        name: omp-babylon-operators
+    ignoreDifferences:
+      - group: apiextensions.k8s.io
+        kind: CustomResourceDefinition
+        jsonPointers:
+          - /spec/names/shortNames
+  - name: cert-manager
+    url: https://charts.jetstack.io
+    chartPath: cert-manager
+    ref: *certManagerVersion
+    deploymentNamespace: cluster-ops
+    helmValues:
+      installCRDs: true
+      extraArgs:
+        - --dns01-recursive-nameservers=8.8.8.8:53\,1.1.1.1:53
+  - name: cert-utils-operator
+    url: https://redhat-cop.github.io/cert-utils-operator
+    chartPath: cert-utils-operator
+    ref: *certUtilsVersion
+    deploymentNamespace: cluster-ops
