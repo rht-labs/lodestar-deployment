@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: open-management-portal
+  name: lodestar
 spec:
   destination:
     namespace: argo-cd 
@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     path: "applications/"
-    repoURL: "https://github.com/rht-labs/open-management-portal-deployment.git"
+    repoURL: "https://github.com/rht-labs/lodestar-deployment.git"
     targetRevision: "master"
   syncPolicy:
     automated:

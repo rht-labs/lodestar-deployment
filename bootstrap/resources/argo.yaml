@@ -1,9 +1,9 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ArgoCD
 metadata:
-  name: open-management-portal-argocd
+  name: lodestar-argocd
 spec:
-  applicationInstanceLabelKey: rht-labs.com/omp
+  applicationInstanceLabelKey: rht-labs.com/lodestar
   dex:
     image: quay.io/redhat-cop/dex 
     version: v2.22.0-openshift

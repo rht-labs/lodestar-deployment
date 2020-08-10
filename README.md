@@ -1,6 +1,6 @@
 # Open Management Portal - Deployment
 
-This repository both bootstraps and manages the deployment lifecycle of the Open Management Portal across multiple versions. It contains a manifest which controls the release version of all individual components of OMP. It is meant to be used with Argo CD.
+This repository both bootstraps and manages the deployment lifecycle of the Open Management Portal across multiple versions. It contains a manifest which controls the release version of all individual components of Lodestar. It is meant to be used with Argo CD.
 
 ## Bootstrapping
 
@@ -14,7 +14,7 @@ Make sure to replace `<desired-git-ref>` with the tag that you want to deploy to
 
 ## Lifecycle Management
 
-The Open Management Portal is not a single application, but a collection of components (or services) that all add up to a working system. Those services might be versioned separately from one another. Therefore, a "deployment of OMP" is really a manifest of the versions of its constituent components that are known to work well with each other.
+The Open Management Portal is not a single application, but a collection of components (or services) that all add up to a working system. Those services might be versioned separately from one another. Therefore, a "deployment of Lodestar" is really a manifest of the versions of its constituent components that are known to work well with each other.
 
 This manifest lives in `applications/values.yaml`:
 
