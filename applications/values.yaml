@@ -27,7 +27,7 @@ applicationVersions:
 
 applications:
 - name: lodestar-frontend
-  url: https://github.com/rht-labs/open-management-portal-frontend.git
+  url: https://github.com/rht-labs/lodestar-frontend.git
   path: deployment
   deploymentNamespace: lodestar-frontend
   ref: *frontendVersion
@@ -42,7 +42,7 @@ applications:
     - /spec/template/spec/containers/0/image
 
 - name: lodestar-backend
-  url: https://github.com/rht-labs/open-management-portal-backend.git
+  url: https://github.com/rht-labs/lodestar-backend.git
   path: deployment
   deploymentNamespace: lodestar-frontend
   ref: *backendVersion
@@ -55,7 +55,7 @@ applications:
     - /spec/template/spec/containers/0/image
 
 - name: git-api
-  url: https://github.com/rht-labs/open-management-portal-git-api.git
+  url: https://github.com/rht-labs/lodestar-git-api.git
   path: deployment
   deploymentNamespace: lodestar-frontend
   ref: *gitApiVersion
