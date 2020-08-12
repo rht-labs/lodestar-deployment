@@ -32,6 +32,8 @@ applications:
   ref: *frontendVersion
   helmValues:
     imageTag: *frontendVersion
+    e2eTestJob:
+      enabled: true
   ignoreDifferences:
   - group: apps.openshift.io
     kind: DeploymentConfig
