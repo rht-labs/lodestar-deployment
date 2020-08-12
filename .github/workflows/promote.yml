@@ -24,12 +24,18 @@ jobs:
         echo ::set-env name=NEW_ENV::production
     - uses: actions/checkout@v2
       with:
-        ref: ${{ steps.env_info.outputs.issuetitle }}
+        ref: ${{ env.NEW_ENV }}
+    - name: Git stuff
+      run: |
+        export RELEASE_COMMIT=$(git log -n 1 --pretty=format:"%H" ${{ steps.env_info.outputs.issuetitle }})
+        git checkout -b ${{ env.NEW_ENV }}-${{ steps.env_info.outputs.issuetitle }}
+        git cherry-pick $RELEASE_COMMIT
+        git rebase master
     - name: GitHub Pull Request Action
       id: create_pr
       uses: repo-sync/pull-request@v2.2
       with:
-        source_branch: ${{ steps.env_info.outputs.issuetitle }}
+        source_branch: ${{ env.NEW_ENV }}-${{ steps.env_info.outputs.issuetitle }}
         destination_branch: ${{ env.NEW_ENV }}
         github_token: ${{ secrets.GITHUB_TOKEN }}
         pr_title: "Promoting ${{ steps.env_info.outputs.issuetitle }} to ${{ env.NEW_ENV }}"
