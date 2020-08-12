@@ -3,6 +3,7 @@
 ##################
 
 deploymentNamespace: omp-argo-cd
+e2eEnabled: &e2eEnabled true
 
 ##################
 # Version Manifest
@@ -32,6 +33,8 @@ applications:
   ref: *frontendVersion
   helmValues:
     imageTag: *frontendVersion
+    e2eTestJob:
+      enabled: *e2eEnabled
   ignoreDifferences:
   - group: apps.openshift.io
     kind: DeploymentConfig
