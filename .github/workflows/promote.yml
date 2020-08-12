@@ -30,7 +30,7 @@ jobs:
         git fetch --tags
         export RELEASE_COMMIT=$(git log -n 1 --pretty=format:"%H" ${{ steps.env_info.outputs.issuetitle }})
         git checkout -b ${{ env.NEW_ENV }}-${{ steps.env_info.outputs.issuetitle }}
-        git cherry-pick $RELEASE_COMMIT
+        git cherry-pick -m 1 $RELEASE_COMMIT
         git rebase master
     - name: GitHub Pull Request Action
       id: create_pr
