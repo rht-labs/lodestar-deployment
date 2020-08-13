@@ -1,0 +1,26 @@
+name: Finish Dispatch
+
+on:
+  repository_dispatch:
+    types: [finish-command]
+jobs:
+  promote-release:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set Env Variables
+      id: env_info
+      run: |
+        ISSUE_TITLE=$(jq -r .client_payload.github.payload.issue.title $GITHUB_EVENT_PATH)
+        echo ::set-output name=issuetitle::$ISSUE_TITLE
+        echo ::set-output name=issuenm::$(jq .client_payload.github.payload.issue.number $GITHUB_EVENT_PATH)
+        echo ::set-output name=requestor::$(jq .client_payload.github.actor $GITHUB_EVENT_PATH)
+    - name: Delete branch
+      uses: dawidd6/action-delete-branch@v3
+      with:
+        github_token: ${{ github.token }}
+        branches: ${{ steps.env_info.outputs.issuetitle }}
+    - name: Close Issue
+      uses: peter-evans/close-issue@v1
+      with:
+        issue-number: ${{ steps.env_info.outputs.issuenm }}
+        comment: Rollout finished by ${{ steps.env_info.outputs.requestor }} - closing issue.

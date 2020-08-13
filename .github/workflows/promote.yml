@@ -86,12 +86,12 @@ jobs:
         issue-number: "${{ steps.env_info.outputs.issuenm }}"
         body: |
           Promoted release ${{ steps.env_info.outputs.issuetitle }} to ${{ env.NEW_ENV }}!
-    - name: Delete branch
-      if: ${{ env.NEW_ENV == 'production' }}
-      uses: dawidd6/action-delete-branch@v3
-      with:
-        github_token: ${{ github.token }}
-        branches: ${{ steps.env_info.outputs.issuetitle }}
+    # - name: Delete branch
+    #   if: ${{ env.NEW_ENV == 'production' }}
+    #   uses: dawidd6/action-delete-branch@v3
+    #   with:
+    #     github_token: ${{ github.token }}
+    #     branches: ${{ steps.env_info.outputs.issuetitle }}
     - name: Close Issue
       if: ${{ env.NEW_ENV == 'production' }}
       uses: peter-evans/close-issue@v1
