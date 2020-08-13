@@ -45,18 +45,18 @@ jobs:
       id: pr_num
       run: |
         echo ::set-output name=prnm::$( echo ${{ steps.create_pr.outputs.pr_url }} | awk -F'/' '{print $NF}')
-    - name: Apply label to issue
-      uses: actions/github-script@v2
-      if: ${{ steps.create_pr.outcome == 'success' }}
-      with:
-        github-token: ${{secrets.GITHUB_TOKEN}}
-        script: |
-          github.issues.addLabels({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            issue_number: ${{steps.pr_num.outputs.prnm}},
-            labels: ["${{ steps.env_info.outputs.issuetitle }}"]
-          })
+    # - name: Apply label to issue
+    #   uses: actions/github-script@v2
+    #   if: ${{ steps.create_pr.outcome == 'success' }}
+    #   with:
+    #     github-token: ${{secrets.GITHUB_TOKEN}}
+    #     script: |
+    #       github.issues.addLabels({
+    #         owner: context.repo.owner,
+    #         repo: context.repo.repo,
+    #         issue_number: ${{steps.pr_num.outputs.prnm}},
+    #         labels: ["${{ steps.env_info.outputs.issuetitle }}"]
+    #       })
     # - name: Auto-merge
     #   uses: actions/github-script@v2
     #   with:
