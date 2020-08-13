@@ -25,13 +25,13 @@ jobs:
     - uses: actions/checkout@v2
       with:
         ref: ${{ env.NEW_ENV }}
-    - name: Git stuff
-      run: |
-        git fetch --tags
-        export RELEASE_COMMIT=$(git log -n 1 --pretty=format:"%H" ${{ steps.env_info.outputs.issuetitle }})
-        git checkout -b ${{ env.NEW_ENV }}-${{ steps.env_info.outputs.issuetitle }}
-        git cherry-pick -m 1 $RELEASE_COMMIT
-        git rebase master
+    # - name: Git stuff
+    #   run: |
+    #     git fetch --tags
+    #     export RELEASE_COMMIT=$(git log -n 1 --pretty=format:"%H" ${{ steps.env_info.outputs.issuetitle }})
+    #     git checkout -b ${{ env.NEW_ENV }}-${{ steps.env_info.outputs.issuetitle }}
+    #     git cherry-pick -m 1 $RELEASE_COMMIT
+    #     git rebase master
     - name: GitHub Pull Request Action
       id: create_pr
       uses: repo-sync/pull-request@v2.2
@@ -57,17 +57,17 @@ jobs:
             issue_number: ${{steps.pr_num.outputs.prnm}},
             labels: ["${{ steps.env_info.outputs.issuetitle }}"]
           })
-    - name: Auto-merge
-      uses: actions/github-script@v2
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        script: |
-          github.pulls.merge({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            pull_number: ${{ steps.pr_num.outputs.prnm}},
-            merge_method: "squash"
-          })
+    # - name: Auto-merge
+    #   uses: actions/github-script@v2
+    #   with:
+    #     github-token: ${{ secrets.GITHUB_TOKEN }}
+    #     script: |
+    #       github.pulls.merge({
+    #         owner: context.repo.owner,
+    #         repo: context.repo.repo,
+    #         pull_number: ${{ steps.pr_num.outputs.prnm}},
+    #         merge_method: "squash"
+    #       })
     - name: Apply label to issue
       uses: actions/github-script@v1
       if: ${{ steps.create_label.outcome == 'success' }}
@@ -87,3 +87,15 @@ jobs:
         issue-number: "${{ steps.env_info.outputs.issuenm }}"
         body: |
           Promoted release ${{ steps.env_info.outputs.issuetitle }} to ${{ env.NEW_ENV }}!
+    - name: Delete branch
+      if: ${{ env.NEW_ENV == 'production' }}
+      uses: dawidd6/action-delete-branch@v3
+      with:
+        github_token: ${{ github.token }}
+        branches: ${{ steps.env_info.outputs.issuetitle }}
+    - name: Close Issue
+      if: ${{ env.NEW_ENV == 'production' }}
+      uses: peter-evans/close-issue@v1
+      with:
+        issue-number: ${{ steps.env_info.outputs.issuenm }}
+        comment: Rollout completed by ${{ steps.env_info.outputs.requestor }} - closing issue.
