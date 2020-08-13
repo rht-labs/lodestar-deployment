@@ -70,7 +70,6 @@ jobs:
     #       })
     - name: Apply label to issue
       uses: actions/github-script@v1
-      if: ${{ steps.create_label.outcome == 'success' }}
       with:
         github-token: ${{secrets.GITHUB_TOKEN}}
         script: |
