@@ -3,20 +3,21 @@
 ##################
 
 deploymentNamespace: omp-argo-cd
+
 ##################
 # Version Manifest
 ##################
 applicationVersions:
-  frontend: &frontendVersion master
-  backend: &backendVersion master
-  git-api: &gitApiVersion master
-  status: &statusVersion master
+  frontend: &frontendVersion 1.0.3
+  backend: &backendVersion v1.0.4
+  git-api: &gitApiVersion v1.0.1
   resource-dispatcher: &resourceDispatcherVersion v1.0.9
   agnosticv-operator: &agnosticvVersion helm_chart
   anarchy-operator: &anarchyVersion helm_chart
   poolboy: &poolboyVersion helm_chart
   cert-manager: &certManagerVersion v0.15.0
   cert-utils-operator: &certUtilsVersion v0.1.1
+
 ##################################
 # Application Template Definitions
 ##################################
@@ -28,8 +29,6 @@ applications:
     ref: *frontendVersion
     helmValues:
       imageTag: *frontendVersion
-      e2eTestJob:
-        enabled: true
     ignoreDifferences:
       - group: apps.openshift.io
         kind: DeploymentConfig
@@ -42,6 +41,14 @@ applications:
     ref: *backendVersion
     helmValues:
       imageTag: *backendVersion
+      versions:
+        frontend: *frontendVersion
+        backend: *backendVersion
+        git-api: *gitApiVersion
+        resource-dispatcher: *resourceDispatcherVersion
+        agnosticv: *agnosticvVersion
+        anarchy: *anarchyVersion
+        poolboy: *poolboyVersion
     ignoreDifferences:
       - group: apps.openshift.io
         kind: DeploymentConfig
@@ -54,27 +61,6 @@ applications:
     ref: *gitApiVersion
     helmValues:
       imageTag: *gitApiVersion
-    ignoreDifferences:
-      - group: apps.openshift.io
-        kind: DeploymentConfig
-        jsonPointers:
-          - /spec/template/spec/containers/0/image
-  - name: status
-    url: https://github.com/rht-labs/lodestar-status.git
-    path: deployment
-    deploymentNamespace: omp-frontend
-    ref: *statusVersion
-    helmValues:
-      imageTag: *statusVersion
-      versions:
-        frontend: *frontendVersion
-        backend: *backendVersion
-        git-api: *gitApiVersion
-        status: *statusVersion
-        resource-dispatcher: *resourceDispatcherVersion
-        agnosticv: *agnosticvVersion
-        anarchy: *anarchyVersion
-        poolboy: *poolboyVersion
     ignoreDifferences:
       - group: apps.openshift.io
         kind: DeploymentConfig
@@ -125,7 +111,7 @@ applications:
       openshift:
         enabled: true
         route:
-          host: anarchy.apps.test.lodestar.rht-labs.com
+          host: anarchy.apps.integration.lodestar.rht-labs.com
     ignoreDifferences:
       - group: apiextensions.k8s.io
         kind: CustomResourceDefinition
