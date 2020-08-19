@@ -72,6 +72,7 @@ applications:
   deploymentNamespace: omp-frontend
   ref: *statusVersion
   helmValues:
+    deploymentNamespace: omp-frontend
     imageTag: *statusVersion
     versions:
       frontend: *frontendVersion
