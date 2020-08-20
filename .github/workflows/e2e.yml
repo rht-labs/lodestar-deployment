@@ -20,7 +20,7 @@ jobs:
           browser: chrome
           headless: true
           config: baseUrl=${{ secrets.CYPRESS_BASE_URL }}
-          env: SSO_URL=${{ secrets.CYPRESS_SSO_URL }},SSO_USER=${{ secrets.CYPRESS_SSO_USER }},SSO_PASSWORD=${{ secrets.CYPRESS_SSO_PASSWORD}},SSO_CLIENT_ID=${secrets.CYPRESS_SSO_CLIENT_ID}}
+          env: SSO_URL=${{ secrets.CYPRESS_SSO_URL }},SSO_USER=${{ secrets.CYPRESS_SSO_USER }},SSO_PASSWORD=${{ secrets.CYPRESS_SSO_PASSWORD}},SSO_CLIENT_ID=${{ secrets.CYPRESS_SSO_CLIENT_ID }}
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
