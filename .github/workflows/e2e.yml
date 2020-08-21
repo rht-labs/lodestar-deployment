@@ -5,6 +5,9 @@ on:
     inputs:
       tags:
         description: "End-to-End Test Run"
+      cypressTag:
+        description: "A tag for the cypress dashboard"
+        default: "lodestar-deployment"
 
 jobs:
   end-to-end:
@@ -19,6 +22,7 @@ jobs:
           record: true
           browser: chrome
           headless: true
+          tag: ${{ github.event.inputs.cypressTag }}
           config: baseUrl=${{ secrets.CYPRESS_BASE_URL }}
           env: SSO_URL=${{ secrets.CYPRESS_SSO_URL }},SSO_USER=${{ secrets.CYPRESS_SSO_USER }},SSO_PASSWORD=${{ secrets.CYPRESS_SSO_PASSWORD}},SSO_CLIENT_ID=${{ secrets.CYPRESS_SSO_CLIENT_ID }}
         env:
