@@ -111,6 +111,10 @@ jobs:
       uses: mikefarah/yq@3.3.2
       with:
         cmd: "yq w -i --anchorName poolboyVersion $GITHUB_WORKSPACE/applications/values.yaml applicationVersions.poolboy ${{ github.event.client_payload.slash_command.poolboy }}"
+    - name: Disable E2E Testing
+      uses: mikefarah/yq@3.3.2
+      with:
+        cmd: "yq w -i --anchorName e2eEnabled $GITHUB_WORKSPACE/applications/values.yaml e2eEnabled false"
     - name: Update Chart & App Versions
       uses: redhat-cop/github-actions/set-helm-version@master
       with:
