@@ -3,8 +3,8 @@ bases:
 - github.com/jacobsee/argocd-operator//deploy?ref=deploy-using-jacobs-fork
 resources:
 - ./resources/argo.yaml
-- ./resources/omp-apps.yaml
-- ./resources/omp-cluster-reader.yaml
+- ./resources/lodestar-apps.yaml
+- ./resources/lodestar-cluster-reader.yaml
 
 commonLabels:
   operator: argocd
