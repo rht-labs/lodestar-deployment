@@ -4,6 +4,7 @@
 
 deploymentNamespace: lodestar-argo-cd
 e2eEnabled: &e2eEnabled true
+lodestarStatusNamespaces: &statusNamespaces lodestar-frontend,lodestar-babylon-operators
 
 ##################
 # Version Manifest
@@ -74,6 +75,7 @@ applications:
   ref: *statusVersion
   helmValues:
     imageTag: *statusVersion
+    namespaces: *statusNamespaces
     versions:
       frontend: *frontendVersion
       backend: *backendVersion
@@ -163,7 +165,7 @@ applications:
     - /spec/names/shortNames
 
 - name: cert-manager
-  url: https://charts.jetstack.io 
+  url: https://charts.jetstack.io
   chartPath: cert-manager
   ref: *certManagerVersion
   deploymentNamespace: cluster-ops
