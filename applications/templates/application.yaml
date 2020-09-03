@@ -38,4 +38,10 @@ spec:
     automated:
       prune: true
       selfHeal: true
+    {{- if .syncOptions }}
+    syncOptions:
+    {{- range .syncOptions }}
+    - {{ . }}
+    {{- end }}
+    {{- end }}
 {{- end }}
