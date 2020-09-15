@@ -17,7 +17,7 @@ applicationVersions:
   status: &statusVersion master
   resource-dispatcher: &resourceDispatcherVersion master
   agnosticv-operator: &agnosticvVersion v0.1.2
-  anarchy-operator: &anarchyVersion add_dependencies_to_helm_chart
+  anarchy-operator: &anarchyVersion v0.10.2
   poolboy: &poolboyVersion v0.3.7
   cert-manager: &certManagerVersion v0.15.0
   cert-utils-operator: &certUtilsVersion v0.1.1
@@ -127,13 +127,11 @@ applications:
       name: lodestar-babylon-operators
 
 - name: anarchy-operator
-  url: https://github.com/pabrahamsson/anarchy-operator.git
+  url: https://github.com/redhat-cop/anarchy.git
   path: helm
   ref: *anarchyVersion
   deploymentNamespace: lodestar-babylon-operators
   helmValues:
-    anarchy:
-      namespace: lodestar-babylon-operators
     namespace:
       create: false
       name: lodestar-babylon-operators
@@ -142,8 +140,6 @@ applications:
     kind: CustomResourceDefinition
     jsonPointers:
     - /spec/names/shortNames
-  syncOptions:
-  - Validate=false
 
 - name: poolboy
   url: https://github.com/redhat-cop/poolboy.git
