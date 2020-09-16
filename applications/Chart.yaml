@@ -1,7 +1,6 @@
 apiVersion: v2
-name: omp-deployment
-description: A chart using the ArgoCD "App of Apps" pattern to deploy all components
-  of the Open Management Portal
+name: lodestar-deployment
+description: A chart using the ArgoCD "App of Apps" pattern to deploy all components of Lodestar
 
 # A chart can be either an 'application' or a 'library' chart.
 #
