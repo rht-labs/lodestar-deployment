@@ -126,6 +126,8 @@ applications:
   ref: *anarchyVersion
   deploymentNamespace: lodestar-babylon-operators
   helmValues:
+    anarchy:
+      namespace: lodestar-babylon-operators
     namespace:
       create: false
       name: lodestar-babylon-operators
