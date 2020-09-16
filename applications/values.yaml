@@ -9,21 +9,19 @@ lodestarStatusNamespaces: &statusNamespaces lodestar-frontend,lodestar-babylon-o
 ##################
 # Version Manifest
 ##################
-
 applicationVersions:
-  frontend: &frontendVersion master
-  backend: &backendVersion master
-  git-api: &gitApiVersion master
-  status: &statusVersion master
-  resource-dispatcher: &resourceDispatcherVersion master
-  agnosticv-operator: &agnosticvVersion v0.1.2
-  anarchy-operator: &anarchyVersion v0.10.2
-  poolboy: &poolboyVersion v0.3.7
+  frontend: &frontendVersion v1.0.4
+  backend: &backendVersion v1.0.5
+  git-api: &gitApiVersion v1.0.2
+  status: &statusVersion v1.0.0
+  resource-dispatcher: &resourceDispatcherVersion v1.0.9
+  agnosticv-operator: &agnosticvVersion helm_chart
+  anarchy-operator: &anarchyVersion helm_chart
+  poolboy: &poolboyVersion helm_chart
 
 ##################################
 # Application Template Definitions
 ##################################
-
 applications:
 - name: lodestar-frontend
   url: https://github.com/rht-labs/lodestar-frontend.git
@@ -111,7 +109,7 @@ applications:
     - /status
 
 - name: agnosticv-operator
-  url: https://github.com/redhat-gpte-devopsautomation/agnosticv-operator.git
+  url: https://github.com/pabrahamsson/agnosticv-operator.git
   path: helm
   ref: *agnosticvVersion
   deploymentNamespace: lodestar-babylon-operators
@@ -125,7 +123,7 @@ applications:
       name: lodestar-babylon-operators
 
 - name: anarchy-operator
-  url: https://github.com/redhat-cop/anarchy.git
+  url: https://github.com/pabrahamsson/anarchy-operator.git
   path: helm
   ref: *anarchyVersion
   deploymentNamespace: lodestar-babylon-operators
@@ -140,7 +138,7 @@ applications:
     - /spec/names/shortNames
 
 - name: poolboy
-  url: https://github.com/redhat-cop/poolboy.git
+  url: https://github.com/pabrahamsson/poolboy.git
   path: helm
   ref: *poolboyVersion
   deploymentNamespace: lodestar-babylon-operators
@@ -159,4 +157,3 @@ applications:
     kind: CustomResourceDefinition
     jsonPointers:
     - /spec/names/shortNames
-
