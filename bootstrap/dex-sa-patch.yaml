@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: argocd-dex-server
-secrets:
-- name: dex-auth-secret
