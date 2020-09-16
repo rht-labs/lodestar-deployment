@@ -3,7 +3,7 @@
 ##################
 
 deploymentNamespace: lodestar-argo-cd
-e2eEnabled: &e2eEnabled true
+e2eEnabled: &e2eEnabled false
 lodestarStatusNamespaces: &statusNamespaces lodestar-frontend,lodestar-babylon-operators
 
 ##################
