@@ -116,8 +116,6 @@ applications:
   helmValues:
     anarchy:
       namespace: lodestar-babylon-operators
-    image:
-      repository: quay.io/redhat-gpte/agnosticv-operator
     namespace:
       create: false
       name: lodestar-babylon-operators
