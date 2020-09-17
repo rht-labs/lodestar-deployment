@@ -17,7 +17,7 @@ applicationVersions:
   status: &statusVersion master
   resource-dispatcher: &resourceDispatcherVersion master
   agnosticv-operator: &agnosticvVersion v0.1.2
-  anarchy-operator: &anarchyVersion v0.10.2
+  anarchy-operator: &anarchyVersion v0.10.3
   poolboy: &poolboyVersion v0.3.7
 
 ##################################
