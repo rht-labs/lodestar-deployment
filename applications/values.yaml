@@ -10,9 +10,9 @@ lodestarStatusNamespaces: &statusNamespaces lodestar-frontend,lodestar-babylon-o
 # Version Manifest
 ##################
 applicationVersions:
-  frontend: &frontendVersion v1.0.5
-  backend: &backendVersion v1.0.6
-  git-api: &gitApiVersion v1.0.3
+  frontend: &frontendVersion v1.0.6
+  backend: &backendVersion v1.0.7
+  git-api: &gitApiVersion v1.0.4
   status: &statusVersion v1.0.0
   resource-dispatcher: &resourceDispatcherVersion v1.0.10
   agnosticv-operator: &agnosticvVersion v0.1.2
@@ -44,6 +44,8 @@ applications:
     ref: *backendVersion
     helmValues:
       imageTag: *backendVersion
+      mongodb:
+        persistent: false
     ignoreDifferences:
       - group: apps.openshift.io
         kind: DeploymentConfig
