@@ -54,6 +54,7 @@ applications:
     kind: DeploymentConfig
     jsonPointers:
     - /spec/template/spec/containers/0/image
+    - /spec/template/spec/volumes/0
 
 - name: git-api
   url: https://github.com/rht-labs/lodestar-git-api.git
