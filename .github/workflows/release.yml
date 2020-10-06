@@ -91,6 +91,11 @@ jobs:
       uses: mikefarah/yq@3.3.2
       with:
         cmd: "yq w -i --anchorName gitApiVersion $GITHUB_WORKSPACE/applications/values.yaml applicationVersions.git-api ${{ github.event.client_payload.slash_command.gitapi }}"
+    - name: Update Status Release
+      if: ${{ github.event.client_payload.slash_command.status != null }}
+      uses: mikefarah/yq@3.3.2
+      with:
+        cmd: "yq w -i --anchorName statusVersion $GITHUB_WORKSPACE/applications/values.yaml applicationVersions.status ${{ github.event.client_payload.slash_command.status }}"
     - name: Update Resource Dispatcher Release
       if: ${{ github.event.client_payload.slash_command.dispatcher != null }}
       uses: mikefarah/yq@3.3.2
