@@ -5,22 +5,39 @@ on:
     inputs:
       tags:
         description: "End-to-End Test Run"
+      cypressTag:
+        description: "A tag for the cypress dashboard"
+        default: "lodestar-deployment"
 
 jobs:
   end-to-end:
     runs-on: ubuntu-latest
+    env:
+      URL: ${{ secrets.NOTIFICATION_URL }}
     steps:
       - uses: actions/checkout@v2
         with:
           repository: rht-labs/lodestar-frontend
       - name: end-to-end test
+        id: cypress
         uses: cypress-io/github-action@v2
         with:
           record: true
           browser: chrome
           headless: true
+          tag: ${{ github.event.inputs.cypressTag }}
           config: baseUrl=${{ secrets.CYPRESS_BASE_URL }}
-          env: SSO_URL=${{ secrets.CYPRESS_SSO_URL }},SSO_USER=${{ secrets.CYPRESS_SSO_USER }},SSO_PASSWORD=${{ secrets.CYPRESS_SSO_PASSWORD}}
+          env: SSO_URL=${{ secrets.CYPRESS_SSO_URL }},SSO_USER=${{ secrets.CYPRESS_SSO_USER }},SSO_PASSWORD=${{ secrets.CYPRESS_SSO_PASSWORD }},SSO_CLIENT_ID=${{ secrets.CYPRESS_SSO_CLIENT_ID }}
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: print dashboard url
+        if: always()
+        run: |
+          echo Cypress finished with: ${{ steps.cypress.outcome }}
+          echo See results at ${{ steps.cypress.outputs.dashboardUrl }}
+          [ ! -z "$URL" ] && curl $URL -H "Content-Type: application/json" -d ' { "cards":
+            [ { "header": { "title": "End to End Test","subtitle": "${{ github.event.inputs.cypressTag }}", "imageUrl": "https://www.gstatic.com/images/icons/material/system/2x/science_googblue_48dp.png" },
+            "sections": [ { "widgets": [ { "keyValue": { "topLabel": "Status", "content": "${{ steps.cypress.outcome }}" } } ] },
+                          { "widgets": [ { "buttons": [ { "textButton": { "text": "OPEN DASHBOARD", "onClick": { "openLink": { "url": "${{ steps.cypress.outputs.dashboardUrl }}"
+            } } } } ] } ] } ] } ] }'
