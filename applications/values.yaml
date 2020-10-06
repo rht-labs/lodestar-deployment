@@ -47,6 +47,8 @@ applications:
   ref: *backendVersion
   helmValues:
     imageTag: *backendVersion
+    mongodb:
+      persistent: false
   ignoreDifferences:
   - group: apps.openshift.io
     kind: DeploymentConfig
