@@ -18,7 +18,7 @@ applicationVersions:
   resource-dispatcher: &resourceDispatcherVersion master
   agnosticv-operator: &agnosticvVersion v0.1.2
   anarchy-operator: &anarchyVersion v0.10.4
-  poolboy: &poolboyVersion v0.3.7
+  poolboy: &poolboyVersion v0.3.11
 
 ##################################
 # Application Template Definitions
