@@ -19,7 +19,6 @@ applicationVersions:
   anarchy-operator: &anarchyVersion v0.10.4
   poolboy: &poolboyVersion v0.3.11
 
-
 ##################################
 # Application Template Definitions
 ##################################
