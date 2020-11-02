@@ -9,8 +9,9 @@ lodestarStatusNamespaces: &statusNamespaces lodestar-frontend,lodestar-babylon-o
 ##################
 # Version Manifest
 ##################
+
 applicationVersions:
-  frontend: &frontendVersion v1.1.3
+  frontend: &frontendVersion v1.1.4
   backend: &backendVersion v1.0.9
   git-api: &gitApiVersion v1.0.7
   status: &statusVersion v1.0.0
@@ -18,7 +19,6 @@ applicationVersions:
   agnosticv-operator: &agnosticvVersion v0.1.2
   anarchy-operator: &anarchyVersion v0.10.4
   poolboy: &poolboyVersion v0.3.11
-
 
 ##################################
 # Application Template Definitions
