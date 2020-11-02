@@ -5,9 +5,11 @@
 deploymentNamespace: lodestar-argo-cd
 e2eEnabled: &e2eEnabled false
 lodestarStatusNamespaces: &statusNamespaces lodestar-frontend,lodestar-babylon-operators
+
 ##################
 # Version Manifest
 ##################
+
 applicationVersions:
   frontend: &frontendVersion v1.1.4
   backend: &backendVersion v1.0.9
@@ -17,6 +19,7 @@ applicationVersions:
   agnosticv-operator: &agnosticvVersion v0.1.2
   anarchy-operator: &anarchyVersion v0.10.4
   poolboy: &poolboyVersion v0.3.11
+
 ##################################
 # Application Template Definitions
 ##################################
