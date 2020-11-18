@@ -17,11 +17,11 @@ jobs:
     - name: Set New Env (Integration)
       if: ${{ !contains(steps.env_info.outputs.labels, 'promoted to integration') }}
       run: |
-        echo "name=NEW_ENV::integration" >> $GITHUB_ENV
+        echo "NEW_ENV=integration" >> $GITHUB_ENV
     - name: Set New Env (Production)
       if: ${{ contains(steps.env_info.outputs.labels, 'promoted to integration') }}
       run: |
-        echo "name=NEW_ENV::production" >> $GITHUB_ENV
+        echo "NEW_ENV=production" >> $GITHUB_ENV
     - uses: actions/checkout@v2
       with:
         ref: ${{ steps.env_info.outputs.issuetitle }}
