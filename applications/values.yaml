@@ -3,163 +3,151 @@
 ##################
 
 deploymentNamespace: lodestar-argo-cd
-e2eEnabled: &e2eEnabled true
+e2eEnabled: &e2eEnabled false
 lodestarStatusNamespaces: &statusNamespaces lodestar-frontend,lodestar-babylon-operators
-
 ##################
 # Version Manifest
 ##################
-
 applicationVersions:
-  frontend: &frontendVersion master
-  backend: &backendVersion master
-  git-api: &gitApiVersion master
-  status: &statusVersion master
-  resource-dispatcher: &resourceDispatcherVersion master
+  frontend: &frontendVersion v1.1.7
+  backend: &backendVersion v1.0.11
+  git-api: &gitApiVersion v1.0.9
+  status: &statusVersion v1.0.0
+  resource-dispatcher: &resourceDispatcherVersion v1.0.12
   agnosticv-operator: &agnosticvVersion v0.1.2
   anarchy-operator: &anarchyVersion v0.10.4
   poolboy: &poolboyVersion v0.3.11
-
 ##################################
 # Application Template Definitions
 ##################################
-
 applications:
-- name: lodestar-frontend
-  url: https://github.com/rht-labs/lodestar-frontend.git
-  path: deployment
-  deploymentNamespace: lodestar-frontend
-  ref: *frontendVersion
-  helmValues:
-    imageTag: *frontendVersion
-    e2eTestJob:
-      enabled: *e2eEnabled
-  ignoreDifferences:
-  - group: apps.openshift.io
-    kind: DeploymentConfig
-    jsonPointers:
-    - /spec/template/spec/containers/0/image
-
-- name: lodestar-backend
-  url: https://github.com/rht-labs/lodestar-backend.git
-  path: deployment
-  deploymentNamespace: lodestar-frontend
-  ref: *backendVersion
-  helmValues:
-    imageTag: *backendVersion
-    mongodb:
-      persistent: false
-  ignoreDifferences:
-  - group: apps.openshift.io
-    kind: DeploymentConfig
-    jsonPointers:
-    - /spec/template/spec/containers/0/image
-    - /spec/template/spec/volumes/0
-
-- name: git-api
-  url: https://github.com/rht-labs/lodestar-git-api.git
-  path: deployment
-  deploymentNamespace: lodestar-frontend
-  ref: *gitApiVersion
-  helmValues:
-    imageTag: *gitApiVersion
-  ignoreDifferences:
-  - group: apps.openshift.io
-    kind: DeploymentConfig
-    jsonPointers:
-    - /spec/template/spec/containers/0/image
-
-- name: status
-  url: https://github.com/rht-labs/lodestar-status.git
-  path: deployment
-  deploymentNamespace: lodestar-frontend
-  ref: *statusVersion
-  helmValues:
-    imageTag: *statusVersion
-    namespaces: *statusNamespaces
-    versions:
-      frontend: *frontendVersion
-      backend: *backendVersion
-      git-api: *gitApiVersion
-      status: *statusVersion
-      resource-dispatcher: *resourceDispatcherVersion
-      agnosticv: *agnosticvVersion
-      anarchy: *anarchyVersion
-      poolboy: *poolboyVersion
-  ignoreDifferences:
-  - group: apps.openshift.io
-    kind: DeploymentConfig
-    jsonPointers:
-    - /spec/template/spec/containers/0/image
-
-- name: resource-dispatcher
-  url: https://github.com/redhat-cop/tool-integrations.git
-  path: "resource-dispatcher/helm"
-  ref: *resourceDispatcherVersion
-  helmValues:
-    imageTag: *resourceDispatcherVersion
-    configMapName: resource-dispatcher-config
-    setupClusterRoleBinding: true
-    clusterRole: argocd-application-controller
-    sshSecretConfigMap: resource-dispatcher-key
-    exposeRoute: true
-  ignoreDifferences:
-  - group: apps.openshift.io
-    kind: DeploymentConfig
-    jsonPointers:
-    - /spec/template/spec/containers/0/image
-  - group: image.openshift.io
-    kind: ImageStream
-    jsonPointers:
-    - /status
-
-- name: agnosticv-operator
-  url: https://github.com/redhat-gpte-devopsautomation/agnosticv-operator.git
-  path: helm
-  ref: *agnosticvVersion
-  deploymentNamespace: lodestar-babylon-operators
-  helmValues:
-    anarchy:
-      namespace: lodestar-babylon-operators
-    image:
-      repository: quay.io/redhat-gpte/agnosticv-operator
-    namespace:
-      create: false
-      name: lodestar-babylon-operators
-
-- name: anarchy-operator
-  url: https://github.com/redhat-cop/anarchy.git
-  path: helm
-  ref: *anarchyVersion
-  deploymentNamespace: lodestar-babylon-operators
-  helmValues:
-    namespace:
-      create: false
-      name: lodestar-babylon-operators
-  ignoreDifferences:
-  - group: apiextensions.k8s.io
-    kind: CustomResourceDefinition
-    jsonPointers:
-    - /spec/names/shortNames
-
-- name: poolboy
-  url: https://github.com/redhat-cop/poolboy.git
-  path: helm
-  ref: *poolboyVersion
-  deploymentNamespace: lodestar-babylon-operators
-  helmValues:
-    anarchy:
-      create: true
-      namespace: lodestar-babylon-operators
-      service: anarchy
-    image:
-      tagOverride: *poolboyVersion
-    namespace:
-      create: false
-      name: lodestar-babylon-operators
-  ignoreDifferences:
-  - group: apiextensions.k8s.io
-    kind: CustomResourceDefinition
-    jsonPointers:
-    - /spec/names/shortNames
-
+  - name: lodestar-frontend
+    url: https://github.com/rht-labs/lodestar-frontend.git
+    path: deployment
+    deploymentNamespace: lodestar-frontend
+    ref: *frontendVersion
+    helmValues:
+      imageTag: *frontendVersion
+      e2eTestJob:
+        enabled: *e2eEnabled
+    ignoreDifferences:
+      - group: apps.openshift.io
+        kind: DeploymentConfig
+        jsonPointers:
+          - /spec/template/spec/containers/0/image
+  - name: lodestar-backend
+    url: https://github.com/rht-labs/lodestar-backend.git
+    path: deployment
+    deploymentNamespace: lodestar-frontend
+    ref: *backendVersion
+    helmValues:
+      imageTag: *backendVersion
+      mongodb:
+        persistent: false
+    ignoreDifferences:
+      - group: apps.openshift.io
+        kind: DeploymentConfig
+        jsonPointers:
+          - /spec/template/spec/containers/0/image
+          - /spec/template/spec/volumes/0
+  - name: git-api
+    url: https://github.com/rht-labs/lodestar-git-api.git
+    path: deployment
+    deploymentNamespace: lodestar-frontend
+    ref: *gitApiVersion
+    helmValues:
+      imageTag: *gitApiVersion
+    ignoreDifferences:
+      - group: apps.openshift.io
+        kind: DeploymentConfig
+        jsonPointers:
+          - /spec/template/spec/containers/0/image
+  - name: status
+    url: https://github.com/rht-labs/lodestar-status.git
+    path: deployment
+    deploymentNamespace: lodestar-frontend
+    ref: *statusVersion
+    helmValues:
+      imageTag: *statusVersion
+      namespaces: *statusNamespaces
+      versions:
+        frontend: *frontendVersion
+        backend: *backendVersion
+        git-api: *gitApiVersion
+        status: *statusVersion
+        resource-dispatcher: *resourceDispatcherVersion
+        agnosticv: *agnosticvVersion
+        anarchy: *anarchyVersion
+        poolboy: *poolboyVersion
+    ignoreDifferences:
+      - group: apps.openshift.io
+        kind: DeploymentConfig
+        jsonPointers:
+          - /spec/template/spec/containers/0/image
+  - name: resource-dispatcher
+    url: https://github.com/redhat-cop/tool-integrations.git
+    path: "resource-dispatcher/helm"
+    ref: *resourceDispatcherVersion
+    helmValues:
+      imageTag: *resourceDispatcherVersion
+      configMapName: resource-dispatcher-config
+      setupClusterRoleBinding: true
+      clusterRole: argocd-application-controller
+      sshSecretConfigMap: resource-dispatcher-key
+      exposeRoute: true
+    ignoreDifferences:
+      - group: apps.openshift.io
+        kind: DeploymentConfig
+        jsonPointers:
+          - /spec/template/spec/containers/0/image
+      - group: image.openshift.io
+        kind: ImageStream
+        jsonPointers:
+          - /status
+  - name: agnosticv-operator
+    url: https://github.com/redhat-gpte-devopsautomation/agnosticv-operator.git
+    path: helm
+    ref: *agnosticvVersion
+    deploymentNamespace: lodestar-babylon-operators
+    helmValues:
+      anarchy:
+        namespace: lodestar-babylon-operators
+      image:
+        repository: quay.io/redhat-gpte/agnosticv-operator
+      namespace:
+        create: false
+        name: lodestar-babylon-operators
+  - name: anarchy-operator
+    url: https://github.com/redhat-cop/anarchy.git
+    path: helm
+    ref: *anarchyVersion
+    deploymentNamespace: lodestar-babylon-operators
+    helmValues:
+      namespace:
+        create: false
+        name: lodestar-babylon-operators
+    ignoreDifferences:
+      - group: apiextensions.k8s.io
+        kind: CustomResourceDefinition
+        jsonPointers:
+          - /spec/names/shortNames
+  - name: poolboy
+    url: https://github.com/redhat-cop/poolboy.git
+    path: helm
+    ref: *poolboyVersion
+    deploymentNamespace: lodestar-babylon-operators
+    helmValues:
+      anarchy:
+        create: true
+        namespace: lodestar-babylon-operators
+        service: anarchy
+      image:
+        tagOverride: *poolboyVersion
+      namespace:
+        create: false
+        name: lodestar-babylon-operators
+    ignoreDifferences:
+      - group: apiextensions.k8s.io
+        kind: CustomResourceDefinition
+        jsonPointers:
+          - /spec/names/shortNames
