@@ -9,10 +9,9 @@ lodestarStatusNamespaces: &statusNamespaces lodestar-frontend,lodestar-babylon-o
 ##################
 # Version Manifest
 ##################
-
 applicationVersions:
-  frontend: &frontendVersion v1.1.9
-  backend: &backendVersion v1.0.12
+  frontend: &frontendVersion v1.1.11
+  backend: &backendVersion v1.0.13
   git-api: &gitApiVersion v1.0.10
   status: &statusVersion v1.0.0
   resource-dispatcher: &resourceDispatcherVersion v1.0.12
@@ -23,7 +22,6 @@ applicationVersions:
 ##################################
 # Application Template Definitions
 ##################################
-
 applications:
   - name: lodestar-frontend
     url: https://github.com/rht-labs/lodestar-frontend.git
