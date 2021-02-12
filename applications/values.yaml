@@ -10,7 +10,7 @@ lodestarStatusNamespaces: &statusNamespaces lodestar-frontend,lodestar-babylon-o
 # Version Manifest
 ##################
 applicationVersions:
-  frontend: &frontendVersion v1.1.17
+  frontend: &frontendVersion v1.1.18
   backend: &backendVersion v1.0.15
   git-api: &gitApiVersion v1.0.13
   status: &statusVersion v1.0.0
