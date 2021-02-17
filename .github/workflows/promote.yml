@@ -78,8 +78,8 @@ jobs:
           Promoted release ${{ steps.env_info.outputs.issuetitle }} to ${{ env.NEW_ENV }}!
     - name: Notify chat
       run: |
-       echo "Thread key GIIHUB_REPOSITORY-${{ steps.env_info.outputs.issuenm }} "
-        [ ! -z "$URL" ] && curl "$URL&threadKey=$GIIHUB_REPOSITORY-${{ steps.env_info.outputs.issuenm}}" -H "Content-Type: application/json" -d '{ "text" : "Promoted release *${{ steps.env_info.outputs.issuetitle }}* to *${{ env.NEW_ENV }}*" }'
+       echo "Thread key GITHUB_REPOSITORY-${{ steps.env_info.outputs.issuenm }} "
+        [ ! -z "$URL" ] && curl "$URL&threadKey=$GITHUB_REPOSITORY-${{ steps.env_info.outputs.issuenm}}" -H "Content-Type: application/json" -d '{ "text" : "Promoted release *${{ steps.env_info.outputs.issuetitle }}* to *${{ env.NEW_ENV }}*" }'
     # - name: Delete branch
     #   if: ${{ env.NEW_ENV == 'production' }}
     #   uses: dawidd6/action-delete-branch@v3

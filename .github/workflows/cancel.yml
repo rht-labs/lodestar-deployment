@@ -28,5 +28,5 @@ jobs:
         comment: Cancelling rollout as requested by @${{ steps.env_info.outputs.requestor }}.
     - name: Notify chat
       run: |
-       echo "Thread key GIIHUB_REPOSITORY-${{ steps.env_info.outputs.issuenm }} requestor ${{ steps.env_info.outputs.requestor }}"
-        [ ! -z "$URL" ] && curl "$URL&threadKey=$GIIHUB_REPOSITORY-${{ steps.env_info.outputs.issuenm}}" -H "Content-Type: application/json" -d '{ "text" : "\uD83E\uDDEF cancelling rollout as requested by ${{ steps.env_info.outputs.requestor }}" }'
+       echo "Thread key GITHUB_REPOSITORY-${{ steps.env_info.outputs.issuenm }} requestor ${{ steps.env_info.outputs.requestor }}"
+        [ ! -z "$URL" ] && curl "$URL&threadKey=$GITHUB_REPOSITORY-${{ steps.env_info.outputs.issuenm}}" -H "Content-Type: application/json" -d '{ "text" : "\uD83E\uDDEF cancelling rollout as requested by ${{ steps.env_info.outputs.requestor }}" }'
