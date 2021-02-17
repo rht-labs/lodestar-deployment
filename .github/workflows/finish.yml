@@ -29,4 +29,4 @@ jobs:
     - name: Notify chat
       run: |
        echo "Thread key GITHUB_REPOSITORY-${{ steps.env_info.outputs.issuenm }} requestor ${{ steps.env_info.outputs.requestor }}"
-        [ ! -z "$URL" ] && curl "$URL&threadKey=$GITHUB_REPOSITORY-${{ steps.env_info.outputs.issuenm}}" -H "Content-Type: application/json" -d '{ "text" : "Rollout finished by ${{ steps.env_info.outputs.requestor }} - closing issue. \uDBB8\uDDB6 \uD83D\uDE07 \uD83C\uDFC5" }'
+        [ ! -z "$URL" ] && curl "$URL&threadKey=$GITHUB_REPOSITORY-${{ steps.env_info.outputs.issuenm}}" -H "Content-Type: application/json" -d '{ "text" : "Rollout finished by ${{ steps.env_info.outputs.requestor }} - closing issue \uD83D\uDE07 \uD83C\uDFC5" }'
