@@ -67,7 +67,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: create-release-branch
     env:
-      URL: ${{ secrets.NOTIFICATION_URL }}
+      URL: ${{ secrets.RELEASE_NOTIFICATON_URL }}
     steps:
     - name: Get Environment Info
       id: env_info

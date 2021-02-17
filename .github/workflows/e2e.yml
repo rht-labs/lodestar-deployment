@@ -13,7 +13,7 @@ jobs:
   end-to-end:
     runs-on: ubuntu-latest
     env:
-      URL: ${{ secrets.NOTIFICATION_URL }}
+      URL: ${{ secrets.E2E_NOTIFICATON_URL }}
     steps:
       - uses: actions/checkout@v2
         with:

@@ -7,7 +7,7 @@ jobs:
   promote-release:
     runs-on: ubuntu-latest
     env:
-      URL: ${{ secrets.NOTIFICATION_URL }}
+      URL: ${{ secrets.RELEASE_NOTIFICATON_URL }}
     steps:
     - name: Set Env Variables
       id: env_info
