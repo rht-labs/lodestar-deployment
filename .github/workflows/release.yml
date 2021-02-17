@@ -66,6 +66,8 @@ jobs:
   update-release-pointers:
     runs-on: ubuntu-latest
     needs: create-release-branch
+    env:
+      URL: ${{ secrets.RELEASE_NOTIFICATON_URL }}
     steps:
     - name: Get Environment Info
       id: env_info
@@ -160,3 +162,8 @@ jobs:
         issue-number: "${{ steps.env_info.outputs.issuenm }}"
         body: |
           Created release ${{ steps.env_info.outputs.issuetitle }}!
+
+    - name: Notify chat
+      run: | 
+       echo "Thread key ${{ steps.env_info.outputs.threadKey }} issue ${{ steps.env_info.outputs.issuenm }} "
+        [ ! -z "$URL" ] && curl "$URL&threadKey=$GITHUB_REPOSITORY-${{ steps.env_info.outputs.issuenm}}" -H "Content-Type: application/json" -d '{ "text" : "Release created *${{ steps.env_info.outputs.issuetitle }}*" }'

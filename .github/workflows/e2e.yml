@@ -13,7 +13,7 @@ jobs:
   end-to-end:
     runs-on: ubuntu-latest
     env:
-      URL: ${{ secrets.NOTIFICATION_URL }}
+      URL: ${{ secrets.E2E_NOTIFICATON_URL }}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -36,8 +36,4 @@ jobs:
         run: |
           echo Cypress finished with: ${{ steps.cypress.outcome }}
           echo See results at ${{ steps.cypress.outputs.dashboardUrl }}
-          [ ! -z "$URL" ] && curl $URL -H "Content-Type: application/json" -d ' { "cards":
-            [ { "header": { "title": "End to End Test","subtitle": "${{ github.event.inputs.cypressTag }}", "imageUrl": "https://www.gstatic.com/images/icons/material/system/2x/science_googblue_48dp.png" },
-            "sections": [ { "widgets": [ { "keyValue": { "topLabel": "Status", "content": "${{ steps.cypress.outcome }}" } } ] },
-                          { "widgets": [ { "buttons": [ { "textButton": { "text": "OPEN DASHBOARD", "onClick": { "openLink": { "url": "${{ steps.cypress.outputs.dashboardUrl }}"
-            } } } } ] } ] } ] } ] }'
+          [ ! -z "$URL" ] && curl "$URL&threadKey=e2e-tests" -H "Content-Type: application/json" -d ' { "text": "E2E tests trigger by `${{ github.event.inputs.cypressTag }}` ended in ${{ steps.cypress.outcome }}. ${{ steps.cypress.outputs.dashboardUrl }}" }'
