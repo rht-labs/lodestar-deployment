@@ -16,9 +16,9 @@ applicationVersions:
   git-api: &gitApiVersion master
   status: &statusVersion master
   resource-dispatcher: &resourceDispatcherVersion master
-  agnosticv-operator: &agnosticvVersion v0.1.2
-  anarchy-operator: &anarchyVersion v0.10.4
-  poolboy: &poolboyVersion v0.3.11
+  agnosticv-operator: &agnosticvVersion v0.3.0
+  anarchy-operator: &anarchyVersion v0.13.2
+  poolboy: &poolboyVersion v0.5.0
 
 ##################################
 # Application Template Definitions
