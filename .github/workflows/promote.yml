@@ -6,6 +6,8 @@ on:
 jobs:
   promote-release:
     runs-on: ubuntu-latest
+    env:
+      URL: ${{ secrets.RELEASE_NOTIFICATON_URL }}
     steps:
     - name: Set Env Variables
       id: env_info
@@ -74,6 +76,10 @@ jobs:
         issue-number: "${{ steps.env_info.outputs.issuenm }}"
         body: |
           Promoted release ${{ steps.env_info.outputs.issuetitle }} to ${{ env.NEW_ENV }}!
+    - name: Notify chat
+      run: |
+       echo "Thread key GITHUB_REPOSITORY-${{ steps.env_info.outputs.issuenm }} "
+        [ ! -z "$URL" ] && curl "$URL&threadKey=$GITHUB_REPOSITORY-${{ steps.env_info.outputs.issuenm}}" -H "Content-Type: application/json" -d '{ "text" : "Promoted release *${{ steps.env_info.outputs.issuetitle }}* to *${{ env.NEW_ENV }}*" }'
     # - name: Delete branch
     #   if: ${{ env.NEW_ENV == 'production' }}
     #   uses: dawidd6/action-delete-branch@v3

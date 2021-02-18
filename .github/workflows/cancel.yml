@@ -6,6 +6,8 @@ on:
 jobs:
   promote-release:
     runs-on: ubuntu-latest
+    env:
+      URL: ${{ secrets.RELEASE_NOTIFICATON_URL }}
     steps:
     - name: Set Env Variables
       id: env_info
@@ -13,7 +15,7 @@ jobs:
         ISSUE_TITLE=$(jq -r .client_payload.github.payload.issue.title $GITHUB_EVENT_PATH)
         echo ::set-output name=issuetitle::$ISSUE_TITLE
         echo ::set-output name=issuenm::$(jq .client_payload.github.payload.issue.number $GITHUB_EVENT_PATH)
-        echo ::set-output name=requestor::$(jq .client_payload.github.actor $GITHUB_EVENT_PATH)
+        echo ::set-output name=requestor::$(jq -r .client_payload.github.actor $GITHUB_EVENT_PATH)
     - name: Delete branch
       uses: dawidd6/action-delete-branch@v3
       with:
@@ -23,4 +25,8 @@ jobs:
       uses: peter-evans/close-issue@v1
       with:
         issue-number: ${{ steps.env_info.outputs.issuenm }}
-        comment: Cancelling rollout as requested by ${{ steps.env_info.outputs.requestor }}.
+        comment: Cancelling rollout as requested by @${{ steps.env_info.outputs.requestor }}.
+    - name: Notify chat
+      run: |
+       echo "Thread key GITHUB_REPOSITORY-${{ steps.env_info.outputs.issuenm }} requestor ${{ steps.env_info.outputs.requestor }}"
+        [ ! -z "$URL" ] && curl "$URL&threadKey=$GITHUB_REPOSITORY-${{ steps.env_info.outputs.issuenm}}" -H "Content-Type: application/json" -d '{ "text" : "\uD83E\uDDEF cancelling rollout as requested by ${{ steps.env_info.outputs.requestor }}" }'
