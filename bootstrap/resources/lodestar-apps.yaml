@@ -10,7 +10,7 @@ spec:
   source:
     path: "applications/"
     repoURL: "https://github.com/rht-labs/lodestar-deployment.git"
-    targetRevision: "integration"
+    targetRevision: "production"
   syncPolicy:
     automated:
       prune: true
