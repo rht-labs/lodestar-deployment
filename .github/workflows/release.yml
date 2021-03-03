@@ -162,7 +162,6 @@ jobs:
         issue-number: "${{ steps.env_info.outputs.issuenm }}"
         body: |
           Created release ${{ steps.env_info.outputs.issuetitle }}!
-
     - name: Notify chat
       run: | 
        echo "Thread key ${{ steps.env_info.outputs.threadKey }} issue ${{ steps.env_info.outputs.issuenm }} "
