@@ -1,0 +1,176 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+bases:
+- ../base
+patches:
+  - patch: |
+      - op: add
+        path: /spec/source/helm
+        value: 
+          values: |-
+            clusterRole: argocd-application-controller
+            configMapName: resource-dispatcher-config
+            exposeRoute: true
+            imageTag: master
+            setupClusterRoleBinding: true
+            sshSecretConfigMap: resource-dispatcher-key
+      - op: add
+        path: /spec/ignoreDifferences
+        value:
+          - group: apps.openshift.io
+            jsonPointers:
+              - /spec/template/spec/containers/0/image
+            kind: DeploymentConfig
+          - group: image.openshift.io
+            jsonPointers:
+              - /status
+            kind: ImageStream
+    target:
+      group: argoproj.io
+      version: v1alpha1
+      kind: Application
+      name: resource-dispatcher
+  - patch: |
+      - op: add
+        path: /spec/source/helm
+        value:
+          values: |-
+            imageTag: master
+            e2eTestJob:
+              enabled: true
+      - op: add
+        path: /spec/ignoreDifferences
+        value:
+          - group: apps.openshift.io
+            jsonPointers:
+            - /spec/template/spec/containers/0/image
+            kind: DeploymentConfig
+    target:
+      group: argoproj.io
+      version: v1alpha1
+      kind: Application
+      name: lodestar-frontend
+  - patch: |
+      - op: add
+        path: /spec/source/helm
+        value:
+          values: |- 
+            imageTag: master
+            mongodb:
+              persistent: false
+      - op: add
+        path: /spec/ignoreDifferences
+        value:
+          - group: apps.openshift.io
+            jsonPointers:
+              - /spec/template/spec/containers/0/image
+              - /spec/template/spec/volumes/0
+            kind: DeploymentConfig
+    target:
+      group: argoproj.io
+      version: v1alpha1
+      kind: Application
+      name: lodestar-backend
+  - patch: |
+      - op: add
+        path: /spec/source/helm
+        value:
+          values: |- 
+            imageTag: master
+      - op: add
+        path: /spec/ignoreDifferences
+        value:
+          - group: apps.openshift.io
+            jsonPointers:
+              - /spec/template/spec/containers/0/image
+            kind: DeploymentConfig
+    target:
+      group: argoproj.io
+      version: v1alpha1
+      kind: Application
+      name: git-api
+  - patch: |
+      - op: add
+        path: /spec/source/helm
+        value:
+          values: |-
+            imageTag: master
+            namespace: lodestar-frontend, lodestar-babylon-operators
+            versions:
+              agnosticv: v0.1.2
+              anarchy: v0.10.4
+              backend: master
+              frontend: master
+              git-api: master
+              lodestar: 1.0.0
+              poolboy: v0.3.11
+              resource-dispatcher: master
+              status: master
+    target:
+      group: argoproj.io
+      version: v1alpha1
+      kind: Application
+      name: status
+  - patch: |
+      - op: add
+        path: /spec/source/helm
+        value:
+          values: |-
+            anarchy:
+              namespace: lodestar-babylon-operators
+            image:
+              repository: quay.io/redhat-gpte/agnosticv-operator
+            namespace:
+              create: false
+              name: lodestar-babylon-operators
+    target:
+      group: argoproj.io
+      version: v1alpha1
+      kind: Application
+      name: agnosticv-operator
+  - patch: |
+      - op: add
+        path: /spec/source/helm
+        value:
+          values: |-
+            namespace:
+              create: false
+              name: lodestar-babylon-operators
+      - op: add
+        path: /spec/ignoreDifferences
+        value:
+          - group: apiextensions.k8s.io
+            kind: CustomResourceDefinition
+            jsonPointers:
+              - /spec/names/shortNames
+    target:
+      group: argoproj.io
+      version: v1alpha1
+      kind: Application
+      name: anarchy-operator
+  - patch: |
+      - op: add
+        path: /spec/source/helm
+        value:
+          values: |-
+            anarchy:
+              create: true
+              namespace: lodestar-babylon-operators
+              service: anarchy
+            image:
+              tagOverride: v0.3.11 
+            namespace:
+              create: false
+              name: lodestar-babylon-operators
+      - op: add
+        path: /spec/ignoreDifferences
+        value:
+          - group: apiextensions.k8s.io
+            kind: CustomResourceDefinitions
+            jsonPointers:
+              - /spec/names/shortNames
+    target:
+      group: argoproj.io
+      version: v1alpha1
+      kind: Application
+      name: poolboy
