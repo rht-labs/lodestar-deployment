@@ -1,0 +1,13 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: poolboy
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: "helm"
+    repoURL: "https://github.com/redhat-cop/poolboy.git"
+    targetRevision: "v0.3.7"

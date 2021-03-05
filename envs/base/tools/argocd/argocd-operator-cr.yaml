@@ -1,0 +1,12 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ArgoCD
+metadata:
+  name: lodestar-argocd
+spec:
+  version: v1.5.2
+  rbac:
+    defaultPolicy: 'role:readonly'
+  server:
+    route:
+      enabled: true

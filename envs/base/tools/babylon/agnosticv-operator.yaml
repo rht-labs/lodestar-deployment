@@ -1,0 +1,13 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: agnosticv-operator
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: "helm"
+    repoURL: "https://github.com/redhat-gpte-devopsautomation/agnosticv-operator.git"
+    targetRevision: "v0.1.2"

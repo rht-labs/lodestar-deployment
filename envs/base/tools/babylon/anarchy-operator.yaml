@@ -1,0 +1,13 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: anarchy-operator
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: "helm"
+    repoURL: "https://github.com/pabrahamsson/anarchy-operator.git"
+    targetRevision: "add_dependencies_to_helm_chart"
