@@ -1,0 +1,12 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: lodestar-runtime-config
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: /path/to/runtime
+    repoURL: ssh://git@gitlab.example.com:/myorg/myconfig.git
+    targetRevision: main
