@@ -8,3 +8,12 @@ resources:
 - lodestar-engagements-project.yaml
 - lodestar-tools-project.yaml
 - restart-configurable-resources.yaml
+patches:
+  - patch: |
+      - op: add
+        path: /metadata/namespace
+        value: lodestar-argo-cd
+    target:
+      group: argoproj.io
+      version: v1alpha1
+      kind: AppProject
