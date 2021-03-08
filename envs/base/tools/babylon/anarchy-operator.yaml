@@ -9,5 +9,5 @@ spec:
   project: default
   source:
     path: "helm"
-    repoURL: "https://github.com/pabrahamsson/anarchy-operator.git"
-    targetRevision: "add_dependencies_to_helm_chart"
+    repoURL: https://github.com/redhat-cop/anarchy.git 
+    targetRevision: v0.13.2

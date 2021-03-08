@@ -10,4 +10,4 @@ spec:
   source:
     path: "helm"
     repoURL: "https://github.com/redhat-cop/poolboy.git"
-    targetRevision: "v0.3.7"
+    targetRevision: "v0.5.0"
