@@ -12,3 +12,10 @@ patches:
       group: argoproj.io
       version: v1alpha1
       kind: ArgoCD
+- patch: |-
+    - op: replace
+      path: /subjects/0/namespace
+      value: lodestar-argo-cd
+  target:
+    labelSelector: app.kubernetes.io/part-of=argocd
+    kind: ClusterRoleBinding
