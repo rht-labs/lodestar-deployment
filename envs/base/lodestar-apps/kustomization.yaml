@@ -8,6 +8,7 @@ resources:
 - lodestar-frontend.yaml
 - lodestar-git-api.yaml
 - lodestar-status.yaml
+- lodestar-runtime-config.yaml
 patches:
 - patch: |-
     - op: add
