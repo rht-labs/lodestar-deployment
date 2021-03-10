@@ -106,11 +106,18 @@ patches:
               poolboy: v0.3.11
               resource-dispatcher: master
               status: master
+      - op: add
+        path: /spec/ignoreDifferences
+        value:
+          - group: apps.openshift.io
+            jsonPointers:
+              - /spec/template/spec/containers/0/image
+            kind: DeploymentConfig
     target:
       group: argoproj.io
       version: v1alpha1
       kind: Application
-      name: status
+      name: lodestar-status
   - patch: |
       - op: add
         path: /spec/source/helm
