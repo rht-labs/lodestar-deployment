@@ -169,13 +169,6 @@ patches:
             namespace:
               create: false
               name: lodestar-babylon-operators
-      - op: add
-        path: /spec/ignoreDifferences
-        value:
-          - group: apiextensions.k8s.io
-            kind: CustomResourceDefinitions
-            jsonPointers:
-              - /spec/names/shortNames
     target:
       group: argoproj.io
       version: v1alpha1
