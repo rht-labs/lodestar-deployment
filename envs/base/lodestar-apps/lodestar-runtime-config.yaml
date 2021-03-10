@@ -10,3 +10,7 @@ spec:
     path: /path/to/runtime
     repoURL: ssh://git@gitlab.example.com:/myorg/myconfig.git
     targetRevision: main
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
