@@ -88,7 +88,7 @@ patches:
       group: argoproj.io
       version: v1alpha1
       kind: Application
-      name: git-api
+      name: lodestar-git-api
   - patch: |
       - op: add
         path: /spec/source/helm
