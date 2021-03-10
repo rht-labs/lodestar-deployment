@@ -11,7 +11,7 @@ spec:
     path: "deployment"
     repoURL: "https://github.com/rht-labs/lodestar-git-api.git"
     targetRevision: "master"
-          #  syncPolicy:
-          #    automated:
-          #      prune: true
-          #      selfHeal: true
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

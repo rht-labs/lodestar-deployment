@@ -14,7 +14,7 @@ spec:
     helm:
       values: |
         imageTag: master
-          #  syncPolicy:
-          #    automated:
-          #      prune: true
-          #      selfHeal: true
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
