@@ -77,6 +77,10 @@ applications:
   ref: *configVersion
   helmValues:
     imageTag: *configVersion
+    runtimeConfigs:
+      - name: lodestar-runtime
+        file: lodestar-runtime-config.yaml
+        path: /runtime
   ignoreDifferences:
   - group: apps.openshift.io
     kind: DeploymentConfig
