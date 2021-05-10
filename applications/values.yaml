@@ -15,6 +15,7 @@ applicationVersions:
   backend: &backendVersion master
   git-api: &gitApiVersion master
   status: &statusVersion master
+  config: &configVersion main
   resource-dispatcher: &resourceDispatcherVersion master
   agnosticv-operator: &agnosticvVersion v0.8.1
   anarchy-operator: &anarchyVersion v0.14.2
@@ -63,6 +64,23 @@ applications:
   ref: *gitApiVersion
   helmValues:
     imageTag: *gitApiVersion
+  ignoreDifferences:
+  - group: apps.openshift.io
+    kind: DeploymentConfig
+    jsonPointers:
+    - /spec/template/spec/containers/0/image
+
+- name: config
+  url: https://github.com/rht-labs/lodestar-config.git
+  path: deployment
+  deploymentNamespace: lodestar-frontend
+  ref: *configVersion
+  helmValues:
+    imageTag: *configVersion
+    runtimeConfigs:
+      - name: lodestar-runtime
+        file: lodestar-runtime-config.yaml
+        path: /runtime
   ignoreDifferences:
   - group: apps.openshift.io
     kind: DeploymentConfig
