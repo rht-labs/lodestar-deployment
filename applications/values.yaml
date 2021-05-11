@@ -97,6 +97,7 @@ applications:
     namespaces: *statusNamespaces
     versions:
       frontend: *frontendVersion
+      config: *configVersion
       backend: *backendVersion
       git-api: *gitApiVersion
       status: *statusVersion
