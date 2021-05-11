@@ -19,7 +19,7 @@ applicationVersions:
   agnosticv-operator: &agnosticvVersion v0.8.0
   anarchy-operator: &anarchyVersion v0.14.2
   poolboy: &poolboyVersion v0.6.1
-  
+
 ##################################
 # Application Template Definitions
 ##################################
