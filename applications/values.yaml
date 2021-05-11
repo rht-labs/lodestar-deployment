@@ -16,7 +16,7 @@ applicationVersions:
   status: &statusVersion v1.0.0
   config: &configVersion v1.0.0
   resource-dispatcher: &resourceDispatcherVersion v1.0.13
-  agnosticv-operator: &agnosticvVersion v0.8.0
+  agnosticv-operator: &agnosticvVersion v0.8.1
   anarchy-operator: &anarchyVersion v0.14.2
   poolboy: &poolboyVersion v0.6.1
 
@@ -91,6 +91,7 @@ applications:
       namespaces: *statusNamespaces
       versions:
         frontend: *frontendVersion
+        config: *configVersion
         backend: *backendVersion
         git-api: *gitApiVersion
         status: *statusVersion
