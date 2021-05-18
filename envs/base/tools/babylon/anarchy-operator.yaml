@@ -11,3 +11,7 @@ spec:
     path: "helm"
     repoURL: https://github.com/redhat-cop/anarchy.git 
     targetRevision: v0.13.2
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
