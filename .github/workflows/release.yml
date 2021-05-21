@@ -98,6 +98,11 @@ jobs:
       uses: mikefarah/yq@3.3.2
       with:
         cmd: "yq w -i --anchorName statusVersion $GITHUB_WORKSPACE/applications/values.yaml applicationVersions.status ${{ github.event.client_payload.slash_command.status }}"
+    - name: Update Config Release
+      if: ${{ github.event.client_payload.slash_command.config != null }}
+      uses: mikefarah/yq@3.3.2
+      with:
+        cmd: "yq w -i --anchorName configVersion $GITHUB_WORKSPACE/applications/values.yaml applicationVersions.config ${{ github.event.client_payload.slash_command.config }}"
     - name: Update Resource Dispatcher Release
       if: ${{ github.event.client_payload.slash_command.dispatcher != null }}
       uses: mikefarah/yq@3.3.2

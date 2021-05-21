@@ -15,10 +15,11 @@ applicationVersions:
   backend: &backendVersion master
   git-api: &gitApiVersion master
   status: &statusVersion master
+  config: &configVersion main
   resource-dispatcher: &resourceDispatcherVersion master
-  agnosticv-operator: &agnosticvVersion v0.3.0
-  anarchy-operator: &anarchyVersion v0.13.2
-  poolboy: &poolboyVersion v0.5.0
+  agnosticv-operator: &agnosticvVersion v0.8.1
+  anarchy-operator: &anarchyVersion v0.14.2
+  poolboy: &poolboyVersion v0.6.1
 
 ##################################
 # Application Template Definitions
@@ -69,6 +70,23 @@ applications:
     jsonPointers:
     - /spec/template/spec/containers/0/image
 
+- name: config
+  url: https://github.com/rht-labs/lodestar-config.git
+  path: deployment
+  deploymentNamespace: lodestar-frontend
+  ref: *configVersion
+  helmValues:
+    imageTag: *configVersion
+    runtimeConfigs:
+      - name: lodestar-runtime
+        file: lodestar-runtime-config.yaml
+        path: /runtime
+  ignoreDifferences:
+  - group: apps.openshift.io
+    kind: DeploymentConfig
+    jsonPointers:
+    - /spec/template/spec/containers/0/image
+
 - name: status
   url: https://github.com/rht-labs/lodestar-status.git
   path: deployment
@@ -79,6 +97,7 @@ applications:
     namespaces: *statusNamespaces
     versions:
       frontend: *frontendVersion
+      config: *configVersion
       backend: *backendVersion
       git-api: *gitApiVersion
       status: *statusVersion
