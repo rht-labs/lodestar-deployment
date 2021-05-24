@@ -96,13 +96,13 @@ applications:
     imageTag: *statusVersion
     namespaces: *statusNamespaces
     versions:
-      frontend: *frontendVersion
-      config: *configVersion
-      backend: *backendVersion
-      git-api: *gitApiVersion
-      status: *statusVersion
+      lodestar-frontend: *frontendVersion
+      lodestar-config: *configVersion
+      lodestar-backend: *backendVersion
+      lodestar-git-api: *gitApiVersion
+      lodestar-status: *statusVersion
       resource-dispatcher: *resourceDispatcherVersion
-      agnosticv: *agnosticvVersion
+      agnosticv-operator: *agnosticvVersion
       anarchy: *anarchyVersion
       poolboy: *poolboyVersion
   ignoreDifferences:
