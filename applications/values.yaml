@@ -81,7 +81,7 @@ applications:
       - name: lodestar-runtime
         file: lodestar-runtime-config.yaml
         path: /runtime
-      - name: lodestar-runtime-DO500
+      - name: lodestar-runtime-do500
         file: lodestar-runtime-config-DO500.yaml
         path: /runtime
   ignoreDifferences:
