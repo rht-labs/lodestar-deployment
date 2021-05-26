@@ -10,10 +10,10 @@ lodestarStatusNamespaces: &statusNamespaces lodestar-frontend,lodestar-babylon-o
 # Version Manifest
 ##################
 applicationVersions:
-  frontend: &frontendVersion v1.1.24
+  frontend: &frontendVersion v1.1.25
   backend: &backendVersion v1.3.0
   git-api: &gitApiVersion v1.2.0
-  status: &statusVersion v1.0.0
+  status: &statusVersion v1.1.0
   config: &configVersion v1.0.0
   resource-dispatcher: &resourceDispatcherVersion v1.0.13
   agnosticv-operator: &agnosticvVersion v0.8.1
@@ -90,13 +90,13 @@ applications:
       imageTag: *statusVersion
       namespaces: *statusNamespaces
       versions:
-        frontend: *frontendVersion
-        config: *configVersion
-        backend: *backendVersion
-        git-api: *gitApiVersion
-        status: *statusVersion
+        lodestar-frontend: *frontendVersion
+        lodestar-config: *configVersion
+        lodestar-backend: *backendVersion
+        lodestar-git-api: *gitApiVersion
+        lodestar-status: *statusVersion
         resource-dispatcher: *resourceDispatcherVersion
-        agnosticv: *agnosticvVersion
+        agnosticv-operator: *agnosticvVersion
         anarchy: *anarchyVersion
         poolboy: *poolboyVersion
     ignoreDifferences:
