@@ -1,24 +1,18 @@
+---
 apiVersion: argoproj.io/v1alpha1
 kind: ArgoCD
 metadata:
   name: lodestar-argocd
-  namespace: lodestar-argo-cd
 spec:
-  applicationInstanceLabelKey: rht-labs.com/lodestar
-  dex:
-    image: quay.io/redhat-cop/dex 
-    version: v2.22.0-openshift
-    openShiftOAuth: true
+  version: v1.6.2
   rbac:
     defaultPolicy: 'role:readonly'
-    scopes: '[groups]'
   server:
-    route: true  
-    insecure: true
+    route:
+      enabled: true
   resourceCustomizations: |
     route.openshift.io/Route:
       ignoreDifferences: |
         jsonPointers:
           - /status
           - /status/ingress
-

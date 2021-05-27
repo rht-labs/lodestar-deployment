@@ -2,9 +2,93 @@
 bases:
 - github.com/jacobsee/argocd-operator//deploy?ref=deploy-using-jacobs-fork
 resources:
+- ./resources/namespaces.yaml
 - ./resources/argo.yaml
 - ./resources/lodestar-apps.yaml
 - ./resources/lodestar-cluster-reader.yaml
 
 commonLabels:
   operator: argocd
+
+patches:
+- patch: |-
+    - op: add
+      path: /metadata/namespace
+      value: lodestar-argo-cd
+  target:
+    kind: Role
+- patch: |-
+    - op: add
+      path: /metadata/namespace
+      value: lodestar-argo-cd
+  target:
+    kind: RoleBinding
+- patch: |-
+    - op: add
+      path: /metadata/namespace
+      value: lodestar-argo-cd
+  target:
+    kind: ClusterRoleBinding
+- patch: |-
+    - op: add
+      path: /metadata/namespace
+      value: lodestar-argo-cd
+  target:
+    kind: Deployment
+- patch: |-
+    - op: add
+      path: /metadata/namespace
+      value: lodestar-argo-cd
+  target:
+    kind: ServiceAccount
+- patch: |-
+    - op: replace
+      path: /metadata/namespace
+      value: lodestar-argo-cd
+  target:
+    labelSelector: operator=argocd
+- patch: |-
+    - op: replace
+      path: /subjects/0/namespace
+      value: lodestar-argo-cd
+  target:
+    labelSelector: operator=argocd
+    kind: ClusterRoleBinding
+- patch: |-
+    - op: replace
+      path: /subjects/0/namespace
+      value: lodestar-argo-cd
+  target:
+    labelSelector: app.kubernetes.io/part-of=argocd
+    kind: ClusterRoleBinding
+- patch: |-
+    - op: replace
+      path: /metadata/namespace
+      value: lodestar-argo-cd
+  target:
+    group: argoproj.io
+    version: v1alpha1
+- patch: |-
+    - op: add
+      path: /spec/destination/namespace
+      value: lodestar-argo-cd
+  target:
+    group: argoproj.io
+    version: v1alpha1
+    kind: Application
+- patch: |-
+    - op: add
+      path: /spec/destination/namespace
+      value: lodestar-babylon-operators
+  target:
+    group: argoproj.io
+    version: v1alpha1
+    kind: Application
+    name: lodestar-agnosticvrepos
+- patch: |-
+    - op: add
+      path: /metadata/namespace
+      value: lodestar-babylon-operators
+  target:
+    kind: AgnosticVRepo
+

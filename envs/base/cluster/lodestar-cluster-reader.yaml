@@ -1,0 +1,14 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: omp-cluster-reader
+  labels:
+    rbac.authorization.k8s.io/aggregate-to-cluster-reader: "true"
+rules:
+- apiGroups: ["argoproj.io","anarchy.gpte.redhat.com","gpte.redhat.com","poolboy.gpte.redhat.com","acme.cert-manager.io","cert-manager.io"]
+  resources: ["*"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["*"]
+  resources: ["secrets"]
+  verbs: ["get", "list", "watch"]
