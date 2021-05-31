@@ -8,8 +8,8 @@ spec:
   rbac:
     defaultPolicy: 'role:readonly'
   server:
-    route:
-      enabled: true
+    route: true
+    insecure: true
   resourceCustomizations: |
     route.openshift.io/Route:
       ignoreDifferences: |

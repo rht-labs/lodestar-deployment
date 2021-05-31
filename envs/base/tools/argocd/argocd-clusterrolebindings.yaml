@@ -3,58 +3,11 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   labels:
-    app.kubernetes.io/name: argocd-server
-    app.kubernetes.io/part-of: argocd
-    app.kubernetes.io/component: server
-  name: argocd-server
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: argocd-server
-subjects:
-- kind: ServiceAccount
-  name: argocd-server
-  namespace: argocd
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  labels:
-    app.kubernetes.io/name: argocd-server
-    app.kubernetes.io/part-of: argocd
-    app.kubernetes.io/component: server
-  name: argocd-server
-rules:
-- apiGroups:
-  - '*'
-  resources:
-  - '*'
-  verbs:
-  - delete  # supports deletion a live object in UI
-  - get     # supports viewing live object manifest in UI
-  - patch   # supports `argocd app patch`
-- apiGroups:
-  - ""
-  resources:
-  - events
-  verbs:
-  - list    # supports listing events in UI
-- apiGroups:
-  - ""
-  resources:
-  - pods
-  - pods/log
-  verbs:
-  - get     # supports viewing pod logs from UI
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  labels:
     app.kubernetes.io/name: argocd-application-controller
     app.kubernetes.io/part-of: argocd
     app.kubernetes.io/component: application-controller
   name: argocd-application-controller
+  namespace: lodestar-argo-cd
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -62,7 +15,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: argocd-application-controller
-  namespace: argocd
+  namespace: lodestar-argo-cd
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -72,6 +25,7 @@ metadata:
     app.kubernetes.io/part-of: argocd
     app.kubernetes.io/component: application-controller
   name: argocd-application-controller
+  namespace: lodestar-argo-cd
 rules:
 - apiGroups:
   - '*'
