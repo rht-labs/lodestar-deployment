@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
 - argocd-clusterrolebindings.yaml
 - argocd-operator-cr.yaml
+- dex-deployment.yaml
 patches:
   - patch: |
       - op: add
@@ -19,3 +20,12 @@ patches:
     target:
       labelSelector: app.kubernetes.io/part-of=argocd
       kind: ClusterRoleBinding
+  - patch: |
+      - op: add
+        path: /metadata/namespace
+        value: lodestar-argo-cd
+    target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: argocd-dex-server
