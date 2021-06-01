@@ -16,5 +16,8 @@ spec:
       kind: CustomResourceDefinition
       jsonPointers:
         - /spec/names/shortNames
-
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
 
