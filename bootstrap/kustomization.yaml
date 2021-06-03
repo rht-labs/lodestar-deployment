@@ -120,7 +120,7 @@ patches:
         value:
           values: |-
             imageTag: master
-            namespaces: lodestar-frontend, lodestar-babylon-operators
+            namespaces: lodestar-frontend,lodestar-babylon-operators
             versions:
               lodestar-backend: master
               lodestar-frontend: master
