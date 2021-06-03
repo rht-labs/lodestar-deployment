@@ -11,6 +11,7 @@ resources:
 - lodestar-runtime-config.yaml
 - lodestar-frontend-vanity-route.yaml
 - lodestar-frontend-cert.yaml
+- lodestar-config.yaml
 patches:
 - patch: |-
     - op: add
