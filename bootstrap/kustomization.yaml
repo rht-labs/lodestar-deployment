@@ -131,6 +131,7 @@ patches:
               agnosticv-operator: v0.8.1
               anarchy: v0.14.2
               poolboy: v0.6.1
+              lodestar: 1.0.0
       - op: add
         path: /spec/ignoreDifferences
         value:
