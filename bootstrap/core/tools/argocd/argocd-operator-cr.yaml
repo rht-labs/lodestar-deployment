@@ -10,6 +10,9 @@ spec:
   server:
     route:
       enabled: true
+      tls:
+        insecureEdgeTerminationPolicy: Redirect
+        termination: edge 
   resourceCustomizations: |
     route.openshift.io/Route:
       ignoreDifferences: |
