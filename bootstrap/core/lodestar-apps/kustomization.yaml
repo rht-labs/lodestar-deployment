@@ -3,7 +3,6 @@ kind: Kustomization
 bases:
   - configs
 resources:
-- lodestar-apps.yaml
 - lodestar-apps-project.yaml
 - lodestar-backend.yaml
 - lodestar-frontend.yaml
