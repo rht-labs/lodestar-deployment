@@ -8,11 +8,9 @@ spec:
   rbac:
     defaultPolicy: 'role:readonly'
   server:
+    insecure: true
     route:
       enabled: true
-      tls:
-        insecureEdgeTerminationPolicy: Redirect
-        termination: edge 
   resourceCustomizations: |
     route.openshift.io/Route:
       ignoreDifferences: |
