@@ -191,7 +191,7 @@ patches:
               namespace: lodestar-babylon-operators
               service: anarchy
             image:
-              tagOverride: v0.3.11 
+              tagOverride: v0.6.1 
             namespace:
               create: false
               name: lodestar-babylon-operators
