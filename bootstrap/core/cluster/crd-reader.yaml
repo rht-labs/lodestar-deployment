@@ -29,4 +29,5 @@ subjects:
   namespace: lodestar-babylon-operators
 - kind: ServiceAccount
   name: default
-  namespace; lodestar-frontend 
+  namespace: lodestar-frontend 
+
