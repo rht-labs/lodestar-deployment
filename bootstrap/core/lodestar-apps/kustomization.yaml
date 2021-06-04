@@ -1,0 +1,39 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+bases:
+  - configs
+resources:
+- lodestar-apps.yaml
+- lodestar-apps-project.yaml
+- lodestar-backend.yaml
+- lodestar-frontend.yaml
+- lodestar-git-api.yaml
+- lodestar-status.yaml
+- lodestar-runtime-config.yaml
+- lodestar-frontend-vanity-route.yaml
+- lodestar-frontend-cert.yaml
+- lodestar-config.yaml
+patches:
+- patch: |-
+    - op: add
+      path: /spec/project
+      value: lodestar-apps
+    - op: add
+      path: /spec/destination/namespace
+      value: lodestar-frontend
+    - op: add
+      path: /metadata/namespace
+      value: lodestar-argo-cd
+  target:
+    group: argoproj.io
+    version: v1alpha1
+    kind: Application
+- patch: |
+    - op: add
+      path: /metadata/namespace
+      value: lodestar-argo-cd
+  target:
+    group: argoproj.io
+    version: v1alpha1
+    kind: AppProject
+
