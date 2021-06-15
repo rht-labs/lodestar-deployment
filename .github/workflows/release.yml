@@ -82,47 +82,47 @@ jobs:
       if: ${{ github.event.client_payload.slash_command.frontend != null }}
       uses: mikefarah/yq@3.3.2
       with:
-        cmd: "yq w -i --anchorName frontendVersion $GITHUB_WORKSPACE/applications/values.yaml applicationVersions.frontend ${{ github.event.client_payload.slash_command.frontend }}"
+        cmd: "yq w -i $GITHUB_WORKSPACE/bootstrap/core/lodestar-apps/lodestar-frontend.yaml spec.source.targetRevision ${{ github.event.client_payload.slash_command.frontend }}"
     - name: Update Backend Release
       if: ${{ github.event.client_payload.slash_command.backend != null }}
       uses: mikefarah/yq@3.3.2
       with:
-        cmd: "yq w -i --anchorName backendVersion $GITHUB_WORKSPACE/applications/values.yaml applicationVersions.backend ${{ github.event.client_payload.slash_command.backend }}"
+        cmd: "yq w -i $GITHUB_WORKSPACE/bootstrap/core/lodestar-apps/lodestar-backend.yaml spec.source.targetRevision ${{ github.event.client_payload.slash_command.backend }}"
     - name: Update Git API Release
       if: ${{ github.event.client_payload.slash_command.gitapi != null }}
       uses: mikefarah/yq@3.3.2
       with:
-        cmd: "yq w -i --anchorName gitApiVersion $GITHUB_WORKSPACE/applications/values.yaml applicationVersions.git-api ${{ github.event.client_payload.slash_command.gitapi }}"
+        cmd: "yq w -i $GITHUB_WORKSPACE/bootstrap/core/lodestar-apps/lodestar-git-api.yaml spec.source.targetRevision ${{ github.event.client_payload.slash_command.gitapi }}"
     - name: Update Status Release
       if: ${{ github.event.client_payload.slash_command.status != null }}
       uses: mikefarah/yq@3.3.2
       with:
-        cmd: "yq w -i --anchorName statusVersion $GITHUB_WORKSPACE/applications/values.yaml applicationVersions.status ${{ github.event.client_payload.slash_command.status }}"
+        cmd: "yq w -i $GITHUB_WORKSPACE/bootstrap/core/lodestar-apps/lodestar-status.yaml spec.source.targetRevision ${{ github.event.client_payload.slash_command.status }}"
     - name: Update Config Release
       if: ${{ github.event.client_payload.slash_command.config != null }}
       uses: mikefarah/yq@3.3.2
       with:
-        cmd: "yq w -i --anchorName configVersion $GITHUB_WORKSPACE/applications/values.yaml applicationVersions.config ${{ github.event.client_payload.slash_command.config }}"
+        cmd: "yq w -i $GITHUB_WORKSPACE/bootstrap/core/lodestar-apps/lodestar-config.yaml spec.source.targetRevision ${{ github.event.client_payload.slash_command.config }}"
     - name: Update Resource Dispatcher Release
       if: ${{ github.event.client_payload.slash_command.dispatcher != null }}
       uses: mikefarah/yq@3.3.2
       with:
-        cmd: "yq w -i --anchorName resourceDispatcherVersion $GITHUB_WORKSPACE/applications/values.yaml applicationVersions.resource-dispatcher ${{ github.event.client_payload.slash_command.dispatcher }}"
+        cmd: "yq w -i --anchorName resourceDispatcherVersion $GITHUB_WORKSPACE/bootstrap/core/tools/dispatcher/resource-dispatcher.yaml spec.source.targetRevision ${{ github.event.client_payload.slash_command.dispatcher }}"
     - name: Update AgnosticV Operator Release
       if: ${{ github.event.client_payload.slash_command.agnosticv != null }}
       uses: mikefarah/yq@3.3.2
       with:
-        cmd: "yq w -i --anchorName agnosticvVersion $GITHUB_WORKSPACE/applications/values.yaml applicationVersions.agnosticv-operator ${{ github.event.client_payload.slash_command.agnosticv }}"
+        cmd: "yq w -i $GITHUB_WORKSPACE/bootstrap/core/tools/babylon/agnosticv-operator.yaml spec.source.targetRevision ${{ github.event.client_payload.slash_command.agnosticv }}"
     - name: Update Anarchy Operator Release
       if: ${{ github.event.client_payload.slash_command.anarchy != null }}
       uses: mikefarah/yq@3.3.2
       with:
-        cmd: "yq w -i --anchorName anarchyVersion $GITHUB_WORKSPACE/applications/values.yaml applicationVersions.anarchy-operator ${{ github.event.client_payload.slash_command.anarchy }}"
+        cmd: "yq w -i --anchorName anarchyVersion $GITHUB_WORKSPACE/bootstrap/core/tools/babylon/anarchy-operator.yaml spec.source.targetRevision ${{ github.event.client_payload.slash_command.anarchy }}"
     - name: Update Poolboy Release
       if: ${{ github.event.client_payload.slash_command.poolboy != null }}
       uses: mikefarah/yq@3.3.2
       with:
-        cmd: "yq w -i --anchorName poolboyVersion $GITHUB_WORKSPACE/applications/values.yaml applicationVersions.poolboy ${{ github.event.client_payload.slash_command.poolboy }}"
+        cmd: "yq w -i $GITHUB_WORKSPACE/bootstrap/core/tools/babylon/poolboy.yaml spec.source.targetRevision ${{ github.event.client_payload.slash_command.poolboy }}"
     - name: Disable E2E Testing
       uses: mikefarah/yq@3.3.2
       with:
