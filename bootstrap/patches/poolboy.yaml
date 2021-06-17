@@ -11,7 +11,12 @@ spec:
     kind: CustomResourceDefinition
   source:
     helm:
-      values: "anarchy:\n  create: true\n  namespace: lodestar-babylon-operators\n
-        \ service: anarchy\nimage:\n  tagOverride: v0.6.1 \nnamespace:\n  create:
-        false\n  name: lodestar-babylon-operators"
+      values: |-
+            anarchy:
+              create: true
+              namespace: lodestar-babylon-operators
+              service: anarchy
+            namespace:
+              create: false
+              name: lodestar-babylon-operators
     targetRevision: v0.6.1
