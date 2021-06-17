@@ -174,16 +174,16 @@ jobs:
         cmd: >
               yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(ImTagStr),strenv(StatusImVer))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
               yq -i e '.spec.source.targetRevision = env(StatusVer)' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status ;
-              yq -i e '. as $prnt | .spec.source.helm.values.versions | . =  sub(strenv(SFrontStr),strenv(SFrontVer))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
-              yq -i e '. as $prnt | .spec.source.helm.values.versions | . =  sub(strenv(SBackStr),strenv(SBackVer))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
-              yq -i e '. as $prnt | .spec.source.helm.values.versions | . =  sub(strenv(SGitApiStr),strenv(SGitApiVer))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
-              yq -i e '. as $prnt | .spec.source.helm.values.versions | . =  sub(strenv(SStatusStr),strenv(SStatusVer))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
-              yq -i e '. as $prnt | .spec.source.helm.values.versions | . =  sub(strenv(SConfigStr),strenv(SConfigVer))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
-              yq -i e '. as $prnt | .spec.source.helm.values.versions | . =  sub(strenv(SDispatchStr),strenv(SDispatchVer))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
-              yq -i e '. as $prnt | .spec.source.helm.values.versions | . =  sub(strenv(SAgnosticVStr),strenv(SAgnosticVVer))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
-              yq -i e '. as $prnt | .spec.source.helm.values.versions | . =  sub(strenv(SAnarchyStr),strenv(SAnarchyVer))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
-              yq -i e '. as $prnt | .spec.source.helm.values.versions | . =  sub(strenv(SPoolBStr),strenv(SPoolBVer))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
-              yq -i e '. as $prnt | .spec.source.helm.values.versions | . =  sub(strenv(SLodeStarStr),strenv(SLodeStarVer))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(SFrontStr),strenv(SFrontVer))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(SBackStr),strenv(SBackVer))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(SGitApiStr),strenv(SGitApiVer))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(SStatusStr),strenv(SStatusVer))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(SConfigStr),strenv(SConfigVer))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(SDispatchStr),strenv(SDispatchVer))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(SAgnosticVStr),strenv(SAgnosticVVer))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(SAnarchyStr),strenv(SAnarchyVer))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(SPoolBStr),strenv(SPoolBVer))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(SLodeStarStr),strenv(SLodeStarVer))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
     - name: Commit changes
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
