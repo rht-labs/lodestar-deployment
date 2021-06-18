@@ -86,7 +86,7 @@ jobs:
       StatusImVer: 'imageTag: ${{ github.event.client_payload.slash_command.status }}'
       ## Lodestar Config has only imageTag specified
       ConfigImVer: 'imageTag: ${{ github.event.client_payload.slash_command.status }}'
-      #Variables for Status page
+      #Variables for Status Service
       SFrontStr: 'lodestar-frontend:.*'
       SBackStr: 'lodestar-backend:.*'
       SGitApiStr: 'lodestar-git-api:.*'
@@ -112,9 +112,11 @@ jobs:
     - name: Get Environment Info
       id: env_info
       run: |
-        echo ::set-output name=issuetitle::$(jq -r .client_payload.github.payload.issue.title $GITHUB_EVENT_PATH)
+        ISSUE_TITLE = $(jq -r .client_payload.github.payload.issue.title $GITHUB_EVENT_PATH)
+        echo ::set-output name=issuetitle::$ISSUE_TITLE
         echo ::set-output name=issuenm::$(jq .client_payload.github.payload.issue.number $GITHUB_EVENT_PATH)
         echo ::set-output name=comment_url::$(jq .client_payload.github.payload.comment.html_url $GITHUB_EVENT_PATH)
+        echo ::set-output name=lodestarVersion::"lodestarVersion: ${ISSUE_TITLE}"
     - uses: actions/checkout@v2
       with:
         ref: ${{ steps.env_info.outputs.issuetitle }}
@@ -167,7 +169,7 @@ jobs:
       uses: mikefarah/yq@v4.9.6
       with:
         cmd: yq -i e '.spec.source.targetRevision = env(PoolBVer)' $GITHUB_WORKSPACE/bootstrap/patches/poolboy.yaml ;
-    - name: Update Status Release and Status Page
+    - name: Update Status Release and Status Service Content
       if: ${{ github.event.client_payload.slash_command.status != null }}
       uses: mikefarah/yq@v4.9.6
       with:
@@ -183,7 +185,7 @@ jobs:
               yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(SAgnosticVStr),strenv(SAgnosticVVer))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
               yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(SAnarchyStr),strenv(SAnarchyVer))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
               yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(SPoolBStr),strenv(SPoolBVer))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
-              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(SLodeStarStr),strenv(SLodeStarVer))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(SLodeStarStr),"${{ steps.env_info.outputs.lodestarVersion }}")| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
     - name: Commit changes
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
