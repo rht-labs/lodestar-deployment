@@ -146,14 +146,16 @@ jobs:
               yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(e2eTestMatchString),strenv(e2eDisableReplacementString))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-frontend.yaml ;
               yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(ImageTagMatchString),strenv(FrontendImageVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-frontend.yaml ;
               yq -i e '.spec.source.targetRevision = env(FrontendVersion)' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-frontend.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_FrontendMatchString),strenv(Versions_FrontendVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
 
     - name: Update LodeStar Backend Release Info
       if: ${{ github.event.client_payload.slash_command.backend != null }}
       uses: mikefarah/yq@v4.9.6
       with:
-         cmd: >
-               yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(ImageTagMatchString),strenv(BackendImageVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-backend.yaml ;
-               yq -i e '.spec.source.targetRevision = env(BackendVersion)' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-backend.yaml ;
+        cmd: >
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(ImageTagMatchString),strenv(BackendImageVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-backend.yaml ;
+              yq -i e '.spec.source.targetRevision = env(BackendVersion)' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-backend.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_BackendMatchString),strenv(Versions_BackendVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
 
     - name: Update LodeStar Git API Release Info
       if: ${{ github.event.client_payload.slash_command.gitapi != null }}
@@ -162,13 +164,16 @@ jobs:
         cmd: >
               yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(ImageTagMatchString),strenv(GitApiImageVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-git-api.yaml ;
               yq -i e '.spec.source.targetRevision = env(GitApiVersion)' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-git-api.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_GitApiMatchString),strenv(Versions_GitApiVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
 
     - name: Update LodeStar Config Release Info
       if: ${{ github.event.client_payload.slash_command.config != null }}
       uses: mikefarah/yq@v4.9.6
       with:
-        cmd:  yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(ImageTagMatchString),strenv(ConfigImageVersion)| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-config.yaml ;
+        cmd: >
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(ImageTagMatchString),strenv(ConfigImageVersion)| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-config.yaml ;
               yq -i e '.spec.source.targetRevision = env(ConfigVersion)' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-config.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_ConfigMatchString),strenv(Versions_ConfigVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
 
     - name: Update Resource Dispatcher Release Info
       if: ${{ github.event.client_payload.slash_command.dispatcher != null }}
@@ -177,24 +182,31 @@ jobs:
         cmd: >
               yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(ImageTagMatchString),strenv(DispatcherImageVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/resource-dispatcher.yaml ;
               yq -i e '.spec.source.targetRevision = env(DispatcherVersion)' $GITHUB_WORKSPACE/bootstrap/patches/resource-dispatcher.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_DispatcherMatchString),strenv(Versions_DispatcherVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
 
     - name: Update Babylon / AgnosticV Operator Release Info
       if: ${{ github.event.client_payload.slash_command.agnosticv != null }}
       uses: mikefarah/yq@v4.9.6
       with:
-        cmd:  yq -i e '.spec.source.targetRevision = env(AgnosticVVersion)' $GITHUB_WORKSPACE/bootstrap/patches/agnosticv-operator.yaml ;
+        cmd: >
+              yq -i e '.spec.source.targetRevision = env(AgnosticVVersion)' $GITHUB_WORKSPACE/bootstrap/patches/agnosticv-operator.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_AgnosticVMatchString),strenv(Versions_AgnosticVVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
 
     - name: Update Babylon / Anarchy Operator Release Info
       if: ${{ github.event.client_payload.slash_command.anarchy != null }}
       uses: mikefarah/yq@v4.9.6
       with:
-        cmd: yq -i e '.spec.source.targetRevision = env(AnarchyVersion)' $GITHUB_WORKSPACE/bootstrap/patches/anarchy-operator.yaml ;
+        cmd: >
+              yq -i e '.spec.source.targetRevision = env(AnarchyVersion)' $GITHUB_WORKSPACE/bootstrap/patches/anarchy-operator.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_AnarchyMatchString),strenv(Versions_AnarchyVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
 
     - name: Update Babylon / Poolboy Release Info
       if: ${{ github.event.client_payload.slash_command.poolboy != null }}
       uses: mikefarah/yq@v4.9.6
       with:
-        cmd: yq -i e '.spec.source.targetRevision = env(PoolBoyVersion)' $GITHUB_WORKSPACE/bootstrap/patches/poolboy.yaml ;
+        cmd: >
+              yq -i e '.spec.source.targetRevision = env(PoolBoyVersion)' $GITHUB_WORKSPACE/bootstrap/patches/poolboy.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_PoolBoyMatchString),strenv(Versions_PoolBoyVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
 
     - name: Update LodeStar Status Release Info
       if: ${{ github.event.client_payload.slash_command.status != null }}
@@ -203,16 +215,15 @@ jobs:
         cmd: >
               yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(ImageTagMatchString),strenv(StatusImageVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
               yq -i e '.spec.source.targetRevision = env(StatusVersion)' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
-              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_FrontendMatchString),strenv(Versions_FrontendVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
-              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_BackendMatchString),strenv(Versions_BackendVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
-              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_GitApiMatchString),strenv(Versions_GitApiVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
               yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_StatusMatchString),strenv(Versions_StatusVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
-              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_ConfigMatchString),strenv(Versions_ConfigVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
-              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_DispatcherMatchString),strenv(Versions_DispatcherVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
-              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_AgnosticVMatchString),strenv(Versions_AgnosticVVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
-              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_AnarchyMatchString),strenv(Versions_AnarchyVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
-              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_PoolBoyMatchString),strenv(Versions_PoolBoyVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
+
+    - name: Update LodeStar Overall Version Info
+      uses: mikefarah/yq@v4.9.6
+      with:
+        cmd: >
               yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_LodeStarMatchString),"${{ steps.env_info.outputs.lodestarVersion }}")| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
+
+    - name: Commit Release Changes
 
     - name: Commit Release Changes
       uses: stefanzweifel/git-auto-commit-action@v4
