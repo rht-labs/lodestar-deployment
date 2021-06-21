@@ -88,7 +88,7 @@ jobs:
       BackendImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.backend }}'
       GitApiVersion: ${{ github.event.client_payload.slash_command.gitapi }}
       GitApiImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.gitapi }}'
-      StatusServiceVersion: ${{ github.event.client_payload.slash_command.status }}
+      StatusVersion: ${{ github.event.client_payload.slash_command.status }}
       StatusImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.status }}'
       ConfigVersion: ${{ github.event.client_payload.slash_command.config }}
       ConfigImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.config }}'
@@ -100,29 +100,29 @@ jobs:
       AnarchyVersion: ${{ github.event.client_payload.slash_command.anarchy }}
       PoolBoyVersion: ${{ github.event.client_payload.slash_command.poolboy }}
 
-      ## Variables for Status Service - matching and replacement strings
-      StatusFrontendMatchString: 'lodestar-frontend:.*'
-      StatusFrontendVersion: 'lodestar-frontend:  ${{ github.event.client_payload.slash_command.frontend }}'
-      StatusBackendMatchString: 'lodestar-backend:.*'
-      StatusBackendVersion: 'lodestar-backend: ${{ github.event.client_payload.slash_command.backend }}'
-      StatusGitApiMatchString: 'lodestar-git-api:.*'
-      StatusGitApiVersion: 'lodestar-git-api: ${{ github.event.client_payload.slash_command.gitapi }}'
-      StatusServiceMatchString: 'lodestar-status:.*'
-      StatusServiceVersion: 'lodestar-status: ${{ github.event.client_payload.slash_command.status }}'
-      StatusConfigMatchString: 'lodestar-config:.*'
-      StatusConfigVersion: 'lodestar-config: ${{ github.event.client_payload.slash_command.config }}'
-      StatusDispatcherMatchString: 'resource-dispatcher:.*'
-      StatusDispatcherVersion: 'resource-dispatcher: ${{ github.event.client_payload.slash_command.dispatcher }}'
-      StatusAgnosticVMatchString: 'agnosticv-operator:.*'
-      StatusAgnosticVVersion: 'agnosticv-operator: ${{ github.event.client_payload.slash_command.agnosticv }}'
-      StatusAnarchyMatchString: 'anarchy:.*'
-      StatusAnarchyVersion: 'anarchy: ${{ github.event.client_payload.slash_command.anarchy }}'
-      StatusPoolBoyMatchString: 'poolboy:.*'
-      StatusPoolBoyVersion: 'poolboy: ${{ github.event.client_payload.slash_command.poolboy }}'
+      ## Variables for Status Service Versions - matching and replacement strings
+      Versions_FrontendMatchString: 'lodestar-frontend:.*'
+      Versions_FrontendVersion: 'lodestar-frontend:  ${{ github.event.client_payload.slash_command.frontend }}'
+      Versions_BackendMatchString: 'lodestar-backend:.*'
+      Versions_BackendVersion: 'lodestar-backend: ${{ github.event.client_payload.slash_command.backend }}'
+      Versions_GitApiMatchString: 'lodestar-git-api:.*'
+      Versions_GitApiVersion: 'lodestar-git-api: ${{ github.event.client_payload.slash_command.gitapi }}'
+      Versions_StatusMatchString: 'lodestar-status:.*'
+      Versions_StatusVersion: 'lodestar-status: ${{ github.event.client_payload.slash_command.status }}'
+      Versions_ConfigMatchString: 'lodestar-config:.*'
+      Versions_ConfigVersion: 'lodestar-config: ${{ github.event.client_payload.slash_command.config }}'
+      Versions_DispatcherMatchString: 'resource-dispatcher:.*'
+      Versions_DispatcherVersion: 'resource-dispatcher: ${{ github.event.client_payload.slash_command.dispatcher }}'
+      Versions_AgnosticVMatchString: 'agnosticv-operator:.*'
+      Versions_AgnosticVVersion: 'agnosticv-operator: ${{ github.event.client_payload.slash_command.agnosticv }}'
+      Versions_AnarchyMatchString: 'anarchy:.*'
+      Versions_AnarchyVersion: 'anarchy: ${{ github.event.client_payload.slash_command.anarchy }}'
+      Versions_PoolBoyMatchString: 'poolboy:.*'
+      Versions_PoolBoyVersion: 'poolboy: ${{ github.event.client_payload.slash_command.poolboy }}'
 
 
       ## LodeStar Overall Version String - value obtained at runtime
-      StatusLodeStarMatchString: 'lodestar:.*'
+      Versions_LodeStarMatchString: 'lodestar:.*'
 
 
     steps:
@@ -203,17 +203,17 @@ jobs:
       with:
         cmd: >
               yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(ImageTagMatchString),strenv(StatusImageVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
-              yq -i e '.spec.source.targetRevision = env(StatusServiceVersion)' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status ;
-              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(StatusFrontendMatchString),strenv(StatusFrontendVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
-              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(StatusBackendMatchString),strenv(StatusBackendVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
-              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(StatusGitApiMatchString),strenv(StatusGitApiVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
-              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(StatusServiceMatchString),strenv(StatusServiceVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
-              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(StatusConfigMatchString),strenv(StatusConfigVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
-              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(StatusDispatcherMatchString),strenv(StatusDispatcherVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
-              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(StatusAgnosticVMatchString),strenv(StatusAgnosticVVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
-              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(StatusAnarchyMatchString),strenv(StatusAnarchyVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
-              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(StatusPoolBoyMatchString),strenv(StatusPoolBoyVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
-              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(StatusLodeStarMatchString),"${{ steps.env_info.outputs.lodestarVersion }}")| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
+              yq -i e '.spec.source.targetRevision = env(StatusVersion)' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_FrontendMatchString),strenv(Versions_FrontendVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_BackendMatchString),strenv(Versions_BackendVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_GitApiMatchString),strenv(Versions_GitApiVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_StatusMatchString),strenv(Versions_StatusVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_ConfigMatchString),strenv(Versions_ConfigVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_DispatcherMatchString),strenv(Versions_DispatcherVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_AgnosticVMatchString),strenv(Versions_AgnosticVVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_AnarchyMatchString),strenv(Versions_AnarchyVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_PoolBoyMatchString),strenv(Versions_PoolBoyVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_LodeStarMatchString),"${{ steps.env_info.outputs.lodestarVersion }}")| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
 
     - name: Commit Release Changes
       uses: stefanzweifel/git-auto-commit-action@v4
