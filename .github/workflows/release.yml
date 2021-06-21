@@ -224,8 +224,6 @@ jobs:
               yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_LodeStarMatchString),"${{ steps.env_info.outputs.lodestarVersion }}")| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
 
     - name: Commit Release Changes
-
-    - name: Commit Release Changes
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
         branch: "${{ steps.env_info.outputs.issuetitle }}"
