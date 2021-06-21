@@ -81,7 +81,7 @@ jobs:
       e2eTestMatchString: 'enabled: true'
       e2eDisableReplacementString: 'enabled: false'
 
-      ## Versions assigment for components that need both version and imageTag
+      ## Versions assignment for components that need both version and imageTag
       FrontendVersion: ${{ github.event.client_payload.slash_command.frontend }}
       FrontendImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.frontend }}'
       BackendVersion: ${{ github.event.client_payload.slash_command.backend }}
@@ -95,7 +95,7 @@ jobs:
       DispatcherVersion: ${{ github.event.client_payload.slash_command.dispatcher }}
       DispatcherImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.dispatcher }}'
 
-      ## Versions assigment
+      ## Versions assignment
       AgnosticVVersion: ${{ github.event.client_payload.slash_command.agnosticv }}
       AnarchyVersion: ${{ github.event.client_payload.slash_command.anarchy }}
       PoolBoyVersion: ${{ github.event.client_payload.slash_command.poolboy }}
