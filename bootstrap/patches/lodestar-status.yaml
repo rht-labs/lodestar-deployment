@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: lodestar-status
+  namespace: lodestar-argo-cd
+spec:
+  ignoreDifferences:
+  - group: apps.openshift.io
+    jsonPointers:
+    - /spec/template/spec/containers/0/image
+    kind: DeploymentConfig
+  source:
+    helm:
+      values: |-
+        imageTag: master
+        namespaces: lodestar-frontend,lodestar-babylon-operators
+        versions:
+          lodestar-backend: master
+          lodestar-frontend: master
+          lodestar-git-api: master
+          lodestar-status: master
+          lodestar-config: main
+          resource-dispatcher: master
+          agnosticv-operator: v0.8.1
+          anarchy: v0.14.2
+          poolboy: v0.6.1
+          lodestar: 1.0.0
+    targetRevision: master
