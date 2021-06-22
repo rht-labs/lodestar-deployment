@@ -10,9 +10,9 @@ lodestarStatusNamespaces: &statusNamespaces lodestar-frontend,lodestar-babylon-o
 # Version Manifest
 ##################
 applicationVersions:
-  frontend: &frontendVersion v1.1.25
-  backend: &backendVersion v1.3.0
-  git-api: &gitApiVersion v1.2.0
+  frontend: &frontendVersion v1.1.26
+  backend: &backendVersion v1.3.1
+  git-api: &gitApiVersion v1.2.1
   status: &statusVersion v1.1.0
   config: &configVersion v1.0.0
   resource-dispatcher: &resourceDispatcherVersion v1.0.13
@@ -75,6 +75,9 @@ applications:
       runtimeConfigs:
         - name: lodestar-runtime
           file: lodestar-runtime-config.yaml
+          path: /runtime
+        - name: lodestar-runtime-do500
+          file: lodestar-runtime-config-DO500.yaml
           path: /runtime
     ignoreDifferences:
       - group: apps.openshift.io
