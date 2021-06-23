@@ -81,6 +81,9 @@ applications:
       - name: lodestar-runtime
         file: lodestar-runtime-config.yaml
         path: /runtime
+      - name: lodestar-runtime-do500
+        file: lodestar-runtime-config-DO500.yaml
+        path: /runtime
   ignoreDifferences:
   - group: apps.openshift.io
     kind: DeploymentConfig
@@ -96,13 +99,13 @@ applications:
     imageTag: *statusVersion
     namespaces: *statusNamespaces
     versions:
-      frontend: *frontendVersion
-      config: *configVersion
-      backend: *backendVersion
-      git-api: *gitApiVersion
-      status: *statusVersion
+      lodestar-frontend: *frontendVersion
+      lodestar-config: *configVersion
+      lodestar-backend: *backendVersion
+      lodestar-git-api: *gitApiVersion
+      lodestar-status: *statusVersion
       resource-dispatcher: *resourceDispatcherVersion
-      agnosticv: *agnosticvVersion
+      agnosticv-operator: *agnosticvVersion
       anarchy: *anarchyVersion
       poolboy: *poolboyVersion
   ignoreDifferences:

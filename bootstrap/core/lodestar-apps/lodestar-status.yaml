@@ -1,15 +1,15 @@
+---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: lodestar
+  name: lodestar-status
 spec:
   destination:
-    namespace: argo-cd 
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: "applications/"
-    repoURL: "https://github.com/rht-labs/lodestar-deployment.git"
+    path: "deployment"
+    repoURL: "https://github.com/rht-labs/lodestar-status.git"
     targetRevision: "master"
   syncPolicy:
     automated:

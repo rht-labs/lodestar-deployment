@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: lodestar-config
+spec:
+  ignoreDifferences:
+  - group: apps.openshift.io
+    jsonPointers:
+    - /spec/template/spec/containers/0/image
+    kind: DeploymentConfig
+  source:
+    helm:
+      values: |-
+        imageTag: main
+        runtimeConfigs:
+          - name: lodestar-runtime
+            file: lodestar-runtime-config.yaml
+            path: /runtime
+          - name: lodestar-runtime-do500
+            file: lodestar-runtime-config-DO500.yaml
+            path: /runtime
+    targetRevision: main
+
