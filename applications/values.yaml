@@ -16,6 +16,7 @@ applicationVersions:
   git-api: &gitApiVersion master
   status: &statusVersion master
   config: &configVersion main
+  actvity: &actvityVersion main
   resource-dispatcher: &resourceDispatcherVersion master
   agnosticv-operator: &agnosticvVersion v0.8.1
   anarchy-operator: &anarchyVersion v0.14.2
@@ -90,6 +91,19 @@ applications:
     jsonPointers:
     - /spec/template/spec/containers/0/image
 
+- name: activity
+  url: https://github.com/rht-labs/lodestar-activity.git
+  path: deployment
+  deploymentNamespace: lodestar-frontend
+  ref: *activityVersion
+  helmValues:
+    imageTag: *activityVersion
+  ignoreDifferences:
+  - group: apps.openshift.io
+    kind: DeploymentConfig
+    jsonPointers:
+    - /spec/template/spec/containers/0/image
+
 - name: status
   url: https://github.com/rht-labs/lodestar-status.git
   path: deployment
@@ -104,6 +118,7 @@ applications:
       lodestar-backend: *backendVersion
       lodestar-git-api: *gitApiVersion
       lodestar-status: *statusVersion
+      lodestar-activity: *activityVersion
       resource-dispatcher: *resourceDispatcherVersion
       agnosticv-operator: *agnosticvVersion
       anarchy: *anarchyVersion
