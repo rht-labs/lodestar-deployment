@@ -13,4 +13,4 @@ spec:
     helm:
       values: |-
         imageTag: main
-    targetRevision: master
+    targetRevision: main
