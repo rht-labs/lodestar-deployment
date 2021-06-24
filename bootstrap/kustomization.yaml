@@ -13,6 +13,7 @@ patchesStrategicMerge:
 - patches/resource-dispatcher.yaml
 - patches/lodestar-frontend.yaml
 - patches/lodestar-backend.yaml
+- patches/lodestar-activity.yaml
 - patches/lodestar-git-api.yaml
 - patches/lodestar-status.yaml
 - patches/agnosticv-operator.yaml

@@ -92,6 +92,8 @@ jobs:
       StatusImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.status }}'
       ConfigVersion: ${{ github.event.client_payload.slash_command.config }}
       ConfigImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.config }}'
+      ActivityVersion: ${{ github.event.client_payload.slash_command.activity }}
+      ActivityImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.activity }}'
       DispatcherVersion: ${{ github.event.client_payload.slash_command.dispatcher }}
       DispatcherImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.dispatcher }}'
 
@@ -111,6 +113,8 @@ jobs:
       Versions_StatusVersion: 'lodestar-status: ${{ github.event.client_payload.slash_command.status }}'
       Versions_ConfigMatchString: 'lodestar-config:.*'
       Versions_ConfigVersion: 'lodestar-config: ${{ github.event.client_payload.slash_command.config }}'
+      Versions_ActivityMatchString: 'lodestar-activity:.*'
+      Versions_ActivityVersion: 'lodestar-activity: ${{ github.event.client_payload.slash_command.activity }}'
       Versions_DispatcherMatchString: 'resource-dispatcher:.*'
       Versions_DispatcherVersion: 'resource-dispatcher: ${{ github.event.client_payload.slash_command.dispatcher }}'
       Versions_AgnosticVMatchString: 'agnosticv-operator:.*'
@@ -174,6 +178,15 @@ jobs:
               yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(ImageTagMatchString),strenv(ConfigImageVersion)| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-config.yaml ;
               yq -i e '.spec.source.targetRevision = env(ConfigVersion)' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-config.yaml ;
               yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_ConfigMatchString),strenv(Versions_ConfigVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
+
+    - name: Update LodeStar Activity Release Info
+      if: ${{ github.event.client_payload.slash_command.activity != null }}
+      uses: mikefarah/yq@v4.9.6
+      with:
+        cmd: >
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(ImageTagMatchString),strenv(ActivityImageVersion)| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-activity.yaml ;
+              yq -i e '.spec.source.targetRevision = env(ActivityVersion)' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-activity.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_ActivityMatchString),strenv(Versions_ActivityVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
 
     - name: Update Resource Dispatcher Release Info
       if: ${{ github.event.client_payload.slash_command.dispatcher != null }}
