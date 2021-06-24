@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: lodestar-frontend
+  name: lodestar-activity
   namespace: lodestar-argo-cd
 spec:
   ignoreDifferences:
