@@ -20,6 +20,7 @@ spec:
           lodestar-git-api: master
           lodestar-status: master
           lodestar-config: main
+          lodestar-activity: main
           resource-dispatcher: master
           agnosticv-operator: v0.8.1
           anarchy: v0.14.2
