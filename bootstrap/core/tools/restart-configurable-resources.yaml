@@ -19,7 +19,8 @@ spec:
         - |
           oc rollout latest dc/lodestar-backend -n lodestar-frontend || echo "deployment config lodestar-backend does not exist"
           oc rollout latest dc/lodestar-git-api -n lodestar-frontend || echo "deployment config lodestar-git-api does not exist"
-          oc rollout latest dc/lodestar-status -n lodestar-frontend  || echo "deployment config lodestar-status  does not exist"
+          oc rollout latest dc/lodestar-status -n lodestar-frontend  || echo "deployment config lodestar-status does not exist"
+          oc rollout latest dc/lodestar-activity -n lodestar-frontend  || echo "deployment config lodestar-activity does not exist"
           oc rollout latest dc/resource-dispatcher -n lodestar-argo-cd || echo "deployment config resource-dispatcher does not exist"
       restartPolicy: Never
       terminationGracePeriodSeconds: 30
