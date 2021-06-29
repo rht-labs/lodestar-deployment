@@ -14,17 +14,20 @@ jobs:
         echo ::set-output name=release::$(git ls-remote --heads https://github.com/$GITHUB_REPOSITORY $ISSUE_TITLE)
         echo ::set-output name=issuenm::$(jq .client_payload.github.payload.issue.number $GITHUB_EVENT_PATH)
         echo ::set-output name=issuetitle::$ISSUE_TITLE
-    - name: Create release branch
+
+    - name: Create Release Branch
       uses: peterjgrainger/action-create-branch@v1.0.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         branch: "${{ steps.env_info.outputs.issuetitle }}"
       if: ${{ steps.env_info.outputs.release == null }}
+
     - name: Alert that release already exists
       run: |
         echo "Release branch ${{ steps.env_info.outputs.issuetitle }} already exists. Skipping..."
       if: ${{ steps.env_info.outputs.release != null }}
+
     - name: Check if label exists
       uses: actions/github-script@v1
       id: label_check
@@ -37,6 +40,7 @@ jobs:
             repo: context.repo.repo,
             name: "${{ steps.env_info.outputs.issuetitle }}"
           })
+
     - name: Create label to be used for release
       uses: actions/github-script@v1
       id: create_label
@@ -50,6 +54,7 @@ jobs:
             color: "2d5893"
           })
       if: ${{ steps.label_check.outcome == 'failure' }}
+
     - name: Apply label to issue
       uses: actions/github-script@v1
       if: ${{ steps.create_label.outcome == 'success' }}
@@ -68,87 +73,181 @@ jobs:
     needs: create-release-branch
     env:
       URL: ${{ secrets.RELEASE_NOTIFICATON_URL }}
+
+      ## String to match for ImageTag replacement where applicable
+      ImageTagMatchString: 'imageTag:.*'
+
+      ## End-to-End (E2E) testing -  match string and replacement string
+      e2eTestMatchString: 'enabled: true'
+      e2eDisableReplacementString: 'enabled: false'
+
+      ## Versions assignment for components that need both version and imageTag
+      FrontendVersion: ${{ github.event.client_payload.slash_command.frontend }}
+      FrontendImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.frontend }}'
+      BackendVersion: ${{ github.event.client_payload.slash_command.backend }}
+      BackendImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.backend }}'
+      GitApiVersion: ${{ github.event.client_payload.slash_command.gitapi }}
+      GitApiImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.gitapi }}'
+      StatusVersion: ${{ github.event.client_payload.slash_command.status }}
+      StatusImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.status }}'
+      ConfigVersion: ${{ github.event.client_payload.slash_command.config }}
+      ConfigImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.config }}'
+      ActivityVersion: ${{ github.event.client_payload.slash_command.activity }}
+      ActivityImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.activity }}'
+      DispatcherVersion: ${{ github.event.client_payload.slash_command.dispatcher }}
+      DispatcherImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.dispatcher }}'
+
+      ## Versions assignment
+      AgnosticVVersion: ${{ github.event.client_payload.slash_command.agnosticv }}
+      AnarchyVersion: ${{ github.event.client_payload.slash_command.anarchy }}
+      PoolBoyVersion: ${{ github.event.client_payload.slash_command.poolboy }}
+
+      ## Variables for Status Service Versions - matching and replacement strings
+      Versions_FrontendMatchString: 'lodestar-frontend:.*'
+      Versions_FrontendVersion: 'lodestar-frontend:  ${{ github.event.client_payload.slash_command.frontend }}'
+      Versions_BackendMatchString: 'lodestar-backend:.*'
+      Versions_BackendVersion: 'lodestar-backend: ${{ github.event.client_payload.slash_command.backend }}'
+      Versions_GitApiMatchString: 'lodestar-git-api:.*'
+      Versions_GitApiVersion: 'lodestar-git-api: ${{ github.event.client_payload.slash_command.gitapi }}'
+      Versions_StatusMatchString: 'lodestar-status:.*'
+      Versions_StatusVersion: 'lodestar-status: ${{ github.event.client_payload.slash_command.status }}'
+      Versions_ConfigMatchString: 'lodestar-config:.*'
+      Versions_ConfigVersion: 'lodestar-config: ${{ github.event.client_payload.slash_command.config }}'
+      Versions_ActivityMatchString: 'lodestar-activity:.*'
+      Versions_ActivityVersion: 'lodestar-activity: ${{ github.event.client_payload.slash_command.activity }}'
+      Versions_DispatcherMatchString: 'resource-dispatcher:.*'
+      Versions_DispatcherVersion: 'resource-dispatcher: ${{ github.event.client_payload.slash_command.dispatcher }}'
+      Versions_AgnosticVMatchString: 'agnosticv-operator:.*'
+      Versions_AgnosticVVersion: 'agnosticv-operator: ${{ github.event.client_payload.slash_command.agnosticv }}'
+      Versions_AnarchyMatchString: 'anarchy:.*'
+      Versions_AnarchyVersion: 'anarchy: ${{ github.event.client_payload.slash_command.anarchy }}'
+      Versions_PoolBoyMatchString: 'poolboy:.*'
+      Versions_PoolBoyVersion: 'poolboy: ${{ github.event.client_payload.slash_command.poolboy }}'
+
+      ## LodeStar Overall Version String - value obtained at runtime
+      Versions_LodeStarMatchString: 'lodestar:.*'
+
+
     steps:
     - name: Get Environment Info
       id: env_info
       run: |
-        echo ::set-output name=issuetitle::$(jq -r .client_payload.github.payload.issue.title $GITHUB_EVENT_PATH)
+        ISSUE_TITLE = $(jq -r .client_payload.github.payload.issue.title $GITHUB_EVENT_PATH)
+        echo ::set-output name=issuetitle::$ISSUE_TITLE
         echo ::set-output name=issuenm::$(jq .client_payload.github.payload.issue.number $GITHUB_EVENT_PATH)
         echo ::set-output name=comment_url::$(jq .client_payload.github.payload.comment.html_url $GITHUB_EVENT_PATH)
+        echo ::set-output name=lodestarVersion::"lodestarVersion: ${ISSUE_TITLE}"
+
     - uses: actions/checkout@v2
       with:
         ref: ${{ steps.env_info.outputs.issuetitle }}
-    - name: Update Frontend Release
+
+    - name: Update LodeStar Frontend Release Info
       if: ${{ github.event.client_payload.slash_command.frontend != null }}
-      uses: mikefarah/yq@3.3.2
+      uses: mikefarah/yq@v4.9.6
       with:
-        cmd: "yq w -i --anchorName frontendVersion $GITHUB_WORKSPACE/applications/values.yaml applicationVersions.frontend ${{ github.event.client_payload.slash_command.frontend }}"
-    - name: Update Backend Release
+        cmd: >
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(e2eTestMatchString),strenv(e2eDisableReplacementString))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-frontend.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(ImageTagMatchString),strenv(FrontendImageVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-frontend.yaml ;
+              yq -i e '.spec.source.targetRevision = env(FrontendVersion)' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-frontend.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_FrontendMatchString),strenv(Versions_FrontendVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
+
+    - name: Update LodeStar Backend Release Info
       if: ${{ github.event.client_payload.slash_command.backend != null }}
-      uses: mikefarah/yq@3.3.2
+      uses: mikefarah/yq@v4.9.6
       with:
-        cmd: "yq w -i --anchorName backendVersion $GITHUB_WORKSPACE/applications/values.yaml applicationVersions.backend ${{ github.event.client_payload.slash_command.backend }}"
-    - name: Update Git API Release
+        cmd: >
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(ImageTagMatchString),strenv(BackendImageVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-backend.yaml ;
+              yq -i e '.spec.source.targetRevision = env(BackendVersion)' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-backend.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_BackendMatchString),strenv(Versions_BackendVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
+
+    - name: Update LodeStar Git API Release Info
       if: ${{ github.event.client_payload.slash_command.gitapi != null }}
-      uses: mikefarah/yq@3.3.2
+      uses: mikefarah/yq@v4.9.6
       with:
-        cmd: "yq w -i --anchorName gitApiVersion $GITHUB_WORKSPACE/applications/values.yaml applicationVersions.git-api ${{ github.event.client_payload.slash_command.gitapi }}"
-    - name: Update Status Release
-      if: ${{ github.event.client_payload.slash_command.status != null }}
-      uses: mikefarah/yq@3.3.2
-      with:
-        cmd: "yq w -i --anchorName statusVersion $GITHUB_WORKSPACE/applications/values.yaml applicationVersions.status ${{ github.event.client_payload.slash_command.status }}"
-    - name: Update Config Release
+        cmd: >
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(ImageTagMatchString),strenv(GitApiImageVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-git-api.yaml ;
+              yq -i e '.spec.source.targetRevision = env(GitApiVersion)' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-git-api.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_GitApiMatchString),strenv(Versions_GitApiVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
+
+    - name: Update LodeStar Config Release Info
       if: ${{ github.event.client_payload.slash_command.config != null }}
-      uses: mikefarah/yq@3.3.2
+      uses: mikefarah/yq@v4.9.6
       with:
-        cmd: "yq w -i --anchorName configVersion $GITHUB_WORKSPACE/applications/values.yaml applicationVersions.config ${{ github.event.client_payload.slash_command.config }}"
-    - name: Update Resource Dispatcher Release
+        cmd: >
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(ImageTagMatchString),strenv(ConfigImageVersion)| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-config.yaml ;
+              yq -i e '.spec.source.targetRevision = env(ConfigVersion)' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-config.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_ConfigMatchString),strenv(Versions_ConfigVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
+
+    - name: Update Resource Dispatcher Release Info
       if: ${{ github.event.client_payload.slash_command.dispatcher != null }}
-      uses: mikefarah/yq@3.3.2
+      uses: mikefarah/yq@v4.9.6
       with:
-        cmd: "yq w -i --anchorName resourceDispatcherVersion $GITHUB_WORKSPACE/applications/values.yaml applicationVersions.resource-dispatcher ${{ github.event.client_payload.slash_command.dispatcher }}"
-    - name: Update AgnosticV Operator Release
+        cmd: >
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(ImageTagMatchString),strenv(DispatcherImageVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/resource-dispatcher.yaml ;
+              yq -i e '.spec.source.targetRevision = env(DispatcherVersion)' $GITHUB_WORKSPACE/bootstrap/patches/resource-dispatcher.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_DispatcherMatchString),strenv(Versions_DispatcherVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
+
+    - name: Update Babylon / AgnosticV Operator Release Info
       if: ${{ github.event.client_payload.slash_command.agnosticv != null }}
-      uses: mikefarah/yq@3.3.2
+      uses: mikefarah/yq@v4.9.6
       with:
-        cmd: "yq w -i --anchorName agnosticvVersion $GITHUB_WORKSPACE/applications/values.yaml applicationVersions.agnosticv-operator ${{ github.event.client_payload.slash_command.agnosticv }}"
-    - name: Update Anarchy Operator Release
+        cmd: >
+              yq -i e '.spec.source.targetRevision = env(AgnosticVVersion)' $GITHUB_WORKSPACE/bootstrap/patches/agnosticv-operator.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_AgnosticVMatchString),strenv(Versions_AgnosticVVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
+
+    - name: Update Babylon / Anarchy Operator Release Info
       if: ${{ github.event.client_payload.slash_command.anarchy != null }}
-      uses: mikefarah/yq@3.3.2
+      uses: mikefarah/yq@v4.9.6
       with:
-        cmd: "yq w -i --anchorName anarchyVersion $GITHUB_WORKSPACE/applications/values.yaml applicationVersions.anarchy-operator ${{ github.event.client_payload.slash_command.anarchy }}"
-    - name: Update Poolboy Release
+        cmd: >
+              yq -i e '.spec.source.targetRevision = env(AnarchyVersion)' $GITHUB_WORKSPACE/bootstrap/patches/anarchy-operator.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_AnarchyMatchString),strenv(Versions_AnarchyVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
+
+    - name: Update Babylon / Poolboy Release Info
       if: ${{ github.event.client_payload.slash_command.poolboy != null }}
-      uses: mikefarah/yq@3.3.2
+      uses: mikefarah/yq@v4.9.6
       with:
-        cmd: "yq w -i --anchorName poolboyVersion $GITHUB_WORKSPACE/applications/values.yaml applicationVersions.poolboy ${{ github.event.client_payload.slash_command.poolboy }}"
-    - name: Disable E2E Testing
-      uses: mikefarah/yq@3.3.2
+        cmd: >
+              yq -i e '.spec.source.targetRevision = env(PoolBoyVersion)' $GITHUB_WORKSPACE/bootstrap/patches/poolboy.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_PoolBoyMatchString),strenv(Versions_PoolBoyVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
+
+    - name: Update LodeStar Status Release Info
+      if: ${{ github.event.client_payload.slash_command.status != null }}
+      uses: mikefarah/yq@v4.9.6
       with:
-        cmd: "yq w -i --anchorName e2eEnabled $GITHUB_WORKSPACE/applications/values.yaml e2eEnabled false"
-    - name: Update Chart & App Versions
-      uses: redhat-cop/github-actions/set-helm-version@master
+        cmd: >
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(ImageTagMatchString),strenv(StatusImageVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
+              yq -i e '.spec.source.targetRevision = env(StatusVersion)' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_StatusMatchString),strenv(Versions_StatusVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
+
+    - name: Update LodeStar Overall Version Info
+      uses: mikefarah/yq@v4.9.6
       with:
-        path: applications
-        chart_version: "${{ steps.env_info.outputs.issuetitle }}"
-        app_version: "${{ steps.env_info.outputs.issuetitle }}"
-    - name: Commit changes
+        cmd: >
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_LodeStarMatchString),"${{ steps.env_info.outputs.lodestarVersion }}")| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
+
+    - name: Commit Release Changes
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
         branch: "${{ steps.env_info.outputs.issuetitle }}"
         commit_message: "Merging changes requested from ${{ steps.env_info.outputs.comment_url }}"
+
     # - name: 'Get Previous tag'
     #   id: previoustag
     #   uses: actions-ecosystem/action-get-latest-tag@v1
-    - id: previous_release
+
+    - name: Fetch Previous Release Info
+      id: previous_release
       uses: pozetroninc/github-action-get-latest-release@master
       with:
         repository: rht-labs/lodestar-deployment
+
     - name: Generate Release Body
       id: release_body
       run: |
         echo ::set-output name=text::$(git log ${{ steps.previous_release.outputs.release }}..HEAD --pretty=format:"- %h %s by %an" --no-merges)
+
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -160,7 +259,8 @@ jobs:
         body: ${{ steps.release_body.outputs.text }}
         draft: false
         prerelease: false
-    - name: Create comment
+
+    - name: Create Release Comment
       uses: peter-evans/create-or-update-comment@v1
       with:
         repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
@@ -168,7 +268,7 @@ jobs:
         body: |
           Created release ${{ steps.env_info.outputs.issuetitle }}!
 
-    - name: Notify chat
-      run: | 
+    - name: Notify Chat
+      run: |
        echo "Thread key ${{ steps.env_info.outputs.threadKey }} issue ${{ steps.env_info.outputs.issuenm }} "
         [ ! -z "$URL" ] && curl "$URL&threadKey=$GITHUB_REPOSITORY-${{ steps.env_info.outputs.issuenm}}" -H "Content-Type: application/json" -d '{ "text" : "Release created *${{ steps.env_info.outputs.issuetitle }}*" }'
