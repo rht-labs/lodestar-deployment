@@ -1,1 +1,0 @@
-Lodestar "App-of-Apps" has been deployed!
