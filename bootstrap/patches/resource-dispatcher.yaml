@@ -21,7 +21,7 @@ spec:
         clusterRole: argocd-application-controller
         configMapName: resource-dispatcher-config
         exposeRoute: true
-        imageTag: v1.0.13
+        imageTag: v1.0.14
         setupClusterRoleBinding: true
         sshSecretConfigMap: resource-dispatcher-key
-    targetRevision: v1.0.13
+    targetRevision: v1.0.14
