@@ -14,5 +14,5 @@ spec:
       values: |-
         imageTag: v1.1.26
         e2eTestJob:
-          enabled: true
+          enabled: false
     targetRevision: v1.1.26
