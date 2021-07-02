@@ -20,7 +20,7 @@ spec:
           lodestar-git-api: v1.2.1
           lodestar-status: v1.1.0
           lodestar-config: v1.0.0
-          resource-dispatcher: v1.0.13
+          resource-dispatcher: v1.0.14
           agnosticv-operator: v0.8.1
           anarchy: v0.14.2
           poolboy: v0.6.1
