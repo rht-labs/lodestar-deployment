@@ -4,31 +4,44 @@ This repository both bootstraps and manages the deployment lifecycle of Lodestar
 
 ## Bootstrapping
 
-To create an instance of Lodestar in a cluster, apply the `bootstrap` Helm chart using the following command:
+To create an instance of Lodestar in a cluster, ensure you're on the branch/commit-id of your choice and you have working oc/ku>
 
 ```sh
-helm install lodestar bootstrap/ --set application.ref=<desired git ref>
+kustomize build bootstrap/ | oc apply -f -
 ```
 
-Make sure to replace `<desired-git-ref>` with the tag that you want to deploy to this cluster. If this is a staging cluster, you might have a Git tag such as `deploy-staging`; and if this is a production cluster, maybe `deploy-production`.
+NOTE: Running `kustomize build bootstrap/` alone will print manifests that can be reviewed before actually applying it to the c>
 
 ## Lifecycle Management
 
-Lodestar is not a single application, but a collection of components (or services) that all add up to a working system. Those services might be versioned separately from one another. Therefore, a "deployment of Lodestar" is really a manifest of the versions of its constituent components that are known to work well with each other.
+Lodestar is not a single application, but a collection of components (or services) that all add up to a working system. Those s>
 
-This manifest lives in `applications/values.yaml`:
+Kustomize patches for respective components live in `bootstrap/patches/` directory:
+
+Example file, where `v1.3.1` is target version, `bootstrap/patches/lodestar-backend.yaml`:
 
 ```yaml
-applicationVersions:
-  frontend: &frontendVersion 4edb30
-  backend: &backendVersion 3a03d2
-  git-api: &gitApiVersion 8cb605
-  launcher: &launcherVersion 8bca47
-  ...
-  appName: &yamlAnchorName <ref-to-deploy>
-```
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: lodestar-backend
+  namespace: lodestar-argo-cd
+spec:
+  ignoreDifferences:
+  - group: apps.openshift.io
+    jsonPointers:
+    - /spec/template/spec/containers/0/image
+    - /spec/template/spec/volumes/0
+    kind: DeploymentConfig
+  source:
+    helm:
+      values: |-
+        imageTag: v1.3.1
+        mongodb:
+          persistent: false
+    targetRevision: v1.3.1
 
-NOTE: Because Helm does not support templating inside of the `values.yaml` file, we need to use [YAML anchors](https://confluence.atlassian.com/bitbucket/yaml-anchors-960154027.html) if we want to prevent duplicate definitions of data.
+```
 
 Automatic syncing, pruning, and self healing is enabled for this project - so committing a change to the above manifest and tagging it appropriately as `deploy-staging` or `deploy-production` will cause an Argo CD instance bootstrapped with that tag to deploy those versions of the applications.
 
@@ -44,6 +57,7 @@ Creating releases is automated through the use of GitHub Actions Workflows. To c
 |backend|The version to use for the backend application|no|
 |gitapi|The version to use for the Git API|no|
 |dispatcher|The version to use for the Resource Dispatcher|no|
+|activity|The version to use for activity application|no|
 |agnosticv|The version to use for AgnosticV|no|
 |anarchy|The version to use for Anarchy|no|
 |poolboy|The version to use for Poolboy|no|
