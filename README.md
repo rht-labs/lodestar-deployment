@@ -4,13 +4,13 @@ This repository both bootstraps and manages the deployment lifecycle of Lodestar
 
 ## Bootstrapping
 
-To create an instance of Lodestar in a cluster, apply the `bootstrap` Helm chart using the following command:
+To create an instance of Lodestar in a cluster, ensure you're on the branch/commit-id of your choice and you have working oc/kubectl session towards the target cluster, then  apply the `bootstrap` Kustomize using the following command:
 
 ```sh
-helm install lodestar bootstrap/ --set application.ref=<desired git ref>
+kustomize build bootstrap/ | oc apply -f -
 ```
 
-Make sure to replace `<desired-git-ref>` with the tag that you want to deploy to this cluster. If this is a staging cluster, you might have a Git tag such as `deploy-staging`; and if this is a production cluster, maybe `deploy-production`.
+NOTE: Running `kustomize build bootstrap/` alone will print manifests that can be reviewed before actually applying it to the cluster.
 
 ## Lifecycle Management
 
