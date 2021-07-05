@@ -1,0 +1,17 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: lodestar-backend
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: "deployment"
+    repoURL: "https://github.com/rht-labs/lodestar-backend.git"
+    targetRevision: "master"
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

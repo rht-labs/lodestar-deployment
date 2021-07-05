@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: poolboy
+  namespace: lodestar-argo-cd
+spec:
+  ignoreDifferences:
+  - group: apiextensions.k8s.io
+    jsonPointers:
+    - /spec/names/shortNames
+    kind: CustomResourceDefinition
+  source:
+    helm:
+      values: |-
+            anarchy:
+              create: true
+              namespace: lodestar-babylon-operators
+              service: anarchy
+            namespace:
+              create: false
+              name: lodestar-babylon-operators
+    targetRevision: v0.6.1

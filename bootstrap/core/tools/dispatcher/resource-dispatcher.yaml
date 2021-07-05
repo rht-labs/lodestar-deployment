@@ -1,0 +1,17 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: resource-dispatcher
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: "resource-dispatcher/helm"
+    repoURL: "https://github.com/redhat-cop/tool-integrations.git"
+    targetRevision: "master"
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

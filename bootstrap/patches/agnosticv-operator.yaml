@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: agnosticv-operator
+  namespace: lodestar-argo-cd
+spec:
+  source:
+    helm:
+      values: |-
+        anarchy:
+          namespace: lodestar-babylon-operators
+        image:
+          repository: quay.io/redhat-gpte/agnosticv-operator
+        namespace:
+          create: false
+          name: lodestar-babylon-operators
+    targetRevision: v0.8.1
