@@ -16,7 +16,7 @@ NOTE: Running `kustomize build bootstrap/` alone will print manifests that can b
 
 Lodestar is not a single application, but a collection of components (or services) that all add up to a working system. Those services might be versioned separately from one another. Therefore, a "deployment of Lodestar" is really a manifest of the versions of its constituent components that are known to work well with each other.
 
-Manifests for respective components live in `bootstrap/patches/` directory:
+Kustomize patches for respective components live in `bootstrap/patches/` directory:
 
 Example file, where `v1.3.1` is target version, `bootstrap/patches/lodestar-backend.yaml`: 
 
