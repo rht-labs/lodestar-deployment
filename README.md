@@ -1,10 +1,10 @@
-# Lodestar - Deployment
+# LodeStar - Deployment
 
-This repository both bootstraps and manages the deployment lifecycle of Lodestar across multiple versions. It contains a manifest which controls the release version of all individual components of Lodestar. It is meant to be used with Argo CD.
+This repository both bootstraps and manages the deployment lifecycle of LodeStar across multiple versions. It contains a manifest which controls the release version of all individual components of LodeStar. It is meant to be used with Argo CD.
 
 ## Bootstrapping
 
-To create an instance of Lodestar in a cluster, ensure you're on the branch/commit-id of your choice and you have working oc/kubectl session towards the target cluster, then  apply the `bootstrap` Kustomize using the following command:
+To create an instance of LodeStar in a cluster of your choice, ensure you're on the branch/commit-id of your choice and you have working oc/kubectl session towards the target cluster, then  apply the `bootstrap` Kustomize using the following command:
 
 ```sh
 kustomize build bootstrap/ | oc apply -f -
@@ -14,34 +14,11 @@ NOTE: Running `kustomize build bootstrap/` alone will print manifests that can b
 
 ## Lifecycle Management
 
-Lodestar is not a single application, but a collection of components (or services) that all add up to a working system. Those services might be versioned separately from one another. Therefore, a "deployment of Lodestar" is really a manifest of the versions of its constituent components that are known to work well with each other.
+LodeStar is not a single application, but a collection of components (or services) that all add up to a working system. Those services might be versioned separately from one another. Therefore, a "deployment of LodeStar" is really a manifest of the versions of its constituent components that are known to work well with each other.
 
-Kustomize patches for respective components live in `bootstrap/patches/` directory:
+Kustomize patches for respective components live in `bootstrap/patches/` directory.
 
-Example file, where `v1.3.1` is target version, `bootstrap/patches/lodestar-backend.yaml`: 
-
-```yaml
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: lodestar-backend
-  namespace: lodestar-argo-cd
-spec:
-  ignoreDifferences:
-  - group: apps.openshift.io
-    jsonPointers:
-    - /spec/template/spec/containers/0/image
-    - /spec/template/spec/volumes/0
-    kind: DeploymentConfig
-  source:
-    helm:
-      values: |-
-        imageTag: v1.3.1
-        mongodb:
-          persistent: false
-    targetRevision: v1.3.1
-
-```
+NOTE: Depending on the component, version can be stored in either `targetRevision` variable, or `targetRevision` and `imageTag` variables.
 
 Automatic syncing, pruning, and self healing is enabled for this project - so committing a change to the above manifest and tagging it appropriately as `deploy-staging` or `deploy-production` will cause an Argo CD instance bootstrapped with that tag to deploy those versions of the applications.
 
@@ -57,6 +34,7 @@ Creating releases is automated through the use of GitHub Actions Workflows. To c
 |backend|The version to use for the backend application|no|
 |gitapi|The version to use for the Git API|no|
 |dispatcher|The version to use for the Resource Dispatcher|no|
+|activity|The version to use for activity application|no|
 |agnosticv|The version to use for AgnosticV|no|
 |anarchy|The version to use for Anarchy|no|
 |poolboy|The version to use for Poolboy|no|
