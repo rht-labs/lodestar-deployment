@@ -21,6 +21,8 @@ spec:
           lodestar-status: master
           lodestar-config: main
           lodestar-activity: main
+          lodestar-participants: main
+          lodestar-artifacts: main
           resource-dispatcher: master
           agnosticv-operator: v0.8.1
           anarchy: v0.14.2
