@@ -16,8 +16,8 @@ tasks:
         params:
           script: |
             context["gitlab_url"] = "{{ ENV_GITLAB_BASE_URL }}"
-            context["gitlab_private_key"] = "{{ ENV_GITLAB_PRIVATE_TOKEN }}"
-            context["gitlab_group"] = {{ ENV_GITLAB_GROUP }}
+            context["gitlab_private_key"] = "{{ ENV_GITLAB_PRIVATE_TOKEN | trim }}"
+            context["gitlab_group"] = {{ ENV_GITLAB_GROUP | trim }}
             context["babylon_namespace"] = "{{ ENV_BABYLON_NAMESPACE }}"
             context["ocp_base_url"] = "{{ ENV_OCP_BASE_URL }}"
       - plugin: script

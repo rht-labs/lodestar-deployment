@@ -20,8 +20,8 @@ tasks:
           inventory_path: inventory
           extra_vars:
             gitlab_base_url: https://{{ ENV_GITLAB_BASE_URL }}
-            gitlab_group: {{ ENV_GITLAB_GROUP }}
-            gitlab_private_token: {{ ENV_GITLAB_PRIVATE_TOKEN }}
+            gitlab_group: {{ ENV_GITLAB_GROUP | trim }}
+            gitlab_private_token: {{ ENV_GITLAB_PRIVATE_TOKEN | trim }}
             destination_namespace: {{ ENV_BABYLON_NAMESPACE }}
             chart_path: "ocp-init/"
             syncPolicy: False
@@ -41,7 +41,7 @@ tasks:
 
             g = gitlab.Gitlab(
                               "https://{{ ENV_GITLAB_BASE_URL }}" ,
-                              private_token="{{ ENV_GITLAB_PRIVATE_TOKEN }}"
+                              private_token="{{ ENV_GITLAB_PRIVATE_TOKEN | trim }}"
                              )
 
             def should_process_project(project):

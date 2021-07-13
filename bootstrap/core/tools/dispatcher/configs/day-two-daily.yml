@@ -43,9 +43,9 @@ tasks:
             else:
               print("Called without webhook data - fetching & processing all projects")
               g = gitlab.Gitlab(
-                "https://{{ ENV_GITLAB_BASE_URL }}", private_token="{{ ENV_GITLAB_PRIVATE_TOKEN }}"
+                "https://{{ ENV_GITLAB_BASE_URL }}", private_token="{{ ENV_GITLAB_PRIVATE_TOKEN | trim }}"
               )
-              group = g.groups.get({{ ENV_GITLAB_GROUP }})
+              group = g.groups.get({{ ENV_GITLAB_GROUP | trim }})
               context["project_data"] = []
               for project in group.projects.list(all=True, include_subgroups=True):
                 data = {
