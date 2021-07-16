@@ -35,6 +35,8 @@ Creating releases is automated through the use of GitHub Actions Workflows. To c
 |gitapi|The version to use for the Git API|no|
 |dispatcher|The version to use for the Resource Dispatcher|no|
 |activity|The version to use for activity application|no|
+|artifacts|The version to use for artifacts application|no|
+|participants|The version to use for participants application|no|
 |agnosticv|The version to use for AgnosticV|no|
 |anarchy|The version to use for Anarchy|no|
 |poolboy|The version to use for Poolboy|no|
