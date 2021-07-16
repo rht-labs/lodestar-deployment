@@ -1,0 +1,100 @@
+repositories:
+  - name: automation-repo
+    url: https://github.com/rht-labs/lodestar-automation.git
+    ref: master
+
+tasks:
+  - name: translate-engagement-data
+    description: Translates engagement.json data into resources usable by Argo
+    triggers:
+      - type: scheduled
+        every: hour
+      - type: webhook
+        route: /translate_engagement_data
+    steps:
+      - plugin: script
+        params:
+          packages:
+            - python-gitlab
+          script: |
+            import gitlab
+
+            if "project" in context:
+
+              print("Called via webhook - using data received data from GitLab")
+              context["project_data"] = [
+                {
+                  "url": context["project"]["git_ssh_url"],
+                  "directory": str(context["project"]["id"])
+                }
+              ]
+
+            else:
+
+              print("Called without webhook data - fetching & processing all projects")
+              g = gitlab.Gitlab("https://{{ ENV_GITLAB_BASE_URL }}" , private_token="{{ ENV_GITLAB_PRIVATE_TOKEN | trim }}")
+
+              group = g.groups.get({{ ENV_GITLAB_GROUP | trim }})
+
+              context["project_data"] = [
+                {
+                  "url": project.ssh_url_to_repo,
+                  "directory": str(project.id)
+                }
+              for project in group.projects.list(all=True, include_subgroups=True)]
+
+            context["ansible_params"] = [{"extra_vars": {"directory": "../../" + project["directory"], "config_dir": "config/credentials"}} for project in context["project_data"]]
+      - plugin: git
+        loop_over_context: project_data
+        params_from_context: project_data
+        params:
+          action: clone
+          secret:
+            ssh_private_key: /sshSecret/sshPrivateKey
+      - plugin: ansible
+        repository: automation-repo
+        path: generate-ocp-admin-credentials
+        loop_over_context: ansible_params
+        params_from_context: ansible_params
+        params:
+          playbook_path: site.yml
+          inventory_path: inventory
+      - plugin: ansible
+        repository: automation-repo
+        path: generate-ocp-ldap-sa-credentials
+        loop_over_context: ansible_params
+        params_from_context: ansible_params
+        params:
+          playbook_path: site.yml
+          inventory_path: inventory
+      - plugin: ansible
+        repository: automation-repo
+        path: translate-engagement-data
+        loop_over_context: ansible_params
+        params_from_context: ansible_params
+        params:
+          playbook_path: site.yml
+          inventory_path: inventory
+          extra_vars:
+            governor_type: "ocp4"
+            governor_spec: "{{ ENV_engagement_region }}"
+      - plugin: git
+        loop_over_context: project_data
+        params_from_context: project_data
+        params:
+          action: add-all-changes
+      - plugin: git
+        loop_over_context: project_data
+        params_from_context: project_data
+        params:
+          action: commit
+          message: Auto-update generated files
+          author_name: bot
+          author_email: bot@bot.com
+      - plugin: git
+        loop_over_context: project_data
+        params_from_context: project_data
+        params:
+          action: push
+          secret:
+            ssh_private_key: /sshSecret/sshPrivateKey

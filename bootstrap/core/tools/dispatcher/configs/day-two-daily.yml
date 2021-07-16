@@ -1,0 +1,175 @@
+repositories:
+  - name: automation-repo
+    url: https://github.com/rht-labs/lodestar-automation.git
+    ref: master
+
+  - name: infra-ansible
+    url: https://github.com/redhat-cop/infra-ansible.git
+    ref: main
+
+  - name: email-template-repo
+    url: ssh://git@{{ ENV_GITLAB_BASE_URL }}:{{ ENV_GITLAB_SSH_PORT }}/rht-labs/email-templates.git
+    secret:
+      ssh_private_key: /sshSecret/emailTemplatesDeployKey
+    ref: master
+
+tasks:
+  - name: Day Two Daily Schedule
+    description: Ensures that specific D2 tasks are run at least daily (or when a change occurs)
+    triggers:
+      - type: webhook
+        route: /d2-daily
+      - type: schedule
+        every: day
+        at: "23:30"
+    steps:
+      - plugin: script
+        params:
+          packages:
+            - python-gitlab
+            - jmespath
+          script: |
+            import gitlab, os
+
+            context["ocp_base_url"] = "{{ ENV_OCP_BASE_URL }}"
+            if "project" in context:
+              print("Called via webhook - using data received data from GitLab")
+              context["project_data"] = [
+                {
+                  "url": context["project"]["git_ssh_url"],
+                  "directory": str(context["project"]["id"]),
+                }
+              ]
+            else:
+              print("Called without webhook data - fetching & processing all projects")
+              g = gitlab.Gitlab(
+                "https://{{ ENV_GITLAB_BASE_URL }}", private_token="{{ ENV_GITLAB_PRIVATE_TOKEN | trim }}"
+              )
+              group = g.groups.get({{ ENV_GITLAB_GROUP | trim }})
+              context["project_data"] = []
+              for project in group.projects.list(all=True, include_subgroups=True):
+                data = {
+                    "url": project.ssh_url_to_repo,
+                    "directory": str(project.id),
+                }
+                context["project_data"].append(data)
+
+            context["ansible_params"] = []
+            for project in context["project_data"]:
+              data = {
+                "extra_vars": {
+                  "directory": os.path.join(os.getcwd(), project["directory"]),
+                  "email_templates_directory": os.path.join(os.getcwd(), "email-template-repo"),
+                  "infra_ansible_directory": os.path.join(os.getcwd(), "infra-ansible"),
+                  "ssh_key_data_path": "/sshSecret/sshPrivateKey",
+                  "config_dir": "config/credentials",
+                  "url": project["url"],
+                }
+              }
+              context["ansible_params"].append(data)
+      - plugin: git
+        loop_over_context: project_data
+        params_from_context: project_data
+        params:
+          action: clone
+          secret:
+            ssh_private_key: /sshSecret/sshPrivateKey
+      - plugin: ansible
+        repository: automation-repo
+        path: generate-ocp-admin-credentials
+        loop_over_context: ansible_params
+        params_from_context: ansible_params
+        params:
+          playbook_path: site.yml
+          inventory_path: inventory
+      - plugin: ansible
+        repository: automation-repo
+        path: generate-ocp-ldap-sa-credentials
+        loop_over_context: ansible_params
+        params_from_context: ansible_params
+        params:
+          playbook: site.yml
+          inventory_path: inventory
+      - plugin: ansible
+        repository: automation-repo
+        path: inventory-generation/inventory-structure
+        loop_over_context: ansible_params
+        params_from_context: ansible_params
+        params:
+          playbook_path: main.yml
+          inventory_path: inventory
+          extra_vars:
+            inventories:
+              - notifications
+              - identity-management
+              - tower_jobs_schedules
+      - plugin: ansible
+        repository: automation-repo
+        path: inventory-generation/identity-management
+        loop_over_context: ansible_params
+        params_from_context: ansible_params
+        params:
+          playbook_path: main.yml
+          inventory_path: inventory
+          extra_vars:
+            ipa_validate_certs: false
+            governor_type: "day2"
+            governor_spec: "idm"
+      - plugin: ansible
+        repository: automation-repo
+        path: inventory-generation/tower_jobs_schedules
+        loop_over_context: ansible_params
+        params_from_context: ansible_params
+        params:
+          playbook_path: main.yaml
+          inventory_path: inventory
+          extra_vars:
+            ansible_tower_url: "{{ ENV_ANSIBLE_TOWER_URL }}"
+            ansible_tower_admin_username: "{{ ENV_ANSIBLE_TOWER_USERNAME }}"
+            ansible_tower_admin_password: "{{ ENV_ANSIBLE_TOWER_PASSWORD }}"
+            company_name: "{{ ENV_ANSIBLE_TOWER_COMPANY_NAME }}"
+            organization: "{{ ENV_ANSIBLE_TOWER_ORGANIZATION }}"
+            scm_credential_name: "{{ ENV_SCM_CREDENTIAL_NAME }}"
+            mail_host_source_project: "{{ ENV_MAIL_HOST_SOURCE_PROJECT }}"
+      - plugin: ansible
+        repository: automation-repo
+        path: inventory-generation/notifications
+        loop_over_context: ansible_params
+        params_from_context: ansible_params
+        params:
+          playbook_path: main.yaml
+          inventory_path: inventory
+      - plugin: git
+        loop_over_context: project_data
+        params_from_context: project_data
+        params:
+          action: add-all-changes
+      - plugin: git
+        loop_over_context: project_data
+        params_from_context: project_data
+        params:
+          action: commit
+          message: Auto-update generated files
+          author_name: bot
+          author_email: bot@bot.com
+      - plugin: git
+        loop_over_context: project_data
+        params_from_context: project_data
+        params:
+          action: push
+          secret:
+            ssh_private_key: /sshSecret/sshPrivateKey
+      - plugin: ansible-runner
+        repository: automation-repo
+        path: inventory-generation/tower_jobs_launch
+        loop_over_context: ansible_params
+        params_from_context: ansible_params
+        params:
+          playbook_path: main.yaml
+          inventory_path: inventory
+          extra_vars:
+            ansible_tower_url: "{{ ENV_ANSIBLE_TOWER_URL }}"
+            ansible_tower_admin_username: "{{ ENV_ANSIBLE_TOWER_USERNAME }}"
+            ansible_tower_admin_password: "{{ ENV_ANSIBLE_TOWER_PASSWORD }}"
+            organization: "{{ ENV_ANSIBLE_TOWER_ORGANIZATION }}"
+            scm_credential_name: "{{ ENV_SCM_CREDENTIAL_NAME }}"
