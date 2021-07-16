@@ -1,34 +1,24 @@
-# Lodestar - Deployment
+# LodeStar - Deployment
 
-This repository both bootstraps and manages the deployment lifecycle of Lodestar across multiple versions. It contains a manifest which controls the release version of all individual components of Lodestar. It is meant to be used with Argo CD.
+This repository both bootstraps and manages the deployment lifecycle of LodeStar across multiple versions. It contains a manifest which controls the release version of all individual components of LodeStar. It is meant to be used with Argo CD.
 
 ## Bootstrapping
 
-To create an instance of Lodestar in a cluster, apply the `bootstrap` Helm chart using the following command:
+To create an instance of LodeStar in a cluster of your choice, ensure you're on the branch/commit-id of your choice and you have working oc/kubectl session towards the target cluster, then  apply the `bootstrap` Kustomize using the following command:
 
 ```sh
-helm install lodestar bootstrap/ --set application.ref=<desired git ref>
+kustomize build bootstrap/ | oc apply -f -
 ```
 
-Make sure to replace `<desired-git-ref>` with the tag that you want to deploy to this cluster. If this is a staging cluster, you might have a Git tag such as `deploy-staging`; and if this is a production cluster, maybe `deploy-production`.
+NOTE: Running `kustomize build bootstrap/` alone will print manifests that can be reviewed before actually applying it to the cluster.
 
 ## Lifecycle Management
 
-Lodestar is not a single application, but a collection of components (or services) that all add up to a working system. Those services might be versioned separately from one another. Therefore, a "deployment of Lodestar" is really a manifest of the versions of its constituent components that are known to work well with each other.
+LodeStar is not a single application, but a collection of components (or services) that all add up to a working system. Those services might be versioned separately from one another. Therefore, a "deployment of LodeStar" is really a manifest of the versions of its constituent components that are known to work well with each other.
 
-This manifest lives in `applications/values.yaml`:
+Kustomize patches for respective components live in `bootstrap/patches/` directory.
 
-```yaml
-applicationVersions:
-  frontend: &frontendVersion 4edb30
-  backend: &backendVersion 3a03d2
-  git-api: &gitApiVersion 8cb605
-  launcher: &launcherVersion 8bca47
-  ...
-  appName: &yamlAnchorName <ref-to-deploy>
-```
-
-NOTE: Because Helm does not support templating inside of the `values.yaml` file, we need to use [YAML anchors](https://confluence.atlassian.com/bitbucket/yaml-anchors-960154027.html) if we want to prevent duplicate definitions of data.
+NOTE: Depending on the component, version can be stored in either `targetRevision` variable, or `targetRevision` and `imageTag` variables.
 
 Automatic syncing, pruning, and self healing is enabled for this project - so committing a change to the above manifest and tagging it appropriately as `deploy-staging` or `deploy-production` will cause an Argo CD instance bootstrapped with that tag to deploy those versions of the applications.
 
@@ -44,6 +34,9 @@ Creating releases is automated through the use of GitHub Actions Workflows. To c
 |backend|The version to use for the backend application|no|
 |gitapi|The version to use for the Git API|no|
 |dispatcher|The version to use for the Resource Dispatcher|no|
+|activity|The version to use for activity application|no|
+|artifacts|The version to use for artifacts application|no|
+|participants|The version to use for participants application|no|
 |agnosticv|The version to use for AgnosticV|no|
 |anarchy|The version to use for Anarchy|no|
 |poolboy|The version to use for Poolboy|no|
