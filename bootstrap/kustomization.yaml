@@ -14,8 +14,9 @@ patchesStrategicMerge:
 - patches/lodestar-frontend.yaml
 - patches/lodestar-backend.yaml
 - patches/lodestar-activity.yaml
-- patches/lodestar-participants.yaml
 - patches/lodestar-artifacts.yaml
+- patches/lodestar-hosting.yaml
+- patches/lodestar-participants.yaml
 - patches/lodestar-git-api.yaml
 - patches/lodestar-status.yaml
 - patches/agnosticv-operator.yaml
