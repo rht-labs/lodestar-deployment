@@ -140,7 +140,7 @@ jobs:
     - name: Get Environment Info
       id: env_info
       run: |
-        ISSUE_TITLE = $(jq -r .client_payload.github.payload.issue.title $GITHUB_EVENT_PATH)
+        ISSUE_TITLE=$(jq -r .client_payload.github.payload.issue.title $GITHUB_EVENT_PATH)
         echo ::set-output name=issuetitle::$ISSUE_TITLE
         echo ::set-output name=issuenm::$(jq .client_payload.github.payload.issue.number $GITHUB_EVENT_PATH)
         echo ::set-output name=comment_url::$(jq .client_payload.github.payload.comment.html_url $GITHUB_EVENT_PATH)
