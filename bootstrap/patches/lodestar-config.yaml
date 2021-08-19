@@ -11,7 +11,7 @@ spec:
   source:
     helm:
       values: |-
-        imageTag: main
+        imageTag: v1.1.0
         runtimeConfigs:
           - name: lodestar-runtime
             file: lodestar-runtime-config.yaml
