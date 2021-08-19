@@ -16,7 +16,7 @@ spec:
         namespaces: lodestar-frontend,lodestar-babylon-operators
         versions:
           lodestar-backend: v1.4.0
-          lodestar-frontend:  v1.2.0
+          lodestar-frontend: v1.2.0
           lodestar-git-api: v1.3.0
           lodestar-status: v1.1.0
           lodestar-config: v1.0.0
