@@ -5,14 +5,14 @@ metadata:
   namespace: lodestar-argo-cd
 spec:
   ignoreDifferences:
-  - group: apps.openshift.io
-    jsonPointers:
-    - /spec/template/spec/containers/0/image
-    kind: DeploymentConfig
+    - group: apps.openshift.io
+      jsonPointers:
+        - /spec/template/spec/containers/0/image
+      kind: DeploymentConfig
   source:
     helm:
       values: |-
-        imageTag: v1.1.26
+        imageTag: v1.2.0
         e2eTestJob:
           enabled: false
-    targetRevision: v1.1.26
+    targetRevision: v1.2.0

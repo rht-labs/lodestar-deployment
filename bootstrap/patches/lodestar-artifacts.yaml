@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: lodestar-git-api
+  name: lodestar-artifacts
   namespace: lodestar-argo-cd
 spec:
   ignoreDifferences:
@@ -12,5 +12,5 @@ spec:
   source:
     helm:
       values: |-
-        imageTag: v1.3.0
-    targetRevision: v1.3.0
+        imageTag: v0.1.0
+    targetRevision: v0.1.0

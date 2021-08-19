@@ -3,16 +3,19 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 bases:
-- core
+- core 
 
 ## Set of patches for Lodestar&Babylon - version and imageTags
 ## left on purpose, current versions are valid for Test type of environment
-## they will be patched to target versions on Release&Promotion
+## they will be patched to target versions on Release&Promotion 
 patchesStrategicMerge:
 - patches/lodestar-config.yaml
 - patches/resource-dispatcher.yaml
 - patches/lodestar-frontend.yaml
 - patches/lodestar-backend.yaml
+- patches/lodestar-activity.yaml
+- patches/lodestar-participants.yaml
+- patches/lodestar-artifacts.yaml
 - patches/lodestar-git-api.yaml
 - patches/lodestar-status.yaml
 - patches/agnosticv-operator.yaml
