@@ -144,7 +144,7 @@ jobs:
         echo ::set-output name=issuetitle::$ISSUE_TITLE
         echo ::set-output name=issuenm::$(jq .client_payload.github.payload.issue.number $GITHUB_EVENT_PATH)
         echo ::set-output name=comment_url::$(jq .client_payload.github.payload.comment.html_url $GITHUB_EVENT_PATH)
-        echo ::set-output name=lodestarVersion::"lodestarVersion: ${ISSUE_TITLE}"
+        echo ::set-output name=lodestarVersion::"lodestar: ${ISSUE_TITLE}"
 
     - uses: actions/checkout@v2
       with:
