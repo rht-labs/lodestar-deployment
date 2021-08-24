@@ -4,7 +4,7 @@ This repository both bootstraps and manages the deployment lifecycle of LodeStar
 
 ## Bootstrapping
 
-To create an instance of LodeStar in a cluster of your choice, ensure you're on the branch/commit-id of your choice and you have working oc/kubectl session towards the target cluster, then apply the bootstrap Kustomize using the following command:
+To create an instance of LodeStar in a cluster of your choice, ensure you're on the branch/commit-id of your choice and you have working oc/kubectl session towards the target cluster, then  apply the `bootstrap` Kustomize using the following command:
 
 ```sh
 kustomize build bootstrap/ | oc apply -f -
@@ -34,6 +34,9 @@ Creating releases is automated through the use of GitHub Actions Workflows. To c
 |backend|The version to use for the backend application|no|
 |gitapi|The version to use for the Git API|no|
 |dispatcher|The version to use for the Resource Dispatcher|no|
+|activity|The version to use for activity application|no|
+|artifacts|The version to use for artifacts application|no|
+|participants|The version to use for participants application|no|
 |agnosticv|The version to use for AgnosticV|no|
 |anarchy|The version to use for Anarchy|no|
 |poolboy|The version to use for Poolboy|no|

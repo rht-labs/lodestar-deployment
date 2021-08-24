@@ -7,21 +7,23 @@ spec:
   destination:
     namespace: lodestar-argo-cd
   ignoreDifferences:
-  - group: apps.openshift.io
-    jsonPointers:
-    - /spec/template/spec/containers/0/image
-    kind: DeploymentConfig
-  - group: image.openshift.io
-    jsonPointers:
-    - /status
-    kind: ImageStream
+    - group: apps.openshift.io
+      jsonPointers:
+        - /spec/template/spec/containers/0/image
+      kind: DeploymentConfig
+    - group: image.openshift.io
+      jsonPointers:
+        - /status
+      kind: ImageStream
   source:
     helm:
       values: |-
         clusterRole: argocd-application-controller
         configMapName: resource-dispatcher-config
         exposeRoute: true
-        imageTag: v1.0.14
+        imageTag: v1.0.15
         setupClusterRoleBinding: true
         sshSecretConfigMap: resource-dispatcher-key
-    targetRevision: v1.0.14
+        useConfigDir: true
+        configMapAsEnvVars: dispatcher-variables
+    targetRevision: v1.0.15
