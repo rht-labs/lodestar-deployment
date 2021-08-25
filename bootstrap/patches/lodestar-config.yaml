@@ -12,12 +12,9 @@ spec:
     helm:
       values: |-
         imageTag: main
+        baseConfigMapPath: /runtime
         runtimeConfigs:
-          - name: lodestar-runtime
-            file: lodestar-runtime-config.yaml
-            path: /runtime
-          - name: lodestar-runtime-do500
-            file: lodestar-runtime-config-DO500.yaml
-            path: /runtime
+          - base
+          - DO500
     targetRevision: main
 
