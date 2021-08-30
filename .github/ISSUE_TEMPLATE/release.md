@@ -15,7 +15,7 @@ The following slash commands are available to use in comments on this issue:
 
 | Command | Description | Parameters |
 |---|---|---|
-| `/release` | Creates a new released based on the current state of the `master` branch | `frontend=<version>`<br />`backend=<version>`<br />`gitapi=<version>`<br />`status=<version>`<br />`config=<version>`<br />`activity=<version>`<br />`artifacts=<version>`<br />`hosting=<version>`<br />`participants=<version>`<br />`dispatcher=<version>`<br />`agnosticv=<version>`<br />`anarchy=<version>`<br />`poolboy=<version>` |
+| `/release` | Creates a new released based on the current state of the `master` branch | `frontend=<version>`<br />`backend=<version>`<br />`engagement-status=<version>`<br />`gitapi=<version>`<br />`status=<version>`<br />`config=<version>`<br />`activity=<version>`<br />`artifacts=<version>`<br />`hosting=<version>`<br />`participants=<version>`<br />`dispatcher=<version>`<br />`agnosticv=<version>`<br />`anarchy=<version>`<br />`poolboy=<version>` |
 | `/promote` | Promotes the created release to the next environment | N/A |
 | `/cancel` | Cancels the current release (and closes this issue) | N/A |
 | `/finish` | Completes the current release (and closes this issue) | N/A |

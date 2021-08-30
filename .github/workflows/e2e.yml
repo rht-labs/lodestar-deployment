@@ -12,12 +12,21 @@ on:
 jobs:
   end-to-end:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
     env:
       URL: ${{ secrets.E2E_NOTIFICATON_URL }}
     steps:
       - uses: actions/checkout@v2
         with:
           repository: rht-labs/lodestar-frontend
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Run npm install
+        run: npm install
       - name: end-to-end test
         id: cypress
         uses: cypress-io/github-action@v2

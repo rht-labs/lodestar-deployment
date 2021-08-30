@@ -22,11 +22,12 @@ spec:
           lodestar-config: main
           lodestar-activity: main
           lodestar-artifacts: main
+          lodestar-engagement-status: main
           lodestar-hosting: main
           lodestar-participants: main
           resource-dispatcher: master
           agnosticv-operator: v0.8.1
           anarchy: v0.14.2
           poolboy: v0.6.1
-          lodestar: 1.0.0
+          lodestar: 1.2.0
     targetRevision: master
