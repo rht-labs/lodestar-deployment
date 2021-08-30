@@ -9,10 +9,8 @@ resources:
 - lodestar-git-api.yaml
 - lodestar-status.yaml
 - lodestar-activity.yaml
-- lodestar-artifacts.yaml
-- lodestar-engagement-status.yaml
-- lodestar-hosting.yaml
 - lodestar-participants.yaml
+- lodestar-artifacts.yaml
 - lodestar-frontend-vanity-route.yaml
 - lodestar-frontend-cert.yaml
 - lodestar-config.yaml

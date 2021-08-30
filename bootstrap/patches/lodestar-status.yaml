@@ -16,15 +16,13 @@ spec:
         namespaces: lodestar-frontend,lodestar-babylon-operators
         versions:
           lodestar-backend: v1.4.3
-          lodestar-frontend:  v1.2.4
+          lodestar-frontend: v1.2.4
           lodestar-git-api: v1.3.0
           lodestar-status: v1.1.0
           lodestar-config: v1.2.0
           lodestar-activity: v0.2.1
-          lodestar-artifacts: v0.1.0
-          lodestar-engagement-status: main
-          lodestar-hosting: main
           lodestar-participants: v0.1.0
+          lodestar-artifacts: v0.1.0
           resource-dispatcher: v1.0.15
           agnosticv-operator: v0.8.1
           anarchy: v0.14.2
