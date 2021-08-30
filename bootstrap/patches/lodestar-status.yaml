@@ -23,6 +23,7 @@ spec:
           lodestar-activity: main
           lodestar-artifacts: main
           lodestar-engagement-status: main
+          lodestar-hosting: main
           lodestar-participants: main
           resource-dispatcher: master
           agnosticv-operator: v0.8.1
