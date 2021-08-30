@@ -94,10 +94,12 @@ jobs:
       ConfigImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.config }}'
       ActivityVersion: ${{ github.event.client_payload.slash_command.activity }}
       ActivityImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.activity }}'
-      ParticipantsVersion: ${{ github.event.client_payload.slash_command.participants }}
-      ParticipantsImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.participants }}'
       ArtifactsVersion: ${{ github.event.client_payload.slash_command.artifacts }}
       ArtifactsImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.artifacts }}'
+      EngagementStatusVersion: ${{ github.event.client_payload.slash_command.engagement-status }}
+      EngagementStatusImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.engagement-status }}'
+      ParticipantsVersion: ${{ github.event.client_payload.slash_command.participants }}
+      ParticipantsImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.participants }}'
       DispatcherVersion: ${{ github.event.client_payload.slash_command.dispatcher }}
       DispatcherImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.dispatcher }}'
 
@@ -119,10 +121,12 @@ jobs:
       Versions_ConfigVersion: 'lodestar-config: ${{ github.event.client_payload.slash_command.config }}'
       Versions_ActivityMatchString: 'lodestar-activity:.*'
       Versions_ActivityVersion: 'lodestar-activity: ${{ github.event.client_payload.slash_command.activity }}'
-      Versions_ParticipantsMatchString: 'lodestar-participants:.*'
-      Versions_ParticipantsVersion: 'lodestar-participants: ${{ github.event.client_payload.slash_command.participants }}'
       Versions_ArtifactsMatchString: 'lodestar-artifacts:.*'
       Versions_ArtifactsVersion: 'lodestar-artifacts: ${{ github.event.client_payload.slash_command.artifacts }}'
+      Versions_EngagementStatusMatchString: 'lodestar-engagement-status:.*'
+      Versions_EngagementStatusVersion: 'lodestar-engagement-status: ${{ github.event.client_payload.slash_command.engagement-status }}'
+      Versions_ParticipantsMatchString: 'lodestar-participants:.*'
+      Versions_ParticipantsVersion: 'lodestar-participants: ${{ github.event.client_payload.slash_command.participants }}'
       Versions_DispatcherMatchString: 'resource-dispatcher:.*'
       Versions_DispatcherVersion: 'resource-dispatcher: ${{ github.event.client_payload.slash_command.dispatcher }}'
       Versions_AgnosticVMatchString: 'agnosticv-operator:.*'
@@ -196,15 +200,6 @@ jobs:
               yq -i e '.spec.source.targetRevision = env(ActivityVersion)' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-activity.yaml ;
               yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_ActivityMatchString),strenv(Versions_ActivityVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
 
-    - name: Update LodeStar Participants Release Info
-      if: ${{ github.event.client_payload.slash_command.participants != null }}
-      uses: mikefarah/yq@v4.9.6
-      with:
-        cmd: >
-              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(ImageTagMatchString),strenv(ParticipantsImageVersion)| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-participants.yaml ;
-              yq -i e '.spec.source.targetRevision = env(ParticipantsVersion)' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-participants.yaml ;
-              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_ParticipantsMatchString),strenv(Versions_ParticipantsVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
-
     - name: Update LodeStar Artifacts Release Info
       if: ${{ github.event.client_payload.slash_command.activity != null }}
       uses: mikefarah/yq@v4.9.6
@@ -213,6 +208,24 @@ jobs:
               yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(ImageTagMatchString),strenv(ArtifactsImageVersion)| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-artifacts.yaml ;
               yq -i e '.spec.source.targetRevision = env(ArtifactsVersion)' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-artifacts.yaml ;
               yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_ArtifactsMatchString),strenv(Versions_ArtifactsVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
+
+    - name: Update LodeStar Engagement Status Release Info
+      if: ${{ github.event.client_payload.slash_command.engagement-status != null }}
+      uses: mikefarah/yq@v4.9.6
+      with:
+        cmd: >
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(ImageTagMatchString),strenv(EngagementStatusImageVersion)| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-engagement-status.yaml ;
+              yq -i e '.spec.source.targetRevision = env(ParticipantsVersion)' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-engagement-status.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_EngagementStatusMatchString),strenv(Versions_EngagementStatusVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
+
+    - name: Update LodeStar Participants Release Info
+      if: ${{ github.event.client_payload.slash_command.participants != null }}
+      uses: mikefarah/yq@v4.9.6
+      with:
+        cmd: >
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(ImageTagMatchString),strenv(ParticipantsImageVersion)| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-participants.yaml ;
+              yq -i e '.spec.source.targetRevision = env(ParticipantsVersion)' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-participants.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_ParticipantsMatchString),strenv(Versions_ParticipantsVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
 
     - name: Update Resource Dispatcher Release Info
       if: ${{ github.event.client_payload.slash_command.dispatcher != null }}
