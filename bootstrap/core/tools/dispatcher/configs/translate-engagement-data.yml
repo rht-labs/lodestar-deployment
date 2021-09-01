@@ -77,7 +77,7 @@ tasks:
           inventory_path: inventory
           extra_vars:
             governor_type: "ocp4"
-            governor_spec: "{{ ENV_engagement_region }}"
+            governor_spec: "{% raw %}{{ engagement_region }}{% endraw %}"
       - plugin: git
         loop_over_context: project_data
         params_from_context: project_data
