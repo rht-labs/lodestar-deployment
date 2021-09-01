@@ -24,7 +24,7 @@ tasks:
             gitlab_private_token: {{ ENV_GITLAB_PRIVATE_TOKEN | trim }}
             destination_namespace: {{ ENV_BABYLON_NAMESPACE }}
             chart_path: "ocp-init/"
-            syncPolicy: False
+            syncPolicy: True
       - plugin: script
         description: Remove Argo app definitions for projects which are not ready to be launched
         repository: automation-repo
