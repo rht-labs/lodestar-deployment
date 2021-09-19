@@ -4,6 +4,7 @@ bases:
 - argocd
 - dispatcher
 - babylon
+- tower
 resources:
 - lodestar-engagements-project.yaml
 - lodestar-tools-project.yaml
