@@ -21,10 +21,8 @@ spec:
           lodestar-status: v1.1.0
           lodestar-config: v1.2.0
           lodestar-activity: v0.2.1
-          lodestar-artifacts: v0.1.0
-          lodestar-engagement-status: v0.0.1
-          lodestar-hosting: v0.0.1
           lodestar-participants: v0.1.0
+          lodestar-artifacts: v0.1.0
           resource-dispatcher: v1.0.15
           agnosticv-operator: v0.8.1
           anarchy: v0.14.2
