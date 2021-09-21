@@ -11,7 +11,7 @@ repositories:
     url: ssh://git@{{ ENV_GITLAB_BASE_URL }}:{{ ENV_GITLAB_SSH_PORT }}/rht-labs/email-templates.git
     secret:
       ssh_private_key: /sshSecret/emailTemplatesDeployKey
-    ref: v1.0.1
+    ref: v1.0.2
 
 tasks:
   - name: Day Two Daily Schedule
