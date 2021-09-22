@@ -6,7 +6,7 @@ resources:
   - anarchy-operator.yaml
   - kopfpeering-crd.yaml
   - poolboy.yaml
-  - catalogitems.babylon.gpte.redhat.com.yaml
+  - catalogitems-crd.yaml
 patches:
   - patch: |-
       - op: add
