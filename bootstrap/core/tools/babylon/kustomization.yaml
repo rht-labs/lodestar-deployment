@@ -6,6 +6,7 @@ resources:
   - anarchy-operator.yaml
   - kopfpeering-crd.yaml
   - poolboy.yaml
+  - catalogitems-crd.yaml
 patches:
   - patch: |-
       - op: add
@@ -20,4 +21,3 @@ patches:
     target:
       group: argoproj.io
       kind: Application
-
