@@ -16,6 +16,11 @@ spec:
       kind: CustomResourceDefinition
       jsonPointers:
         - /spec/names/shortNames
+    - group: poolboy.gpte.redhat.com
+      kind: ResourceClaim
+      jsonPointers:
+        - /spec/vars/current_state
+        - /spec/vars/desired_state
   syncPolicy:
     automated:
       prune: true
