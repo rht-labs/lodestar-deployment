@@ -15,6 +15,7 @@ patchesStrategicMerge:
 - patches/lodestar-backend.yaml
 - patches/lodestar-activity.yaml
 - patches/lodestar-artifacts.yaml
+- patches/lodestar-engagements.yaml
 - patches/lodestar-engagement-status.yaml
 - patches/lodestar-git-api.yaml
 - patches/lodestar-hosting.yaml
