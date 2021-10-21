@@ -4,7 +4,6 @@ kind: ArgoCD
 metadata:
   name: lodestar-argocd
 spec:
-  version: v1.6.2
   rbac:
     defaultPolicy: 'role:readonly'
   server:
