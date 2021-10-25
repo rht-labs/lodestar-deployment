@@ -4,3 +4,4 @@ resources:
   - crd-reader.yaml
   - lodestar-cluster-reader.yaml
   - namespaces.yaml
+  - lodestar-search-operators.yaml

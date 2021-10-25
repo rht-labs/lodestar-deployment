@@ -1,0 +1,30 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- lodestar-search-elastic.yaml
+- lodestar-search-odh.yaml
+- lodestar-search-document-loader.yaml
+- lodestar-search-word-analyzer.yaml
+patches:
+- patch: |-
+    - op: add
+      path: /spec/project
+      value: default
+    - op: add
+      path: /spec/destination/namespace
+      value: lodestar-search
+    - op: add
+      path: /metadata/namespace
+      value: ateam-ci-cd
+  target:
+    group: argoproj.io
+    version: v1alpha1
+    kind: Application
+- patch: |
+    - op: add
+      path: /metadata/namespace
+      value: ateam-ci-cd
+  target:
+    group: argoproj.io
+    version: v1alpha1
+    kind: AppProject

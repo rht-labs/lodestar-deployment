@@ -1,0 +1,30 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: lodestar-search-dl
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: "chart"
+    repoURL: "https://github.com/eformat/document-loader-service.git"
+    targetRevision: "main"
+    helm:
+      values: |
+        image_version: latest
+        image_namespace: eformat
+        image_repository: quay.io
+        image_name: document-loader-service
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+  ignoreDifferences:
+    - group: apps
+      kind: Deployment
+      jsonPointers:
+        - /spec/replicas
+        - /spec/template/spec/containers/0/image
+        - /spec/template/spec/containers/1/image
