@@ -29,5 +29,5 @@ spec:
           agnosticv-operator: v0.14.4
           anarchy: v0.16.22
           poolboy: v0.10.2
-          lodestar: v1.2.9
+          lodestar: v1.2.10
     targetRevision: v1.1.0
