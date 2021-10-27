@@ -9,6 +9,11 @@ spec:
     jsonPointers:
     - /spec/names/shortNames
     kind: CustomResourceDefinition
+  - group: poolboy.gpte.redhat.com
+    kind: ResourceClaim
+    jsonPointers:
+      - /spec/vars/current_state
+      - /spec/vars/desired_state
   source:
     helm:
       values: |-
