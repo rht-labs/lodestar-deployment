@@ -22,6 +22,7 @@ spec:
           lodestar-config: main
           lodestar-activity: main
           lodestar-artifacts: main
+          lodestar-engagements: main
           lodestar-engagement-status: main
           lodestar-hosting: main
           lodestar-participants: main

@@ -10,6 +10,7 @@ resources:
 - lodestar-status.yaml
 - lodestar-activity.yaml
 - lodestar-artifacts.yaml
+- lodestar-engagements.yaml
 - lodestar-engagement-status.yaml
 - lodestar-hosting.yaml
 - lodestar-participants.yaml

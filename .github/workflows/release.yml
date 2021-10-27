@@ -96,6 +96,8 @@ jobs:
       ActivityImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.activity }}'
       ArtifactsVersion: ${{ github.event.client_payload.slash_command.artifacts }}
       ArtifactsImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.artifacts }}'
+      EngagementsVersion: ${{ github.event.client_payload.slash_command.engagements }}
+      EngagementsImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.engagements }}'
       EngagementStatusVersion: ${{ github.event.client_payload.slash_command.engagement-status }}
       EngagementStatusImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.engagement-status }}'
       HostingVersion: ${{ github.event.client_payload.slash_command.hosting }}
@@ -125,6 +127,8 @@ jobs:
       Versions_ActivityVersion: 'lodestar-activity: ${{ github.event.client_payload.slash_command.activity }}'
       Versions_ArtifactsMatchString: 'lodestar-artifacts:.*'
       Versions_ArtifactsVersion: 'lodestar-artifacts: ${{ github.event.client_payload.slash_command.artifacts }}'
+      Versions_EngagementsMatchString: 'lodestar-engagements:.*'
+      Versions_EngagementsVersion: 'lodestar-engagements: ${{ github.event.client_payload.slash_command.engagements }}'
       Versions_EngagementStatusMatchString: 'lodestar-engagement-status:.*'
       Versions_EngagementStatusVersion: 'lodestar-engagement-status: ${{ github.event.client_payload.slash_command.engagement-status }}'
       Versions_HostingMatchString: 'lodestar-hosting:.*'
@@ -213,13 +217,22 @@ jobs:
               yq -i e '.spec.source.targetRevision = env(ArtifactsVersion)' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-artifacts.yaml ;
               yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_ArtifactsMatchString),strenv(Versions_ArtifactsVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
 
+    - name: Update LodeStar Engagements Release Info
+      if: ${{ github.event.client_payload.slash_command.engagements != null }}
+      uses: mikefarah/yq@v4.9.6
+      with:
+        cmd: >
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(ImageTagMatchString),strenv(EngagementsImageVersion)| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-engagements.yaml ;
+              yq -i e '.spec.source.targetRevision = env(EngagementsVersion)' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-engagements.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_EngagementsMatchString),strenv(Versions_EngagementsVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
+
     - name: Update LodeStar Engagement Status Release Info
       if: ${{ github.event.client_payload.slash_command.engagement-status != null }}
       uses: mikefarah/yq@v4.9.6
       with:
         cmd: >
               yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(ImageTagMatchString),strenv(EngagementStatusImageVersion)| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-engagement-status.yaml ;
-              yq -i e '.spec.source.targetRevision = env(ParticipantsVersion)' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-engagement-status.yaml ;
+              yq -i e '.spec.source.targetRevision = env(EngagementStatusVersion)' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-engagement-status.yaml ;
               yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_EngagementStatusMatchString),strenv(Versions_EngagementStatusVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
 
     - name: Update LodeStar Hosting Release Info
