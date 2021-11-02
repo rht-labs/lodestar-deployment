@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: poolboy
+  name: babylon-config
   namespace: lodestar-argo-cd
 spec:
   ignoreDifferences:
@@ -9,19 +9,17 @@ spec:
     kind: CustomResourceDefinition
     jsonPointers:
       - /spec/names/shortNames
-  - group: poolboy.gpte.redhat.com
-    kind: ResourceClaim
-    jsonPointers:
-      - /spec/vars/current_state
-      - /spec/vars/desired_state
   source:
     helm:
       values: |-
+            admin:
+              deploy: false
             anarchy:
-              create: false
+              namespace:
+                - lodestar-babylon-operators
+            poolboy:
               namespace: lodestar-babylon-operators
-              service: anarchy
-            namespace:
-              create: false
-              name: lodestar-babylon-operators
-    targetRevision: v0.10.2
+            operatorNamespace: openshift-operators
+            crossClusterBackup:
+              enable: false
+    targetRevision: v0.11.9
