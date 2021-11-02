@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: babylon-config
+  namespace: lodestar-argo-cd
+spec:
+  ignoreDifferences:
+  - group: apiextensions.k8s.io
+    kind: CustomResourceDefinition
+    jsonPointers:
+      - /spec/names/shortNames
+  source:
+    helm:
+      values: |-
+            admin:
+              deploy: false
+            anarchy:
+              namespace:
+                - lodestar-babylon-operators
+            poolboy:
+              namespace: lodestar-babylon-operators
+            operatorNamespace: openshift-operators
+            crossClusterBackup:
+              enable: false
+    targetRevision: v0.11.9
