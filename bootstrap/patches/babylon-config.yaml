@@ -15,7 +15,7 @@ spec:
             admin:
               deploy: false
             anarchy:
-              namespace:
+              namespaces:
                 - lodestar-babylon-operators
             poolboy:
               namespace: lodestar-babylon-operators
