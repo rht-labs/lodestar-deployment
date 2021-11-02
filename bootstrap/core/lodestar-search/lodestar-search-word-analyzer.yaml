@@ -6,7 +6,7 @@ metadata:
 spec:
   destination:
     server: https://kubernetes.default.svc
-  project: default
+  project: lodestar-search
   source:
     path: "chart"
     repoURL: "https://github.com/eformat/word-analyzer.git"

@@ -2,13 +2,13 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: lodestar-search-elastic
+  name: lodestar-search-odh-operator
 spec:
   destination:
     server: https://kubernetes.default.svc
   project: lodestar-search
   source:
-    path: "elastic/lodestar"
+    path: "odh/operator"
     repoURL: "https://github.com/eformat/document-loader-service.git"
     targetRevision: "main"
   syncPolicy:
