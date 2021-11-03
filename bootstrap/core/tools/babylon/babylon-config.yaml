@@ -10,7 +10,7 @@ spec:
   source:
     path: "openshift/config/common/helm/babylon-config"
     repoURL: "https://github.com/redhat-cop/babylon.git"
-    targetRevision: "v0.11.9"
+    targetRevision: "v0.11.10"
   ignoreDifferences:
     - group: apiextensions.k8s.io
       kind: CustomResourceDefinition
