@@ -27,8 +27,8 @@ spec:
           lodestar-hosting: main
           lodestar-participants: main
           resource-dispatcher: master
-          agnosticv-operator: v0.14.4
-          anarchy: v0.16.25
-          poolboy: v0.10.2
+          agnosticv-operator: v0.15.8
+          anarchy: v0.17.3
+          poolboy: v0.10.8
           lodestar: 1.2.0
     targetRevision: master
