@@ -22,6 +22,4 @@ spec:
             operatorNamespace: openshift-operators
             crossClusterBackup:
               enable: false
-    # TODO: Update to new release when available
-    #targetRevision: v0.11.10
-    targetRevision: c0e37e86976795918e26540e42aa9eaf0cf29575
+    targetRevision: v0.11.10
