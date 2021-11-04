@@ -16,10 +16,12 @@ spec:
               deploy: false
             anarchy:
               namespaces:
-                - lodestar-babylon-operators
+                - name: lodestar-babylon-operators
             poolboy:
               namespace: lodestar-babylon-operators
             operatorNamespace: openshift-operators
             crossClusterBackup:
               enable: false
-    targetRevision: v0.11.9
+    # TODO: Update to new release when available
+    #targetRevision: v0.11.10
+    targetRevision: c0e37e86976795918e26540e42aa9eaf0cf29575
