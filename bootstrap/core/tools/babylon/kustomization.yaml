@@ -6,7 +6,7 @@ resources:
   - anarchy-operator.yaml
   - kopfpeering-crd.yaml
   - poolboy.yaml
-  - catalogitems-crd.yaml
+  - babylon-config.yaml
 patches:
   - patch: |-
       - op: add

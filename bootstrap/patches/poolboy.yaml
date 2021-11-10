@@ -13,7 +13,7 @@ spec:
     helm:
       values: |-
             anarchy:
-              create: true
+              create: false
               namespace: lodestar-babylon-operators
               service: anarchy
             namespace:
