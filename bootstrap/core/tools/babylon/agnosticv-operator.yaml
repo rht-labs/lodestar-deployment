@@ -10,7 +10,7 @@ spec:
   source:
     path: "helm"
     repoURL: "https://github.com/redhat-gpte-devopsautomation/agnosticv-operator.git"
-    targetRevision: "v0.15.4"
+    targetRevision: "v0.15.9"
   syncPolicy:
     automated:
       prune: true

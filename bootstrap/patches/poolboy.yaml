@@ -16,8 +16,6 @@ spec:
               create: true
               namespace: lodestar-babylon-operators
               service: anarchy
-              updateFilters:
-                - "/spec/vars/job_vars((?!/uuid)/.*)?"
             namespace:
               create: false
               name: lodestar-babylon-operators
