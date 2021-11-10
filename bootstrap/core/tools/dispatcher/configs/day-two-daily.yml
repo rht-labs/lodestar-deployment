@@ -5,7 +5,7 @@ repositories:
 
   - name: infra-ansible
     url: https://github.com/redhat-cop/infra-ansible.git
-    ref: v2.0.4
+    ref: main
 
   - name: email-template-repo
     url: ssh://git@{{ ENV_GITLAB_BASE_URL }}:{{ ENV_GITLAB_SSH_PORT }}/rht-labs/email-templates.git
