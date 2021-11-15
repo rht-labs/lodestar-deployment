@@ -22,4 +22,4 @@ spec:
             operatorNamespace: openshift-operators
             crossClusterBackup:
               enable: false
-    targetRevision: v0.11.10
+    targetRevision: v0.12.0

@@ -14,4 +14,4 @@ spec:
         namespace:
           create: false
           name: lodestar-babylon-operators
-    targetRevision: v0.15.8
+    targetRevision: v0.16.0
