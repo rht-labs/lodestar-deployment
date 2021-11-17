@@ -78,9 +78,11 @@ tasks:
               else:
                 cloud_provider = engagement["hosting_environments"][0]["ocp_cloud_provider_name"]
               return True
+
             def do_not_process(file):
               print(f"Not processing {file}")
               os.remove(file)
+
             files = [f for f in os.listdir(".")]
             for file in files:
               project_id = file.partition(".")[0] # The project ID is the filename before ".yml"
