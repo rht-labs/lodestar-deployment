@@ -38,6 +38,7 @@ tasks:
             import os
             import gitlab
             import dateutil.parser
+
             print("Checking projects from https://{{ ENV_GITLAB_BASE_URL }}" )
             g = gitlab.Gitlab(
               "https://{{ ENV_GITLAB_BASE_URL }}" ,
