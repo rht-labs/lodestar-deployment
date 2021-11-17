@@ -69,14 +69,11 @@ tasks:
                 if now_ts > archive_date_ts:
                   # We're past the engagement archive_date and should not process
                   return False
-              if not "hosting_environments" in engagement:
+              if (not "hosting_environments" in engagement or
+                  len(engagement["hosting_environments"]) == 0 or 
+                  not "ocp_cloud_provider_name" in engagement["hosting_environments"][0] or 
+                  engagement["hosting_environments"][0]["ocp_cloud_provider_name"] != "ec2"):
                 return False
-              if len(engagement["hosting_environments"]) == 0:
-                return False
-              if not "ocp_cloud_provider_name" in engagement["hosting_environments"][0]:
-                return False
-              else:
-                cloud_provider = engagement["hosting_environments"][0]["ocp_cloud_provider_name"]
               return True
 
             def do_not_process(file):
