@@ -49,6 +49,7 @@ tasks:
               try:
                 repository_tree = project.repository_tree(all=True)
               except Exception as err:
+                print("Failed to walk repository file tree, are there any files in this repository?")              
                 print(err)
                 return False
               engagement_file = [f for f in repository_tree if f["path"] == 'engagement.json']
