@@ -48,18 +48,16 @@ tasks:
                 repository_tree = project.repository_tree(all=True)
               except Exception as err:
                 print(err)
-                print("Failed to walk repository file tree, are there any files in this repository?")
                 return False
               engagement_file = [f for f in repository_tree if f["path"] == 'engagement.json']
               if not len(engagement_file) == 1:
-                print("The Engagement file does not exist!")
                 return False
               engagement = json.loads(project.files.get('engagement.json', "master").decode())
               print("Checking Engagement: %s - %s"
                     %(engagement.get('customer_name', 'Undefined'),
                       engagement.get('project_name', 'Undefined')))
               if not ("launch" in engagement and "launched_date_time" in engagement["launch"]):
-                print("Engagement file doesn't have the correct launch data in it")
+                # Engagement file doesn't have the correct launch data in it
                 return False
               if "archive_date" in engagement:
                 try:
@@ -69,16 +67,14 @@ tasks:
                   return False
                 now_ts = datetime.utcnow().timestamp()
                 if now_ts > archive_date_ts:
+                  # We're past the engagement archive_date and should not process
                   print("Engagement has passed the archiving date")
                   return False
               if not "hosting_environments" in engagement:
-                print("Hosting environment is not defined in engagement.json")
                 return False
               if len(engagement["hosting_environments"]) == 0:
-                print("The Hosting environment section within the engagement file is empty")
                 return False
               if not "ocp_cloud_provider_name" in engagement["hosting_environments"][0]:
-                print("No Cloud Provider name was provided")
                 return False
               else:
                 cloud_provider = engagement["hosting_environments"][0]["ocp_cloud_provider_name"]
