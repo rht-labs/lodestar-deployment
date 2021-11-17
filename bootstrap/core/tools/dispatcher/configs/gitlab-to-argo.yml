@@ -68,7 +68,6 @@ tasks:
                 now_ts = datetime.utcnow().timestamp()
                 if now_ts > archive_date_ts:
                   # We're past the engagement archive_date and should not process
-                  print("Engagement has passed the archiving date")
                   return False
               if not "hosting_environments" in engagement:
                 return False
