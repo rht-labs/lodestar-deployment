@@ -18,7 +18,7 @@ spec:
     helm:
       values: |-
             anarchy:
-              create: false
+              create: true
               namespace: lodestar-babylon-operators
               service: anarchy
             namespace:
