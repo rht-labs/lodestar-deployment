@@ -6,6 +6,8 @@ repositories:
 tasks:
   - name: gitlab-to-argo
     description: Ensures that all repositories in a GitLab group are being watched by an Argo CD instance
+    # TODO: Remove this once debug is complete.
+    disable_error_handling: true
     triggers:
       - type: scheduled
         every: 10 minutes
