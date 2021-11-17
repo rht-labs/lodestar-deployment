@@ -87,7 +87,6 @@ tasks:
             for file in files:
               project_id = file.partition(".")[0] # The project ID is the filename before ".yml"
               project = g.projects.get(project_id, lazy=False)
-              print(f"Processing project id {project_id} for {project.description}")
               if not should_process_project(project):
                 do_not_process(file)
       - plugin: kubernetes
