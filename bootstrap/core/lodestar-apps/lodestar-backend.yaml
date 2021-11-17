@@ -10,7 +10,7 @@ spec:
   source:
     path: "deployment"
     repoURL: "https://github.com/rht-labs/lodestar-backend.git"
-    targetRevision: "master"
+    targetRevision: "main"
   syncPolicy:
     automated:
       prune: true

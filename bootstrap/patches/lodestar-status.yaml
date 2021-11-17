@@ -22,12 +22,13 @@ spec:
           lodestar-config: v1.2.0
           lodestar-activity: v0.2.1
           lodestar-artifacts: v0.1.0
+          lodestar-engagements: v0.0.1
           lodestar-engagement-status: v0.0.1
           lodestar-hosting: v0.0.1
           lodestar-participants: v0.1.0
           resource-dispatcher: v1.0.15
-          agnosticv-operator: v0.14.4
-          anarchy: v0.16.22
-          poolboy: v0.10.2
-          lodestar: v1.2.11
+          agnosticv-operator: v0.16.0
+          anarchy: v0.18.0
+          poolboy: v0.10.8
+          lodestar: v1.2.14
     targetRevision: v1.1.0

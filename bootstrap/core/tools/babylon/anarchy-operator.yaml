@@ -9,8 +9,8 @@ spec:
   project: default
   source:
     path: "helm"
-    repoURL: https://github.com/redhat-cop/anarchy.git 
-    targetRevision: v0.16.25
+    repoURL: https://github.com/redhat-cop/anarchy.git
+    targetRevision: v0.18.0
   syncPolicy:
     automated:
       prune: true

@@ -1,7 +1,7 @@
 repositories:
   - name: automation-repo
     url: https://github.com/rht-labs/lodestar-automation.git
-    ref: v1.0.17
+    ref: v1.0.18-2
 
 tasks:
   - name: gitlab-to-argo
@@ -39,21 +39,27 @@ tasks:
             import gitlab
             import dateutil.parser
 
+            print("Checking projects from https://{{ ENV_GITLAB_BASE_URL }}" )
             g = gitlab.Gitlab(
-                              "https://{{ ENV_GITLAB_BASE_URL }}" ,
-                              private_token="{{ ENV_GITLAB_PRIVATE_TOKEN | trim }}"
-                             )
+              "https://{{ ENV_GITLAB_BASE_URL }}" ,
+              private_token="{{ ENV_GITLAB_PRIVATE_TOKEN | trim }}"
+            )
 
             def should_process_project(project):
-              repository_tree = project.repository_tree(all=True)
+              try:
+                repository_tree = project.repository_tree(all=True)
+              except Exception as err:
+                print("Failed to walk repository file tree, are there any files in this repository?")              
+                print(err)
+                return False
               engagement_file = [f for f in repository_tree if f["path"] == 'engagement.json']
               if not len(engagement_file) == 1:
                 # Engagement file doesn't exist
                 return False
               engagement = json.loads(project.files.get('engagement.json', "master").decode())
               print("Checking Engagement: %s - %s"
-                     %(engagement.get('customer_name', 'Undefined'),
-                       engagement.get('project_name', 'Undefined')))
+                    %(engagement.get('customer_name', 'Undefined'),
+                      engagement.get('project_name', 'Undefined')))
               if not ("launch" in engagement and "launched_date_time" in engagement["launch"]):
                 # Engagement file doesn't have the correct launch data in it
                 return False
@@ -61,6 +67,7 @@ tasks:
                 try:
                   archive_date_ts = dateutil.parser.parse(engagement["archive_date"]).timestamp()
                 except ValueError:
+                  print("Could not parse archive date: %s" %engagement["archive_date"])
                   return False
                 now_ts = datetime.utcnow().timestamp()
                 if now_ts > archive_date_ts:
