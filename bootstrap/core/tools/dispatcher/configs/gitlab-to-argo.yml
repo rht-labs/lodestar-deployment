@@ -53,6 +53,7 @@ tasks:
                 return False
               engagement_file = [f for f in repository_tree if f["path"] == 'engagement.json']
               if not len(engagement_file) == 1:
+                # Engagement file doesn't exist
                 return False
               engagement = json.loads(project.files.get('engagement.json', "master").decode())
               print("Checking Engagement: %s - %s"
