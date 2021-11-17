@@ -43,6 +43,7 @@ tasks:
               "https://{{ ENV_GITLAB_BASE_URL }}" ,
               private_token="{{ ENV_GITLAB_PRIVATE_TOKEN | trim }}"
             )
+
             def should_process_project(project):
               try:
                 repository_tree = project.repository_tree(all=True)
