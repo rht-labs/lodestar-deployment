@@ -16,6 +16,9 @@ spec:
       kind: CustomResourceDefinition
       jsonPointers:
         - /spec/names/shortNames
+    - kind: Namespace
+      jsonPointers:
+        - /metadata/labels
   syncPolicy:
     automated:
       prune: true
