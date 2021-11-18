@@ -11,7 +11,7 @@ spec:
       - /spec/names/shortNames
   - kind: Namespace
     jsonPointers:
-      - /metadata/labels/app.kubernetes.io/instance
+      - /metadata/labels
   source:
     helm:
       values: |-
