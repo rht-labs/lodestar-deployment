@@ -27,8 +27,8 @@ spec:
           lodestar-hosting: v0.0.1
           lodestar-participants: v0.1.0
           resource-dispatcher: v1.0.15
-          agnosticv-operator: v0.16.0
+          agnosticv-operator: v0.16.1
           anarchy: v0.18.0
           poolboy: v0.10.8
-          lodestar: v1.2.15
+          lodestar: v1.2.16
     targetRevision: v1.1.0
