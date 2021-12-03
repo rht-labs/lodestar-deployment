@@ -20,7 +20,7 @@ spec:
           lodestar-git-api: v1.3.0
           lodestar-status: v1.1.0
           lodestar-config: v1.2.0
-          lodestar-activity: v0.2.1
+          lodestar-activity: v0.3.0
           lodestar-artifacts: v0.1.0
           lodestar-engagements: v0.0.1
           lodestar-engagement-status: v0.0.1
@@ -30,5 +30,5 @@ spec:
           agnosticv-operator: v0.16.1
           anarchy: v0.18.0
           poolboy: v0.10.8
-          lodestar: v1.2.17
+          lodestar: v1.2.50
     targetRevision: v1.1.0

@@ -21,6 +21,8 @@ spec:
       jsonPointers:
         - /spec/vars/current_state
         - /spec/vars/desired_state
+      jqPathExpressions:
+        - .spec.resources.[].template.spec.vars.action_schedule
   syncPolicy:
     automated:
       prune: true
