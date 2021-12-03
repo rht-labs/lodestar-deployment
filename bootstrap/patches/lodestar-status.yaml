@@ -15,7 +15,7 @@ spec:
         imageTag: master
         namespaces: lodestar-frontend,lodestar-babylon-operators
         versions:
-          lodestar-end: main
+          lodestar-backend: main
           lodestar-frontend: master
           lodestar-git-api: master
           lodestar-status: master
