@@ -1,7 +1,7 @@
 repositories:
   - name: automation-repo
     url: https://github.com/rht-labs/lodestar-automation.git
-    ref: master
+    ref: v1.0.23-2
 
 tasks:
   - name: update-statuses
