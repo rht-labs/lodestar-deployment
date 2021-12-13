@@ -12,13 +12,13 @@ spec:
   source:
     helm:
       values: |-
-        imageTag: v1.1.0
+        imageTag: v1.2.0
         namespaces: lodestar-frontend,lodestar-babylon-operators
         versions:
           lodestar-backend: v1.4.5
           lodestar-frontend:  v1.2.5
           lodestar-git-api: v1.3.0
-          lodestar-status: v1.1.0
+          lodestar-status: v1.2.0
           lodestar-config: v1.2.0
           lodestar-activity: v0.3.0
           lodestar-artifacts: v0.1.0
@@ -30,5 +30,5 @@ spec:
           agnosticv-operator: v0.16.1
           anarchy: v0.18.0
           poolboy: v0.10.8
-          lodestar: v1.2.55
-    targetRevision: v1.1.0
+          lodestar: v1.2.56
+    targetRevision: v1.2.0
