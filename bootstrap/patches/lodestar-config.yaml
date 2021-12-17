@@ -4,10 +4,10 @@ metadata:
   name: lodestar-config
 spec:
   ignoreDifferences:
-  - group: apps.openshift.io
-    jsonPointers:
-    - /spec/template/spec/containers/0/image
-    kind: DeploymentConfig
+    - group: apps.openshift.io
+      jsonPointers:
+        - /spec/template/spec/containers/0/image
+      kind: DeploymentConfig
   source:
     helm:
       values: |-
@@ -16,5 +16,4 @@ spec:
         runtimeConfigs:
           - base
           - DO500
-    targetRevision: main
-
+    targetRevision: v1.2.1
