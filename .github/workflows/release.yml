@@ -82,67 +82,68 @@ jobs:
       e2eDisableReplacementString: 'enabled: false'
 
       ## Versions assignment for components that need both version and imageTag
-      FrontendVersion: ${{ github.event.client_payload.slash_command.frontend }}
-      FrontendImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.frontend }}'
-      BackendVersion: ${{ github.event.client_payload.slash_command.backend }}
-      BackendImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.backend }}'
-      GitApiVersion: ${{ github.event.client_payload.slash_command.gitapi }}
-      GitApiImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.gitapi }}'
-      StatusVersion: ${{ github.event.client_payload.slash_command.status }}
-      StatusImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.status }}'
-      ConfigVersion: ${{ github.event.client_payload.slash_command.config }}
-      ConfigImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.config }}'
-      ActivityVersion: ${{ github.event.client_payload.slash_command.activity }}
-      ActivityImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.activity }}'
-      ArtifactsVersion: ${{ github.event.client_payload.slash_command.artifacts }}
-      ArtifactsImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.artifacts }}'
-      EngagementsVersion: ${{ github.event.client_payload.slash_command.engagements }}
-      EngagementsImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.engagements }}'
-      EngagementStatusVersion: ${{ github.event.client_payload.slash_command.engagement-status }}
-      EngagementStatusImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.engagement-status }}'
-      HostingVersion: ${{ github.event.client_payload.slash_command.hosting }}
-      HostingImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.hosting }}'
-      ParticipantsVersion: ${{ github.event.client_payload.slash_command.participants }}
-      ParticipantsImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.participants }}'
-      DispatcherVersion: ${{ github.event.client_payload.slash_command.dispatcher }}
-      DispatcherImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.dispatcher }}'
+      FrontendVersion: ${{ github.event.client_payload.slash_command.args.named.frontend }}
+      FrontendImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.args.named.frontend }}'
+      BackendVersion: ${{ github.event.client_payload.slash_command.args.named.backend }}
+      BackendImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.args.named.backend }}'
+      GitApiVersion: ${{ github.event.client_payload.slash_command.args.named.gitapi }}
+      GitApiImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.args.named.gitapi }}'
+      StatusVersion: ${{ github.event.client_payload.slash_command.args.named.status }}
+      StatusImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.args.named.status }}'
+      ConfigVersion: ${{ github.event.client_payload.slash_command.args.named.config }}
+      ConfigImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.args.named.config }}'
+      ActivityVersion: ${{ github.event.client_payload.slash_command.args.named.activity }}
+      ActivityImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.args.named.activity }}'
+      ArtifactsVersion: ${{ github.event.client_payload.slash_command.args.named.artifacts }}
+      ArtifactsImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.args.named.artifacts }}'
+      EngagementsVersion: ${{ github.event.client_payload.slash_command.args.named.engagements }}
+      EngagementsImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.args.named.engagements }}'
+      EngagementStatusVersion: ${{ github.event.client_payload.slash_command.args.named.engagement-status }}
+      EngagementStatusImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.args.named.engagement-status }}'
+      HostingVersion: ${{ github.event.client_payload.slash_command.args.named.hosting }}
+      HostingImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.args.named.hosting }}'
+      ParticipantsVersion: ${{ github.event.client_payload.slash_command.args.named.participants }}
+      ParticipantsImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.args.named.participants }}'
+      DispatcherVersion: ${{ github.event.client_payload.slash_command.args.named.dispatcher }}
+      DispatcherImageVersion: 'imageTag: ${{ github.event.client_payload.slash_command.args.named.dispatcher }}'
 
       ## Versions assignment
-      AgnosticVVersion: ${{ github.event.client_payload.slash_command.agnosticv }}
-      AnarchyVersion: ${{ github.event.client_payload.slash_command.anarchy }}
-      PoolBoyVersion: ${{ github.event.client_payload.slash_command.poolboy }}
+      AgnosticVVersion: ${{ github.event.client_payload.slash_command.args.named.agnosticv }}
+      AnarchyVersion: ${{ github.event.client_payload.slash_command.args.named.anarchy }}
+      PoolBoyVersion: ${{ github.event.client_payload.slash_command.args.named.poolboy }}
 
       ## Variables for Status Service Versions - matching and replacement strings
       Versions_FrontendMatchString: 'lodestar-frontend:.*'
-      Versions_FrontendVersion: 'lodestar-frontend:  ${{ github.event.client_payload.slash_command.frontend }}'
+      Versions_FrontendVersion: 'lodestar-frontend:  ${{ github.event.client_payload.slash_command.args.named.frontend }}'
       Versions_BackendMatchString: 'lodestar-backend:.*'
-      Versions_BackendVersion: 'lodestar-backend: ${{ github.event.client_payload.slash_command.backend }}'
+      Versions_BackendVersion: 'lodestar-backend: ${{ github.event.client_payload.slash_command.args.named.backend }}'
       Versions_GitApiMatchString: 'lodestar-git-api:.*'
-      Versions_GitApiVersion: 'lodestar-git-api: ${{ github.event.client_payload.slash_command.gitapi }}'
+      Versions_GitApiVersion: 'lodestar-git-api: ${{ github.event.client_payload.slash_command.args.named.gitapi }}'
       Versions_StatusMatchString: 'lodestar-status:.*'
-      Versions_StatusVersion: 'lodestar-status: ${{ github.event.client_payload.slash_command.status }}'
+      Versions_StatusVersion: 'lodestar-status: ${{ github.event.client_payload.slash_command.args.named.status }}'
       Versions_ConfigMatchString: 'lodestar-config:.*'
-      Versions_ConfigVersion: 'lodestar-config: ${{ github.event.client_payload.slash_command.config }}'
+      Versions_ConfigVersion: 'lodestar-config: ${{ github.event.client_payload.slash_command.args.named.config }}'
       Versions_ActivityMatchString: 'lodestar-activity:.*'
-      Versions_ActivityVersion: 'lodestar-activity: ${{ github.event.client_payload.slash_command.activity }}'
+      Versions_ActivityVersion: 'lodestar-activity: ${{ github.event.client_payload.slash_command.args.named.activity }}'
       Versions_ArtifactsMatchString: 'lodestar-artifacts:.*'
-      Versions_ArtifactsVersion: 'lodestar-artifacts: ${{ github.event.client_payload.slash_command.artifacts }}'
+      Versions_ArtifactsVersion: 'lodestar-artifacts: ${{ github.event.client_payload.slash_command.args.named.artifacts }}'
       Versions_EngagementsMatchString: 'lodestar-engagements:.*'
-      Versions_EngagementsVersion: 'lodestar-engagements: ${{ github.event.client_payload.slash_command.engagements }}'
+      Versions_EngagementsVersion: 'lodestar-engagements: ${{ github.event.client_payload.slash_command.args.named.engagements }}'
       Versions_EngagementStatusMatchString: 'lodestar-engagement-status:.*'
-      Versions_EngagementStatusVersion: 'lodestar-engagement-status: ${{ github.event.client_payload.slash_command.engagement-status }}'
+      Versions_EngagementStatusVersion: 'lodestar-engagement-status: ${{ github.event.client_payload.slash_command.args.named.engagement-status }}'
       Versions_HostingMatchString: 'lodestar-hosting:.*'
-      Versions_HostingVersion: 'lodestar-hosting ${{ github.event.client_payload.slash_command.hosting }}'
+      Versions_HostingVersion: 'lodestar-hosting ${{ github.event.client_payload.slash_command.args.named.hosting }}'
       Versions_ParticipantsMatchString: 'lodestar-participants:.*'
-      Versions_ParticipantsVersion: 'lodestar-participants: ${{ github.event.client_payload.slash_command.participants }}'
+      Versions_ParticipantsVersion: 'lodestar-participants: ${{ github.event.client_payload.slash_command.args.named.participants }}'
       Versions_DispatcherMatchString: 'resource-dispatcher:.*'
-      Versions_DispatcherVersion: 'resource-dispatcher: ${{ github.event.client_payload.slash_command.dispatcher }}'
+      Versions_DispatcherVersion: 'resource-dispatcher: ${{ github.event.client_payload.slash_command.args.named.dispatcher }}'
       Versions_AgnosticVMatchString: 'agnosticv-operator:.*'
-      Versions_AgnosticVVersion: 'agnosticv-operator: ${{ github.event.client_payload.slash_command.agnosticv }}'
+      Versions_AgnosticVVersion: 'agnosticv-operator: ${{ github.event.client_payload.slash_command.args.named.agnosticv }}'
       Versions_AnarchyMatchString: 'anarchy:.*'
-      Versions_AnarchyVersion: 'anarchy: ${{ github.event.client_payload.slash_command.anarchy }}'
+      Versions_AnarchyVersion: 'anarchy: ${{ github.event.client_payload.slash_command.args.named.anarchy }}'
       Versions_PoolBoyMatchString: 'poolboy:.*'
-      Versions_PoolBoyVersion: 'poolboy: ${{ github.event.client_payload.slash_command.poolboy }}'
+      Versions_PoolBoyVersion: 'poolboy: ${{ github.event.client_payload.slash_command.args.named.poolboy }}'
+
 
       ## LodeStar Overall Version String - value obtained at runtime
       Versions_LodeStarMatchString: 'lodestar:.*'
@@ -163,7 +164,7 @@ jobs:
         ref: ${{ steps.env_info.outputs.issuetitle }}
 
     - name: Update LodeStar Frontend Release Info
-      if: ${{ github.event.client_payload.slash_command.frontend != null }}
+      if: ${{ github.event.client_payload.slash_command.args.named.frontend != null }}
       uses: mikefarah/yq@v4.9.6
       with:
         cmd: >
@@ -173,7 +174,7 @@ jobs:
               yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_FrontendMatchString),strenv(Versions_FrontendVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
 
     - name: Update LodeStar Backend Release Info
-      if: ${{ github.event.client_payload.slash_command.backend != null }}
+      if: ${{ github.event.client_payload.slash_command.args.named.backend != null }}
       uses: mikefarah/yq@v4.9.6
       with:
         cmd: >
@@ -182,7 +183,7 @@ jobs:
               yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_BackendMatchString),strenv(Versions_BackendVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
 
     - name: Update LodeStar Git API Release Info
-      if: ${{ github.event.client_payload.slash_command.gitapi != null }}
+      if: ${{ github.event.client_payload.slash_command.args.named.gitapi != null }}
       uses: mikefarah/yq@v4.9.6
       with:
         cmd: >
@@ -191,7 +192,7 @@ jobs:
               yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_GitApiMatchString),strenv(Versions_GitApiVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
 
     - name: Update LodeStar Config Release Info
-      if: ${{ github.event.client_payload.slash_command.config != null }}
+      if: ${{ github.event.client_payload.slash_command.args.named.config != null }}
       uses: mikefarah/yq@v4.9.6
       with:
         cmd: >
@@ -200,7 +201,7 @@ jobs:
               yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_ConfigMatchString),strenv(Versions_ConfigVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
 
     - name: Update LodeStar Activity Release Info
-      if: ${{ github.event.client_payload.slash_command.activity != null }}
+      if: ${{ github.event.client_payload.slash_command.args.named.activity != null }}
       uses: mikefarah/yq@v4.9.6
       with:
         cmd: >
@@ -209,7 +210,7 @@ jobs:
               yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_ActivityMatchString),strenv(Versions_ActivityVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
 
     - name: Update LodeStar Artifacts Release Info
-      if: ${{ github.event.client_payload.slash_command.activity != null }}
+      if: ${{ github.event.client_payload.slash_command.args.named.activity != null }}
       uses: mikefarah/yq@v4.9.6
       with:
         cmd: >
@@ -218,7 +219,7 @@ jobs:
               yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_ArtifactsMatchString),strenv(Versions_ArtifactsVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
 
     - name: Update LodeStar Engagements Release Info
-      if: ${{ github.event.client_payload.slash_command.engagements != null }}
+      if: ${{ github.event.client_payload.slash_command.args.named.engagements != null }}
       uses: mikefarah/yq@v4.9.6
       with:
         cmd: >
@@ -227,7 +228,7 @@ jobs:
               yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_EngagementsMatchString),strenv(Versions_EngagementsVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
 
     - name: Update LodeStar Engagement Status Release Info
-      if: ${{ github.event.client_payload.slash_command.engagement-status != null }}
+      if: ${{ github.event.client_payload.slash_command.args.named.engagement-status != null }}
       uses: mikefarah/yq@v4.9.6
       with:
         cmd: >
@@ -236,7 +237,7 @@ jobs:
               yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_EngagementStatusMatchString),strenv(Versions_EngagementStatusVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
 
     - name: Update LodeStar Hosting Release Info
-      if: ${{ github.event.client_payload.slash_command.hosting != null }}
+      if: ${{ github.event.client_payload.slash_command.args.named.hosting != null }}
       uses: mikefarah/yq@v4.9.6
       with:
         cmd: >
@@ -245,7 +246,7 @@ jobs:
               yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_HostingMatchString),strenv(Versions_HostingVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
 
     - name: Update LodeStar Participants Release Info
-      if: ${{ github.event.client_payload.slash_command.participants != null }}
+      if: ${{ github.event.client_payload.slash_command.args.named.participants != null }}
       uses: mikefarah/yq@v4.9.6
       with:
         cmd: >
@@ -254,7 +255,7 @@ jobs:
               yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_ParticipantsMatchString),strenv(Versions_ParticipantsVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
 
     - name: Update Resource Dispatcher Release Info
-      if: ${{ github.event.client_payload.slash_command.dispatcher != null }}
+      if: ${{ github.event.client_payload.slash_command.args.named.dispatcher != null }}
       uses: mikefarah/yq@v4.9.6
       with:
         cmd: >
@@ -263,7 +264,7 @@ jobs:
               yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_DispatcherMatchString),strenv(Versions_DispatcherVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
 
     - name: Update Babylon / AgnosticV Operator Release Info
-      if: ${{ github.event.client_payload.slash_command.agnosticv != null }}
+      if: ${{ github.event.client_payload.slash_command.args.named.agnosticv != null }}
       uses: mikefarah/yq@v4.9.6
       with:
         cmd: >
@@ -271,7 +272,7 @@ jobs:
               yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_AgnosticVMatchString),strenv(Versions_AgnosticVVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
 
     - name: Update Babylon / Anarchy Operator Release Info
-      if: ${{ github.event.client_payload.slash_command.anarchy != null }}
+      if: ${{ github.event.client_payload.slash_command.args.named.anarchy != null }}
       uses: mikefarah/yq@v4.9.6
       with:
         cmd: >
@@ -279,7 +280,7 @@ jobs:
               yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_AnarchyMatchString),strenv(Versions_AnarchyVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
 
     - name: Update Babylon / Poolboy Release Info
-      if: ${{ github.event.client_payload.slash_command.poolboy != null }}
+      if: ${{ github.event.client_payload.slash_command.args.named.poolboy != null }}
       uses: mikefarah/yq@v4.9.6
       with:
         cmd: >
@@ -287,7 +288,7 @@ jobs:
               yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_PoolBoyMatchString),strenv(Versions_PoolBoyVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
 
     - name: Update LodeStar Status Release Info
-      if: ${{ github.event.client_payload.slash_command.status != null }}
+      if: ${{ github.event.client_payload.slash_command.args.named.status != null }}
       uses: mikefarah/yq@v4.9.6
       with:
         cmd: >
