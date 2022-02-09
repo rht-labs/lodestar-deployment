@@ -114,7 +114,11 @@ tasks:
           extra_vars:
             ipa_validate_certs: false
             governor_type: "day2"
+<<<<<<< HEAD
             governor_spec: "{% raw %}{{ 'idm-' + engagement_region }}{% endraw %}"
+=======
+            governor_spec: "idm"
+>>>>>>> production
       - plugin: ansible
         repository: automation-repo
         path: inventory-generation/tower_jobs_schedules
