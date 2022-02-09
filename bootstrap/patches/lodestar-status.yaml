@@ -12,22 +12,23 @@ spec:
   source:
     helm:
       values: |-
-        imageTag: v1.1.0
+        imageTag: v1.2.0
         namespaces: lodestar-frontend,lodestar-babylon-operators
         versions:
-          lodestar-backend: v1.4.3
-          lodestar-frontend: v1.2.5
-          lodestar-git-api: v1.3.0
-          lodestar-status: v1.1.0
-          lodestar-config: v1.2.0
-          lodestar-activity: v0.2.1
-          lodestar-artifacts: v0.1.0
-          lodestar-engagement-status: v0.0.1
-          lodestar-hosting: v0.0.1
-          lodestar-participants: v0.1.0
+          lodestar-backend: v2.0.2
+          lodestar-frontend:  v1.2.5
+          lodestar-git-api: v1.4.0
+          lodestar-status: v1.2.0
+          lodestar-config: v1.2.1
+          lodestar-activity: v1.0.0
+          lodestar-artifacts: v1.0.0
+          lodestar-engagements: v1.1.0
+          lodestar-engagement-status: v1.0.0
+          lodestar-hosting: v1.0.0
+          lodestar-participants: v1.0.0
           resource-dispatcher: v1.0.15
-          agnosticv-operator: v0.14.4
-          anarchy: v0.16.25
-          poolboy: v0.10.2
-          lodestar: v1.2.9
-    targetRevision: v1.1.0
+          agnosticv-operator: v0.16.1
+          anarchy: v0.18.0
+          poolboy: v0.10.8
+          lodestar: v1.3.2
+    targetRevision: v1.2.0

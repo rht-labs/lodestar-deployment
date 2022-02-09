@@ -1,17 +1,17 @@
 repositories:
   - name: automation-repo
     url: https://github.com/rht-labs/lodestar-automation.git
-    ref: v1.0.15
+    ref: v1.0.26-2
 
   - name: infra-ansible
     url: https://github.com/redhat-cop/infra-ansible.git
-    ref: v2.0.4
+    ref: v2.0.7
 
   - name: email-template-repo
     url: ssh://git@{{ ENV_GITLAB_BASE_URL }}:{{ ENV_GITLAB_SSH_PORT }}/rht-labs/email-templates.git
     secret:
       ssh_private_key: /sshSecret/emailTemplatesDeployKey
-    ref: v1.0.2
+    ref: v1.0.5
 
 tasks:
   - name: Day Two Daily Schedule
@@ -114,7 +114,7 @@ tasks:
           extra_vars:
             ipa_validate_certs: false
             governor_type: "day2"
-            governor_spec: "idm"
+            governor_spec: "{% raw %}{{ 'idm-' + engagement_region }}{% endraw %}"
       - plugin: ansible
         repository: automation-repo
         path: inventory-generation/tower_jobs_schedules
