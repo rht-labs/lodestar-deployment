@@ -15,7 +15,7 @@ spec:
         imageTag: v1.2.0
         namespaces: lodestar-frontend,lodestar-babylon-operators
         versions:
-          lodestar-backend: v2.0.1
+          lodestar-backend: v2.0.2
           lodestar-frontend:  v1.2.5
           lodestar-git-api: v1.4.0
           lodestar-status: v1.2.0
@@ -30,5 +30,5 @@ spec:
           agnosticv-operator: v0.16.1
           anarchy: v0.18.0
           poolboy: v0.10.8
-          lodestar: v1.3.1
+          lodestar: v1.3.2
     targetRevision: v1.2.0

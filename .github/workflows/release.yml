@@ -144,7 +144,6 @@ jobs:
       Versions_PoolBoyMatchString: 'poolboy:.*'
       Versions_PoolBoyVersion: 'poolboy: ${{ github.event.client_payload.slash_command.args.named.poolboy }}'
 
-
       ## LodeStar Overall Version String - value obtained at runtime
       Versions_LodeStarMatchString: 'lodestar:.*'
 
