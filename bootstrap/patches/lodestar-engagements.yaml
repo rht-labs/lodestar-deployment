@@ -12,5 +12,5 @@ spec:
   source:
     helm:
       values: |-
-        imageTag: v1.1.0
-    targetRevision: v1.1.0
+        imageTag: v2.0.0
+    targetRevision: v2.0.0
