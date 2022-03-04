@@ -5,30 +5,30 @@ metadata:
   namespace: lodestar-argo-cd
 spec:
   ignoreDifferences:
-  - group: apps.openshift.io
-    jsonPointers:
-    - /spec/template/spec/containers/0/image
-    kind: DeploymentConfig
+    - group: apps.openshift.io
+      jsonPointers:
+        - /spec/template/spec/containers/0/image
+      kind: DeploymentConfig
   source:
     helm:
       values: |-
-        imageTag: master
+        imageTag: v1.2.0
         namespaces: lodestar-frontend,lodestar-babylon-operators
         versions:
-          lodestar-backend: main
-          lodestar-frontend: master
-          lodestar-git-api: master
-          lodestar-status: master
-          lodestar-config: main
-          lodestar-activity: main
-          lodestar-artifacts: main
-          lodestar-engagements: main
-          lodestar-engagement-status: main
-          lodestar-hosting: main
-          lodestar-participants: main
-          resource-dispatcher: master
+          lodestar-backend: v2.2.1
+          lodestar-frontend:  v1.3.0
+          lodestar-git-api: v1.4.0
+          lodestar-status: v1.2.0
+          lodestar-config: v1.3.0
+          lodestar-activity: v1.0.1
+          lodestar-artifacts: v1.0.0
+          lodestar-engagements: v2.0.2
+          lodestar-engagement-status: v1.0.0
+          lodestar-hosting v1.0.0
+          lodestar-participants: v1.0.0
+          resource-dispatcher: v1.0.15
           agnosticv-operator: v0.16.1
           anarchy: v0.18.0
           poolboy: v0.10.8
-          lodestar: 1.2.0
-    targetRevision: master
+          lodestar: v1.3.7
+    targetRevision: v1.2.0
