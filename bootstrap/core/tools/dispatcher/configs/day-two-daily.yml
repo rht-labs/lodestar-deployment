@@ -1,17 +1,17 @@
 repositories:
   - name: automation-repo
     url: https://github.com/rht-labs/lodestar-automation.git
-    ref: v1.0.26-2
+    ref: v1.0.27-2
 
   - name: infra-ansible
     url: https://github.com/redhat-cop/infra-ansible.git
-    ref: v2.0.7
+    ref: v2.0.8
 
   - name: email-template-repo
     url: ssh://git@{{ ENV_GITLAB_BASE_URL }}:{{ ENV_GITLAB_SSH_PORT }}/rht-labs/email-templates.git
     secret:
       ssh_private_key: /sshSecret/emailTemplatesDeployKey
-    ref: v1.0.5
+    ref: v1.0.6
 
 tasks:
   - name: Day Two Daily Schedule
