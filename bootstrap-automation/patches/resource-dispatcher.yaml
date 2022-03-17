@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: resource-dispatcher
+  namespace: openshift-gitops
+spec:
+  destination:
+    namespace: lodestar-argo-cd
+  ignoreDifferences:
+  - group: apps.openshift.io
+    jsonPointers:
+    - /spec/template/spec/containers/0/image
+    kind: DeploymentConfig
+  - group: image.openshift.io
+    jsonPointers:
+    - /status
+    kind: ImageStream
+  source:
+    helm:
+      values: |-
+        clusterRole: argocd-application-controller
+        configMapName: resource-dispatcher-config
+        exposeRoute: true
+        imageTag: master
+        setupClusterRoleBinding: true
+        sshSecretConfigMap: resource-dispatcher-key
+        useConfigDir: true
+        configMapAsEnvVars: dispatcher-variables
+    targetRevision: master

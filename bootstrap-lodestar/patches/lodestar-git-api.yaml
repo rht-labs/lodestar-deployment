@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: lodestar-git-api
+  namespace: openshift-gitops
+spec:
+  ignoreDifferences:
+  - group: apps.openshift.io
+    jsonPointers:
+    - /spec/template/spec/containers/0/image
+    kind: DeploymentConfig
+  source:
+    helm:
+      values: |-
+         imageTag: master
+    targetRevision: master

@@ -1,0 +1,10 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: lodestar-argo-cd
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: lodestar-babylon-operators

@@ -1,0 +1,18 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ArgoCD
+metadata:
+  name: lodestar-argocd
+spec:
+  rbac:
+    defaultPolicy: 'role:readonly'
+  server:
+    insecure: true
+    route:
+      enabled: true
+  resourceCustomizations: |
+    route.openshift.io/Route:
+      ignoreDifferences: |
+        jsonPointers:
+          - /status
+          - /status/ingress
