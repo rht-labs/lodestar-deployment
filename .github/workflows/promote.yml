@@ -24,16 +24,13 @@ jobs:
       if: ${{ contains(steps.env_info.outputs.labels, 'promoted to integration') }}
       run: |
         echo "NEW_ENV=production" >> $GITHUB_ENV
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         ref: ${{ steps.env_info.outputs.issuetitle }}
-    # - name: Git stuff
-    #   run: |
-    #     git fetch --tags
-    #     export RELEASE_COMMIT=$(git log -n 1 --pretty=format:"%H" ${{ steps.env_info.outputs.issuetitle }})
-    #     git checkout -b ${{ env.NEW_ENV }}-${{ steps.env_info.outputs.issuetitle }}
-    #     git cherry-pick -m 1 $RELEASE_COMMIT
-    #     git rebase master
+    - name: Git stuff
+      run: |
+        # Workaround for the "unsafe repository" issue
+        git config --global --add safe.directory "$GITHUB_WORKSPACE"
     - name: GitHub Pull Request Action
       id: create_pr
       uses: repo-sync/pull-request@v2.2
