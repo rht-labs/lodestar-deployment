@@ -27,13 +27,9 @@ jobs:
     - uses: actions/checkout@v3
       with:
         ref: ${{ steps.env_info.outputs.issuetitle }}
-    - name: Git stuff
-      run: |
-        # Workaround for the "unsafe repository" issue
-        git config --global --add safe.directory "$GITHUB_WORKSPACE"
     - name: GitHub Pull Request Action
       id: create_pr
-      uses: repo-sync/pull-request@v2.2
+      uses: repo-sync/pull-request@v2.6.2
       with:
         source_branch: ${{ steps.env_info.outputs.issuetitle }}
         destination_branch: ${{ env.NEW_ENV }}
