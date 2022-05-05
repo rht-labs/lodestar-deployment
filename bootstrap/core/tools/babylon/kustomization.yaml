@@ -14,7 +14,7 @@ patches:
         value: lodestar-tools
       - op: add
         path: /metadata/namespace
-        value: lodestar-argo-cd
+        value: openshift-gitops
       - op: add
         path: /spec/destination/namespace
         value: lodestar-babylon-operators

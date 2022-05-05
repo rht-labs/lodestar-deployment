@@ -24,9 +24,6 @@ patches:
     - op: add
       path: /spec/destination/namespace
       value: lodestar-frontend
-    - op: add
-      path: /metadata/namespace
-      value: lodestar-argo-cd
   target:
     group: argoproj.io
     version: v1alpha1
@@ -34,7 +31,7 @@ patches:
 - patch: |
     - op: add
       path: /metadata/namespace
-      value: lodestar-argo-cd
+      value: openshift-gitops
   target:
     group: argoproj.io
     version: v1alpha1
