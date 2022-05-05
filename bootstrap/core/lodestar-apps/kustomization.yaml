@@ -24,6 +24,9 @@ patches:
     - op: add
       path: /spec/destination/namespace
       value: lodestar-frontend
+    - op: add
+      path: /metadata/namespace
+      value: openshift-gitops
   target:
     group: argoproj.io
     version: v1alpha1
@@ -36,4 +39,3 @@ patches:
     group: argoproj.io
     version: v1alpha1
     kind: AppProject
-
