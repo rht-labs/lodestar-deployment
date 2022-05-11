@@ -47,7 +47,8 @@ tasks:
               )
               group = g.groups.get({{ ENV_GITLAB_GROUP | trim }})
               context["project_data"] = []
-              for project in group.projects.list(all=True, include_subgroups=True):
+              applicable_projects = (project for project in group.projects.list(all=True, include_subgroups=True) if "CURRENT_STATUS=PAST" not in project.tag_list)
+              for project in applicable_projects:
                 data = {
                     "url": project.ssh_url_to_repo,
                     "directory": str(project.id),
