@@ -23,7 +23,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: default
-  namespace: lodestar-argo-cd
+  namespace: openshift-gitops
 - kind: ServiceAccount
   name: default
   namespace: lodestar-babylon-operators

@@ -97,4 +97,4 @@ tasks:
           mode: in-cluster
           apply_objects:
             from_dir: "."
-            namespace: "lodestar-argo-cd"
+            namespace: "openshift-gitops"

@@ -12,7 +12,7 @@ patches:
   - patch: |
       - op: add
         path: /metadata/namespace
-        value: lodestar-argo-cd
+        value: openshift-gitops
     target:
       group: argoproj.io
       version: v1alpha1
