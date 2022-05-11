@@ -1,0 +1,20 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  annotations:
+    cert-utils-operator.redhat-cop.io/certs-from-secret: "lodestar-be-cert"
+  labels:
+    app: lodestar-backend
+  name: lodestar-backend-vanity
+  namespace: lodestar-frontend
+spec:
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: edge
+  port:
+    targetPort: 8080-tcp
+  to:
+    kind: Service
+    name: lodestar-backend
+    weight: 100
+  wildcardPolicy: None

@@ -15,7 +15,9 @@ resources:
 - lodestar-hosting.yaml
 - lodestar-participants.yaml
 - lodestar-frontend-vanity-route.yaml
+- lodestar-backend-vanity-route.yaml
 - lodestar-frontend-cert.yaml
+- lodestar-backend-cert.yaml
 - lodestar-config.yaml
 patches:
 - patch: |-
