@@ -2,9 +2,8 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ArgoCD
 metadata:
-  name: lodestar-argocd
+  name: openshift-gitops
 spec:
-  version: v1.6.2
   rbac:
     defaultPolicy: 'role:readonly'
   server:

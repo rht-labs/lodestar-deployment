@@ -2,10 +2,10 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: resource-dispatcher
-  namespace: lodestar-argo-cd
+  namespace: openshift-gitops
 spec:
   destination:
-    namespace: lodestar-argo-cd
+    namespace: openshift-gitops
   ignoreDifferences:
   - group: apps.openshift.io
     jsonPointers:
@@ -25,5 +25,5 @@ spec:
         setupClusterRoleBinding: true
         sshSecretConfigMap: resource-dispatcher-key
         useConfigDir: true
-        configMapAsEnvVars: dispatcher-variables
+        configMapAsEnvVars: resource-dispatcher-variables
     targetRevision: master

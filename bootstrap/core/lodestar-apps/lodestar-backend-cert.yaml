@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: lodestar-be-cert
+  namespace: lodestar-frontend
+spec:
+  secretName: lodestar-be-cert
+  issuerRef:
+    name: letsencrypt-production
+    kind: ClusterIssuer
+  dnsNames:
+    - backend.lodestar.example.com
