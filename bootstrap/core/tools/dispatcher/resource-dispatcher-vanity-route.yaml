@@ -1,0 +1,18 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  annotations:
+    cert-utils-operator.redhat-cop.io/certs-from-secret: "resource-dispatcher-cert"
+  labels:
+    app: resource-dispatcher
+  name: resource-dispatcher-vanity-route
+  namespace: lodestar-argo-cd
+spec:
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: edge
+  to:
+    kind: Service
+    name: resource-dispatcher
+    weight: 100
+  wildcardPolicy: None
