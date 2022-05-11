@@ -2,7 +2,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: resource-dispatcher-cert
-  namespace: lodestar-argo-cd
+  namespace: openshift-gitops
 spec:
   secretName: resource-dispatcher-cert
   issuerRef:

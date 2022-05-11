@@ -6,7 +6,7 @@ metadata:
   labels:
     app: resource-dispatcher
   name: resource-dispatcher-vanity-route
-  namespace: lodestar-argo-cd
+  namespace: openshift-gitops
 spec:
   tls:
     insecureEdgeTerminationPolicy: Redirect
