@@ -1,0 +1,17 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: lodestar-search-elastic
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+  project: lodestar-search
+  source:
+    path: "elastic/lodestar"
+    repoURL: "https://github.com/eformat/document-loader-service.git"
+    targetRevision: "main"
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
