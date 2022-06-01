@@ -16,3 +16,7 @@ spec:
         jsonPointers:
           - /status
           - /status/ingress
+    poolboy.gpte.redhat.com/ResourceClaim:
+      ignoreDifferences: |
+        jqPathExpressions:
+          - .spec.resources.[].template.spec.vars.action_schedule
