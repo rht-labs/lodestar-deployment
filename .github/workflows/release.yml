@@ -111,6 +111,7 @@ jobs:
       AgnosticVVersion: ${{ github.event.client_payload.slash_command.args.named.agnosticv }}
       AnarchyVersion: ${{ github.event.client_payload.slash_command.args.named.anarchy }}
       PoolBoyVersion: ${{ github.event.client_payload.slash_command.args.named.poolboy }}
+      BabylonConfigVersion: ${{ github.event.client_payload.slash_command.args.named.babylon-config }}
 
       ## Variables for Status Service Versions - matching and replacement strings
       Versions_FrontendMatchString: 'lodestar-frontend:.*'
@@ -143,6 +144,8 @@ jobs:
       Versions_AnarchyVersion: 'anarchy: ${{ github.event.client_payload.slash_command.args.named.anarchy }}'
       Versions_PoolBoyMatchString: 'poolboy:.*'
       Versions_PoolBoyVersion: 'poolboy: ${{ github.event.client_payload.slash_command.args.named.poolboy }}'
+      Versions_BabylonConfigMatchString: 'babylon-config:.*'
+      Versions_BabylonConfigVersion: 'babylon-config: ${{ github.event.client_payload.slash_command.args.named.babylon-config }}'
 
       ## LodeStar Overall Version String - value obtained at runtime
       Versions_LodeStarMatchString: 'lodestar:.*'
@@ -285,6 +288,14 @@ jobs:
         cmd: >
               yq -i e '.spec.source.targetRevision = env(PoolBoyVersion)' $GITHUB_WORKSPACE/bootstrap/patches/poolboy.yaml ;
               yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_PoolBoyMatchString),strenv(Versions_PoolBoyVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
+
+    - name: Update Babylon / Config Release Info
+      if: ${{ github.event.client_payload.slash_command.args.named.babylon-config != null }}
+      uses: mikefarah/yq@v4.9.6
+      with:
+        cmd: >
+              yq -i e '.spec.source.targetRevision = env(BabylonConfigVersion)' $GITHUB_WORKSPACE/bootstrap/patches/babylon-config.yaml ;
+              yq -i e '. as $prnt | .spec.source.helm.values | . =  sub(strenv(Versions_BabylonConfigMatchString),strenv(Versions_BabylonConfigVersion))| $prnt' $GITHUB_WORKSPACE/bootstrap/patches/lodestar-status.yaml ;
 
     - name: Update LodeStar Status Release Info
       if: ${{ github.event.client_payload.slash_command.args.named.status != null }}
