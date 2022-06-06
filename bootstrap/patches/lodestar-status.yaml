@@ -27,7 +27,7 @@ spec:
           lodestar-hosting: main
           lodestar-participants: main
           resource-dispatcher: master
-          agnosticv-operator: v0.22.1
+          agnosticv-operator: v0.22.2
           anarchy: v0.20.0
           babylon-config: v0.13.5
           poolboy: v0.12.0
