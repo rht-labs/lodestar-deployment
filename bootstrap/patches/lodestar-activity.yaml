@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: lodestar-activity
-  namespace: lodestar-argo-cd
+  namespace: openshift-gitops
 spec:
   ignoreDifferences:
     - group: apps.openshift.io
@@ -14,3 +14,4 @@ spec:
       values: |-
         imageTag: v1.0.1
     targetRevision: v1.0.1
+

@@ -1,7 +1,7 @@
 repositories:
   - name: automation-repo
     url: https://github.com/rht-labs/lodestar-automation.git
-    ref: v1.0.27-2
+    ref: v1.0.28-2
 
 tasks:
   - name: gitlab-to-argo
@@ -97,4 +97,4 @@ tasks:
           mode: in-cluster
           apply_objects:
             from_dir: "."
-            namespace: "lodestar-argo-cd"
+            namespace: "openshift-gitops"

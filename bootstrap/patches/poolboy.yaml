@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: poolboy
-  namespace: lodestar-argo-cd
+  namespace: openshift-gitops
 spec:
   ignoreDifferences:
   - group: apiextensions.k8s.io
@@ -14,8 +14,6 @@ spec:
     jsonPointers:
       - /spec/vars/current_state
       - /spec/vars/desired_state
-    jqPathExpressions:
-      - .spec.resources.[].template.spec.vars.action_schedule
   source:
     helm:
       values: |-
@@ -26,4 +24,5 @@ spec:
             namespace:
               create: false
               name: lodestar-babylon-operators
-    targetRevision: v0.10.8
+    targetRevision: v0.12.0
+

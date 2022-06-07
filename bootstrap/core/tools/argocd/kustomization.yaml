@@ -1,13 +1,13 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-- argocd-clusterrolebindings.yaml
+- argocd-rbac.yaml
 - argocd-operator-cr.yaml
 patches:
   - patch: |
       - op: add
         path: /metadata/namespace
-        value: lodestar-argo-cd
+        value: openshift-gitops
     target:
       group: argoproj.io
       version: v1alpha1
@@ -15,7 +15,7 @@ patches:
   - patch: |
       - op: replace
         path: /subjects/0/namespace
-        value: lodestar-argo-cd
+        value: openshift-gitops
     target:
       labelSelector: app.kubernetes.io/part-of=argocd
       kind: ClusterRoleBinding

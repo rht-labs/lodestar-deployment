@@ -15,7 +15,9 @@ resources:
 - lodestar-hosting.yaml
 - lodestar-participants.yaml
 - lodestar-frontend-vanity-route.yaml
+- lodestar-backend-vanity-route.yaml
 - lodestar-frontend-cert.yaml
+- lodestar-backend-cert.yaml
 - lodestar-config.yaml
 patches:
 - patch: |-
@@ -27,7 +29,7 @@ patches:
       value: lodestar-frontend
     - op: add
       path: /metadata/namespace
-      value: lodestar-argo-cd
+      value: openshift-gitops
   target:
     group: argoproj.io
     version: v1alpha1
@@ -35,7 +37,7 @@ patches:
 - patch: |
     - op: add
       path: /metadata/namespace
-      value: lodestar-argo-cd
+      value: openshift-gitops
   target:
     group: argoproj.io
     version: v1alpha1

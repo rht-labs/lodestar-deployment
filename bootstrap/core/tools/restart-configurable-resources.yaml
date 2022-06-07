@@ -3,7 +3,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: reload-configurable-resources
-  namespace: lodestar-argo-cd
+  namespace: openshift-gitops
   annotations:
     argocd.argoproj.io/hook: PostSync
     argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
@@ -23,10 +23,11 @@ spec:
           oc rollout latest dc/lodestar-activity -n lodestar-frontend  || echo "deployment config lodestar-activity does not exist"
           oc rollout latest dc/lodestar-participants -n lodestar-frontend  || echo "deployment config lodestar-participants does not exist"
           oc rollout latest dc/lodestar-artifacts -n lodestar-frontend  || echo "deployment config lodestar-artifacts does not exist"
-          oc rollout latest dc/resource-dispatcher -n lodestar-argo-cd || echo "deployment config resource-dispatcher does not exist"
+          oc rollout latest dc/resource-dispatcher -n openshift-gitops || echo "deployment config resource-dispatcher does not exist"
       restartPolicy: Never
       terminationGracePeriodSeconds: 30
       activeDeadlineSeconds: 500
       dnsPolicy: ClusterFirst
-      serviceAccountName: argocd-application-controller
-      serviceAccount: argocd-application-controller
+      serviceAccountName: openshift-gitops-argocd-application-controller
+      serviceAccount: openshift-gitops-argocd-application-controller
+
