@@ -30,4 +30,3 @@ spec:
       dnsPolicy: ClusterFirst
       serviceAccountName: openshift-gitops-argocd-application-controller
       serviceAccount: openshift-gitops-argocd-application-controller
-

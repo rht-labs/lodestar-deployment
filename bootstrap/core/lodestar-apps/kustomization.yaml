@@ -42,4 +42,3 @@ patches:
     group: argoproj.io
     version: v1alpha1
     kind: AppProject
-

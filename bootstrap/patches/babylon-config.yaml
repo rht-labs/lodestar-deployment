@@ -26,4 +26,3 @@ spec:
             crossClusterBackup:
               enable: false
     targetRevision: v0.13.5
-

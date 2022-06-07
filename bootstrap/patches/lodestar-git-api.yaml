@@ -14,4 +14,3 @@ spec:
       values: |-
         imageTag: v1.4.0
     targetRevision: v1.4.0
-

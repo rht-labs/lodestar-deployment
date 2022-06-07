@@ -16,4 +16,3 @@ spec:
         e2eTestJob:
           enabled: false
     targetRevision: v1.5.1
-

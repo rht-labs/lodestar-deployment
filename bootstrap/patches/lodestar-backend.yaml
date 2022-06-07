@@ -17,4 +17,3 @@ spec:
         mongodb:
           persistent: false
     targetRevision: v2.3.1
-

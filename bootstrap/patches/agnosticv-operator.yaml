@@ -17,4 +17,3 @@ spec:
         poolboy:
           namespace: lodestar-babylon-operators
     targetRevision: v0.22.2
-
