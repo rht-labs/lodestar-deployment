@@ -25,3 +25,4 @@ spec:
               create: false
               name: lodestar-babylon-operators
     targetRevision: v0.12.0
+
