@@ -7,14 +7,14 @@ spec:
   destination:
     namespace: openshift-gitops
   ignoreDifferences:
-  - group: apps.openshift.io
-    jsonPointers:
-    - /spec/template/spec/containers/0/image
-    kind: DeploymentConfig
-  - group: image.openshift.io
-    jsonPointers:
-    - /status
-    kind: ImageStream
+    - group: apps.openshift.io
+      jsonPointers:
+        - /spec/template/spec/containers/0/image
+      kind: DeploymentConfig
+    - group: image.openshift.io
+      jsonPointers:
+        - /status
+      kind: ImageStream
   source:
     helm:
       values: |-
