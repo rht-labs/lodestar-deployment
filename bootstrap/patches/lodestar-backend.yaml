@@ -10,7 +10,7 @@ spec:
         - /spec/template/spec/containers/0/image
         - /spec/template/spec/volumes/0
       kind: DeploymentConfig
-    source:
+  source:
     helm:
       values: |-
         imageTag: v2.3.1
