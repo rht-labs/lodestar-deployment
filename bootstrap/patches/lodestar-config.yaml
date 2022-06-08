@@ -11,10 +11,9 @@ spec:
   source:
     helm:
       values: |-
-        imageTag: main
+        imageTag: v1.3.0
         baseConfigMapPath: /runtime
         runtimeConfigs:
           - base
           - DO500
-    targetRevision: main
-
+    targetRevision: v1.3.0

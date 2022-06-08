@@ -12,7 +12,7 @@ spec:
   source:
     helm:
       values: |-
-        imageTag: master
+        imageTag: v1.4.0
         e2eTestJob:
-          enabled: true
-    targetRevision: master
+          enabled: false
+    targetRevision: v1.4.0
