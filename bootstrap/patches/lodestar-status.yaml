@@ -5,24 +5,24 @@ metadata:
   namespace: openshift-gitops
 spec:
   ignoreDifferences:
-  - group: apps.openshift.io
-    jsonPointers:
-    - /spec/template/spec/containers/0/image
-    kind: DeploymentConfig
+    - group: apps.openshift.io
+      jsonPointers:
+        - /spec/template/spec/containers/0/image
+      kind: DeploymentConfig
   source:
     helm:
       values: |-
         imageTag: v1.2.0
         namespaces: lodestar-frontend,lodestar-babylon-operators
         versions:
-          lodestar-backend: v2.2.2
-          lodestar-frontend:  v1.4.0
+          lodestar-backend: v2.3.1
+          lodestar-frontend:  v1.5.1
           lodestar-git-api: v1.4.0
           lodestar-status: v1.2.0
           lodestar-config: v1.3.0
           lodestar-activity: v1.0.1
           lodestar-artifacts: v1.0.0
-          lodestar-engagements: v2.0.3
+          lodestar-engagements: v2.0.6
           lodestar-engagement-status: v1.0.0
           lodestar-hosting: v1.0.0
           lodestar-participants: v1.0.0
