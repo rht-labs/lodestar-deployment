@@ -1,7 +1,7 @@
 repositories:
   - name: automation-repo
-    url: https://github.com/rht-labs/lodestar-automation.git
-    ref: v1.0.27-2
+    url: https://github.com/rht-labs/labs-sre-automation.git
+    ref: v1.0.28-2
 
 tasks:
   - name: translate-engagement-data
@@ -41,7 +41,7 @@ tasks:
                   "url": project.ssh_url_to_repo,
                   "directory": str(project.id)
                 }
-              for project in group.projects.list(all=True, include_subgroups=True)]
+              for project in group.projects.list(all=True, include_subgroups=True) if "CURRENT_STATUS=PAST" not in project.tag_list]
 
             context["ansible_params"] = [{"extra_vars": {"directory": "../../" + project["directory"], "config_dir": "config/credentials"}} for project in context["project_data"]]
       - plugin: git

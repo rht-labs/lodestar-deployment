@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: lodestar-artifacts
-  namespace: lodestar-argo-cd
+  namespace: openshift-gitops
 spec:
   ignoreDifferences:
     - group: apps.openshift.io
