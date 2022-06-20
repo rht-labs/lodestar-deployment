@@ -1,7 +1,7 @@
 repositories:
   - name: automation-repo
     url: https://github.com/rht-labs/labs-sre-automation.git
-    ref: master
+    ref: v1.0.28-2
 
 tasks:
   - name: gitlab-to-argo
