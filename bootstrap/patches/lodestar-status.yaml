@@ -31,5 +31,5 @@ spec:
           anarchy: v0.20.0
           babylon-config: v0.13.5
           poolboy: v0.12.0
-          lodestar: 1.2.0
+          lodestar: 1.3.0
     targetRevision: master
