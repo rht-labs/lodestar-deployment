@@ -5,12 +5,12 @@ metadata:
   namespace: openshift-gitops
 spec:
   ignoreDifferences:
-  - group: apps.openshift.io
-    jsonPointers:
-    - /spec/template/spec/containers/0/image
-    kind: DeploymentConfig
+    - group: apps.openshift.io
+      jsonPointers:
+        - /spec/template/spec/containers/0/image
+      kind: DeploymentConfig
   source:
     helm:
       values: |-
         imageTag: main
-    targetRevision: main
+    targetRevision: v1.0.0
