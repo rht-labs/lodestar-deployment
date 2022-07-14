@@ -13,7 +13,7 @@ spec:
   source:
     helm:
       values: |-
-        imageTag: v2.3.3
+        imageTag: v2.3.5
         mongodb:
           persistent: false
-    targetRevision: v2.3.3
+    targetRevision: v2.3.5
