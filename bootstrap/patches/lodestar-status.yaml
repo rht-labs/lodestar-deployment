@@ -16,7 +16,7 @@ spec:
         namespaces: lodestar-frontend,lodestar-babylon-operators
         versions:
           lodestar-backend: v2.3.5
-          lodestar-frontend: v1.5.2
+          lodestar-frontend: v1.5.3
           lodestar-git-api: v1.4.0
           lodestar-status: v1.2.0
           lodestar-config: v1.3.1
@@ -31,5 +31,5 @@ spec:
           anarchy: v0.20.0
           babylon-config: v0.13.5
           poolboy: v0.12.0
-          lodestar: v1.3.40
+          lodestar: v1.3.41
     targetRevision: v1.2.0
