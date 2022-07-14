@@ -24,12 +24,12 @@ spec:
           lodestar-artifacts: v1.0.0
           lodestar-engagements: v2.0.8
           lodestar-engagement-status: v1.0.0
-          lodestar-hosting: v1.0.0
+          lodestar-hosting: v1.1.0
           lodestar-participants: v1.0.0
           resource-dispatcher: v1.0.16
           agnosticv-operator: v0.22.2
           anarchy: v0.20.0
           babylon-config: v0.13.5
           poolboy: v0.12.0
-          lodestar: v1.3.41
+          lodestar: v1.3.42
     targetRevision: v1.2.0
