@@ -1,0 +1,18 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: babylon-notifier
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: "openshift/config/common/helm/babylon-config"
+    #TODO: Update to the upstream after new release
+    repoURL: "https://github.com/makirill/babylon.git"
+    targetRevision: "poc/lodestar-notifier"
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

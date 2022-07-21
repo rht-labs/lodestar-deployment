@@ -7,6 +7,7 @@ resources:
   - kopfpeering-crd.yaml
   - poolboy.yaml
   - babylon-config.yaml
+  - babylon-notifier.yaml
 patches:
   - patch: |-
       - op: add
