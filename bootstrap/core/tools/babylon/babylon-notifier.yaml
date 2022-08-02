@@ -8,10 +8,10 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: "notifier/helm"
+    path: "openshift/config/common/helm/babylon-notifier"
     #TODO: Update to the upstream after new release
-    repoURL: "https://github.com/makirill/babylon.git"
-    targetRevision: "poc/lodestar-notifier"
+    repoURL: "https://github.com/redhat-cop/babylon.git"
+    targetRevision: "v0.15.10"
   syncPolicy:
     automated:
       prune: true
