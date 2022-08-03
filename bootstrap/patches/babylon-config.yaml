@@ -20,9 +20,12 @@ spec:
             anarchy:
               namespaces:
                 - name: lodestar-babylon-operators
+                  create: false
             poolboy:
               namespace: lodestar-babylon-operators
             operatorNamespace: openshift-operators
             crossClusterBackup:
               enable: false
-    targetRevision: v0.15.10
+    # TODO: Update target revision to upstream
+    # targetRevision: v0.15.10
+    targetRevision: feature/optional-anarchy-namespaces
