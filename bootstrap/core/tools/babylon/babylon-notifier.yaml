@@ -10,8 +10,7 @@ spec:
   source:
     path: "openshift/config/common/helm/babylon-notifier"
     repoURL: "https://github.com/redhat-cop/babylon.git"
-        #TODO: Update target revision to upstream release
-    targetRevision: "v0.15.10"
+    targetRevision: "v0.16.3"
   syncPolicy:
     automated:
       prune: true

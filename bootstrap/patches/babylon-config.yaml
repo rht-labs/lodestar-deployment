@@ -26,6 +26,4 @@ spec:
             operatorNamespace: openshift-operators
             crossClusterBackup:
               enable: false
-    # TODO: Update target revision to upstream release
-    # targetRevision: v0.15.10
-    targetRevision: main
+    targetRevision: v0.16.3
