@@ -20,9 +20,10 @@ spec:
             anarchy:
               namespaces:
                 - name: lodestar-babylon-operators
+                  create: false
             poolboy:
               namespace: lodestar-babylon-operators
             operatorNamespace: openshift-operators
             crossClusterBackup:
               enable: false
-    targetRevision: v0.13.5
+    targetRevision: v0.16.3

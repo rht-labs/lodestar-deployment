@@ -29,7 +29,8 @@ spec:
           resource-dispatcher: master
           agnosticv-operator: v0.22.2
           anarchy: v0.20.0
-          babylon-config: v0.13.5
+          babylon-config: v0.16.3
+          babylon-notifier: v0.16.3
           poolboy: v0.12.0
           lodestar: 1.3.0
     targetRevision: master
