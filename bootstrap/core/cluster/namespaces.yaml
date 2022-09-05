@@ -7,9 +7,4 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: lodestar-babylon-operators
----
-apiVersion: v1
-kind: Namespace
-metadata:
   name: openshift-gitops
