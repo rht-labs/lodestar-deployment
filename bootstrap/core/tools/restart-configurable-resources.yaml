@@ -23,7 +23,6 @@ spec:
           oc rollout latest dc/lodestar-activity -n lodestar-frontend  || echo "deployment config lodestar-activity does not exist"
           oc rollout latest dc/lodestar-participants -n lodestar-frontend  || echo "deployment config lodestar-participants does not exist"
           oc rollout latest dc/lodestar-artifacts -n lodestar-frontend  || echo "deployment config lodestar-artifacts does not exist"
-          oc rollout latest dc/resource-dispatcher -n openshift-gitops || echo "deployment config resource-dispatcher does not exist"
       restartPolicy: Never
       terminationGracePeriodSeconds: 30
       activeDeadlineSeconds: 500
